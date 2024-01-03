@@ -13,4 +13,8 @@ public class Comment {
     private User user;
     private Post post;
 
+    public Comment () {
+        this.date_created = LocalDateTime.now();
+    }
+
 }

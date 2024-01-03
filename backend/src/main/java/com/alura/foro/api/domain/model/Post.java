@@ -1,6 +1,7 @@
 package com.alura.foro.api.domain.model;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import lombok.Data;
@@ -16,5 +17,12 @@ public class Post {
     private User user;
     private List<Category> categories;
     private List<Comment> comments;
+
+    public Post () {
+        this.date_created = LocalDateTime.now();
+        this.status = false;
+        this.categories = new ArrayList<>();
+        this.comments = new ArrayList<>();
+    }
 
 }
