@@ -13,7 +13,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Table(name = "Comment")
+@Table(name = "comment")
 @Entity
 @Getter
 @Setter
@@ -21,7 +21,7 @@ import lombok.Setter;
 public class CommentEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String content;
     private LocalDateTime date_created;
