@@ -44,7 +44,7 @@ public class PostEntity {
     )
     private Set<CategoryEntity> categoryEntities;
 
-    @OneToMany(mappedBy = "postEntities", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "postEntity", cascade = CascadeType.ALL)
     private List<CommentEntity> commentEntities;
 
 }
