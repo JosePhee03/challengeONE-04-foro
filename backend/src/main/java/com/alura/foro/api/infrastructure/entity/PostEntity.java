@@ -28,7 +28,7 @@ public class PostEntity {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
     private String title;
-    private String message;
+    private String content;
     private LocalDateTime date_created;
     private Boolean status;
 

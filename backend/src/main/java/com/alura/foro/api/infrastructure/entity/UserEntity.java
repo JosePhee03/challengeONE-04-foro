@@ -1,5 +1,6 @@
 package com.alura.foro.api.infrastructure.entity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.alura.foro.api.domain.model.Role;
@@ -28,9 +29,9 @@ public class UserEntity {
     private String image;
 
     @OneToMany(mappedBy = "userEntity", cascade = CascadeType.ALL)
-    private List<PostEntity> postEntities;
+    private List<PostEntity> postEntities = new ArrayList<>();
 
     @OneToMany(mappedBy = "userEntity", cascade = CascadeType.ALL)
-    private List<CommentEntity> commentEntities;
+    private List<CommentEntity> commentEntities = new ArrayList<>();
 
 }
