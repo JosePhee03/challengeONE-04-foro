@@ -38,7 +38,7 @@ public class ExceptionConfig {
     @ExceptionHandler(DataIntegrityViolationException.class)
     public ResponseEntity<ResponseMessage> handle(DataIntegrityViolationException e) {
         System.out.println(e.getLocalizedMessage());
-        String errorMessage = e.getLocalizedMessage() + " Elemento duplicado";
+        String errorMessage = "Su solicitud no cumple con la integridad de los datos";
         return new ResponseEntity<>(new ResponseMessage(errorMessage), HttpStatus.BAD_REQUEST);
     }
 
