@@ -2,6 +2,7 @@ package com.alura.foro.api.infrastructure.entity;
 
 import java.time.LocalDateTime;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -24,7 +25,8 @@ public class CommentEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String content;
-    private LocalDateTime date_created;
+    @Column(name = "date_created")
+    private LocalDateTime dateCreated;
 
     @ManyToOne
     @JoinColumn(name = "user_id")

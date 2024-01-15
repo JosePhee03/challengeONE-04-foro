@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Set;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -29,7 +30,8 @@ public class PostEntity {
     private Long id;
     private String title;
     private String content;
-    private LocalDateTime date_created;
+    @Column(name = "date_created")
+    private LocalDateTime dateCreated;
     private Boolean status;
 
     @ManyToOne

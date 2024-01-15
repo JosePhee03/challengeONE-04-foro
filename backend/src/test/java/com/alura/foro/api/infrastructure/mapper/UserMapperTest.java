@@ -33,13 +33,13 @@ public class UserMapperTest {
         post.setId(1L);
         post.setTitle("Test Post");
         post.setContent("Test Content");
-        post.setDate_created(LocalDateTime.now());
+        post.setDateCreated(LocalDateTime.now());
         post.setStatus(true);
 
         Comment comment = new Comment();
         comment.setId(1L);
         comment.setContent("Test Comment");
-        comment.setDate_created(LocalDateTime.now());
+        comment.setDateCreated(LocalDateTime.now());
 
         user.getPosts().add(post);
         user.getComments().add(comment);
@@ -77,13 +77,13 @@ public class UserMapperTest {
         postEntity.setId(1L);
         postEntity.setTitle("Test Post Entity");
         postEntity.setContent("Test Content Entity");
-        postEntity.setDate_created(LocalDateTime.now());
+        postEntity.setDateCreated(LocalDateTime.now());
         postEntity.setStatus(true);
 
         CommentEntity commentEntity = new CommentEntity();
         commentEntity.setId(1L);
         commentEntity.setContent("Test Comment Entity");
-        commentEntity.setDate_created(LocalDateTime.now());
+        commentEntity.setDateCreated(LocalDateTime.now());
 
         userEntity.getPostEntities().add(postEntity);
         userEntity.getCommentEntities().add(commentEntity);

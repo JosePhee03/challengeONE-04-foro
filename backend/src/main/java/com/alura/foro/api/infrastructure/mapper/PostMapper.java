@@ -23,7 +23,7 @@ public class PostMapper {
         postEntity.setId(post.getId());
         postEntity.setTitle(post.getTitle());
         postEntity.setContent(post.getContent());
-        postEntity.setDate_created(post.getDate_created());
+        postEntity.setDateCreated(post.getDateCreated());
         postEntity.setStatus(post.getStatus());
 
         // Mapear User
@@ -59,7 +59,7 @@ public class PostMapper {
         post.setId(postEntity.getId());
         post.setTitle(postEntity.getTitle());
         post.setContent(postEntity.getContent());
-        post.setDate_created(postEntity.getDate_created());
+        post.setDateCreated(postEntity.getDateCreated());
         post.setStatus(postEntity.getStatus());
 
         // Mapear UserEntity
@@ -89,4 +89,27 @@ public class PostMapper {
 
         return post;
     }
+
+    public static List<Post> mapListToModel (List<PostEntity> postEntities) {
+        List<Post> posts = new ArrayList<>();
+
+        for (PostEntity postEntity : postEntities) {
+            Post post = PostMapper.mapToModel(postEntity);
+            posts.add(post);
+        }
+
+        return posts;
+    }
+
+    public static List<PostEntity> mapListToEntity (List<Post> posts) {
+        List<PostEntity> postEntities = new ArrayList<>();
+
+        for (Post post : posts) {
+            PostEntity postEntity = PostMapper.mapToEntity(post);
+            postEntities.add(postEntity);
+        }
+
+        return postEntities;
+    }
+
 }

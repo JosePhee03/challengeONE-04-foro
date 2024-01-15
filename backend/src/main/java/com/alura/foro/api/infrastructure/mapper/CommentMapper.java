@@ -16,7 +16,7 @@ public class CommentMapper {
         CommentEntity commentEntity = new CommentEntity();
         commentEntity.setId(comment.getId());
         commentEntity.setContent(comment.getContent());
-        commentEntity.setDate_created(comment.getDate_created());
+        commentEntity.setDateCreated(comment.getDateCreated());
 
         // Mapear User
         if (comment.getUser() != null) {
@@ -39,7 +39,7 @@ public class CommentMapper {
         Comment comment = new Comment();
         comment.setId(commentEntity.getId());
         comment.setContent(commentEntity.getContent());
-        comment.setDate_created(commentEntity.getDate_created());
+        comment.setDateCreated(commentEntity.getDateCreated());
 
         // Mapear UserEntity
         if (commentEntity.getUserEntity() != null) {
