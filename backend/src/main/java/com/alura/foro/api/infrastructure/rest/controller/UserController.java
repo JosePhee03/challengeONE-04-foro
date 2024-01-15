@@ -41,7 +41,7 @@ public class UserController {
     public ResponseEntity<Page<ResponseUserDTO>> getUsers(@PageableDefault(size = 30) Pageable pageable) {
         List<ResponseUserDTO> userResponse = new ArrayList<>();
         userService.getAllUsers()
-                .forEach((user) -> userResponse.add(new ResponseUserDTO(user.getId(), user.getUsername(), user.getImage())));
+                .forEach((user) -> userResponse.add(new ResponseUserDTO(user)));
         
                 Page<ResponseUserDTO> page = Pagination.convert(userResponse, pageable);
         return ResponseEntity.ok(page);
@@ -50,7 +50,7 @@ public class UserController {
     @GetMapping("/{id}")
     public ResponseEntity<ResponseUserDTO> getUser(@PathVariable Long id) {
         User user = this.userService.getUser(id);
-        return ResponseEntity.ok(new ResponseUserDTO(user.getId(), user.getUsername(), user.getImage()));
+        return ResponseEntity.ok(new ResponseUserDTO(user));
     }
     
     @PostMapping
@@ -59,11 +59,11 @@ public class UserController {
 
         User user = new User();
         user.setUsername(createUserDTO.username());
-        user.setPassword(createUserDTO.username());
+        user.setPassword(createUserDTO.password());
 
         User newUser = this.userService.createUser(user);
 
-        ResponseUserDTO responseUserDTO = new ResponseUserDTO(newUser.getId(), newUser.getUsername(), newUser.getImage());
+        ResponseUserDTO responseUserDTO = new ResponseUserDTO(newUser);
 
         URI url = uriComponentsBuilder.path("/api/user/{id}").buildAndExpand(newUser.getId()).toUri();
         return ResponseEntity.created(url).body(responseUserDTO);

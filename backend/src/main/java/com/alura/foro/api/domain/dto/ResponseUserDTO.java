@@ -1,9 +1,20 @@
 package com.alura.foro.api.domain.dto;
 
-public record ResponseUserDTO(
+import com.alura.foro.api.domain.model.User;
 
-    Long id,
-    String username,
-    String image
+import lombok.Getter;
 
-) {}
+@Getter
+public class ResponseUserDTO {
+
+    Long id;
+    String username;
+    String image;
+
+
+    public ResponseUserDTO (User user) {
+        this.id = user.getId();
+        this.username = user.getUsername();
+        this.image = user.getImage();
+    }
+}
