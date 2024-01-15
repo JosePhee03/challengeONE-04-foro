@@ -9,12 +9,12 @@ public class Comment {
 
     private Long id;
     private String content;
-    private LocalDateTime date_created;
+    private LocalDateTime dateCreated;
     private User user;
     private Post post;
 
     public Comment () {
-        this.date_created = LocalDateTime.now();
+        this.dateCreated = LocalDateTime.now();
     }
 
 }

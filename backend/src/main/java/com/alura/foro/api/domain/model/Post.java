@@ -14,14 +14,14 @@ public class Post {
     private Long id;
     private String title;
     private String content;
-    private LocalDateTime date_created;
+    private LocalDateTime dateCreated;
     private Boolean status;
     private User user;
     private Set<Category> categories;
     private List<Comment> comments;
 
     public Post () {
-        this.date_created = LocalDateTime.now();
+        this.dateCreated = LocalDateTime.now();
         this.status = false;
         this.categories = new HashSet<>();
         this.comments = new ArrayList<>();
