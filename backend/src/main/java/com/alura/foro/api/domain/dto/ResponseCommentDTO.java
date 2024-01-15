@@ -2,10 +2,21 @@ package com.alura.foro.api.domain.dto;
 
 import java.time.LocalDateTime;
 
-public record ResponseCommentDTO(
+import com.alura.foro.api.domain.model.Comment;
 
-    String content,
-	LocalDateTime date_created,
-	ResponseUserDTO user
-    
-) {}
+import lombok.Getter;
+
+@Getter
+public class ResponseCommentDTO {
+
+	String content;
+	LocalDateTime dateCreated;
+	ResponseUserDTO user;
+
+	public ResponseCommentDTO (Comment comment) {
+		this.content = comment.getContent();
+		this.dateCreated = comment.getDateCreated();
+		this.user = new ResponseUserDTO(comment.getUser());
+	}
+
+}
