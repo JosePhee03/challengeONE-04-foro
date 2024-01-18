@@ -9,6 +9,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ResponseCommentDTO {
 
+	Long id;
+	Long postId;
 	String content;
 	LocalDateTime dateCreated;
 	ResponseUserDTO user;
