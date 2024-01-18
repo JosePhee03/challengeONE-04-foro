@@ -2,6 +2,7 @@ package com.alura.foro.api.application.service;
 
 import java.util.List;
 
+import com.alura.foro.api.domain.dto.ResponseUserDTO;
 import com.alura.foro.api.domain.model.User;
 import com.alura.foro.api.domain.port.UserRepository;
 
@@ -14,22 +15,22 @@ public class DomainUserService implements UserService {
     }
 
     @Override
-    public List<User> getAllUsers() {
+    public List<ResponseUserDTO> getAllUsers() {
         return userRepository.getAllUsers();
     }
 
     @Override
-    public User getUser(Long id) {
+    public ResponseUserDTO getUser(Long id) {
         return userRepository.getUser(id);
     }
 
     @Override
-    public User createUser(User user) {
+    public ResponseUserDTO createUser(User user) {
         return userRepository.createUser(user);
     }
 
     @Override
-    public User updateUser(Long id, String username, String image) {
+    public ResponseUserDTO updateUser(Long id, String username, String image) {
         return userRepository.updateUser(id, username, image);
     }
     

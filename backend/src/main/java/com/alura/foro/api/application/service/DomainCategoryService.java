@@ -2,7 +2,7 @@ package com.alura.foro.api.application.service;
 
 import java.util.List;
 
-import com.alura.foro.api.domain.model.Category;
+import com.alura.foro.api.domain.dto.ResponseCategoryDTO;
 import com.alura.foro.api.domain.port.CategoryRepository;
 
 public class DomainCategoryService implements CategoryService {
@@ -14,7 +14,7 @@ public class DomainCategoryService implements CategoryService {
     }
 
     @Override
-    public List<Category> getAllCategories() {
+    public List<ResponseCategoryDTO> getAllCategories() {
         return categoryRepository.getAllCategories();
     }
     
