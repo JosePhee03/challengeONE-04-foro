@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.alura.foro.api.application.service.CategoryService;
 import com.alura.foro.api.domain.dto.ResponseCategoryDTO;
-import com.alura.foro.api.infrastructure.util.Pagination;
 
 @RestController
 @RequestMapping("/api/category")
@@ -27,11 +26,10 @@ public class CategoryController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<ResponseCategoryDTO>> getAllCategories(@PageableDefault(size = 30) Pageable pageable) {
+    public ResponseEntity<List<ResponseCategoryDTO>> getAllCategories(@PageableDefault(size = 30) Pageable pageable) {
         List<ResponseCategoryDTO> responseCategoryDTOs = this.categoryService.getAllCategories();
         
-        Page<ResponseCategoryDTO> page = Pagination.convert(responseCategoryDTOs, pageable);
-        return ResponseEntity.ok(page);
+        return ResponseEntity.ok(responseCategoryDTOs);
     }
 
 }
