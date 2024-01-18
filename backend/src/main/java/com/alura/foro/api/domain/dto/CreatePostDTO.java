@@ -1,7 +1,8 @@
 package com.alura.foro.api.domain.dto;
 
+import java.util.Set;
+
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 public record CreatePostDTO(
@@ -13,7 +14,6 @@ public record CreatePostDTO(
 	@NotBlank(message = "Campo contenido no puede estar vacío")
 	String content,
 
-	@NotNull(message = "Las categorias no puede ser nulo")
     @Size(min = 1, message = "El conjunto debe contener al menos una categoria")
-    int[] categories
+    Set<Long> categories
 ) {}
