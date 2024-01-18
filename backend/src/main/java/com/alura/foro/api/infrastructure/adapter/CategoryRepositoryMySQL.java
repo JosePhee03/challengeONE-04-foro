@@ -31,4 +31,16 @@ public class CategoryRepositoryMySQL implements CategoryRepository {
         return categoryDTOs;
     }
 
+    @Override
+    public List<ResponseCategoryDTO> searchCategories(List<Long> categoriesId) {
+        List<CategoryEntity> categoryEntities = this.categoryJpaRepository.findByIdIn(categoriesId);
+        List<ResponseCategoryDTO> categoryDTOs = new ArrayList<>();
+
+        for (CategoryEntity categoryEntity : categoryEntities) {
+            categoryDTOs.add(CategoryMapper.toResponseCategoryDTO(categoryEntity));
+        }
+
+        return categoryDTOs;
+    }
+
 }
