@@ -2,6 +2,8 @@ package com.alura.foro.api.domain.port;
 
 import java.util.List;
 
+import java.util.Set;
+
 import com.alura.foro.api.domain.dto.ResponseCategoryDTO;
 
 public interface CategoryRepository {
@@ -9,6 +11,6 @@ public interface CategoryRepository {
     // GET
 	List<ResponseCategoryDTO> getAllCategories();
 
-    List<ResponseCategoryDTO> searchCategories (List<Long> categoriesId);
+    Set<ResponseCategoryDTO> searchCategories (Set<Long> categoriesId);
 
 }
