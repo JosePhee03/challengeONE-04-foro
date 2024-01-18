@@ -1,7 +1,6 @@
 package com.alura.foro.api.infrastructure.rest.controller;
 
 import java.net.URI;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
@@ -38,34 +37,31 @@ public class UserController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<ResponseUserDTO>> getUsers(@PageableDefault(size = 30) Pageable pageable) {
-        List<ResponseUserDTO> userResponse = new ArrayList<>();
-        userService.getAllUsers()
-                .forEach((user) -> userResponse.add(new ResponseUserDTO(user)));
+    public ResponseEntity<Page<ResponseUserDTO>> getAllUsers(@PageableDefault(size = 30) Pageable pageable) {
+        List<ResponseUserDTO> responseUserDTOs = this.userService.getAllUsers();
         
-                Page<ResponseUserDTO> page = Pagination.convert(userResponse, pageable);
+        Page<ResponseUserDTO> page = Pagination.convert(responseUserDTOs, pageable);
         return ResponseEntity.ok(page);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<ResponseUserDTO> getUser(@PathVariable Long id) {
-        User user = this.userService.getUser(id);
-        return ResponseEntity.ok(new ResponseUserDTO(user));
+        ResponseUserDTO responseUserDTO = this.userService.getUser(id);
+        return ResponseEntity.ok(responseUserDTO);
     }
     
     @PostMapping
     public ResponseEntity<ResponseUserDTO> createUser(@RequestBody @Valid CreateUserDTO createUserDTO,
             UriComponentsBuilder uriComponentsBuilder) {
+       
 
         User user = new User();
         user.setUsername(createUserDTO.username());
         user.setPassword(createUserDTO.password());
 
-        User newUser = this.userService.createUser(user);
+        ResponseUserDTO responseUserDTO = this.userService.createUser(user);
 
-        ResponseUserDTO responseUserDTO = new ResponseUserDTO(newUser);
-
-        URI url = uriComponentsBuilder.path("/api/user/{id}").buildAndExpand(newUser.getId()).toUri();
+        URI url = uriComponentsBuilder.path("/api/user/{id}").buildAndExpand(responseUserDTO.getId()).toUri();
         return ResponseEntity.created(url).body(responseUserDTO);
     }
 
