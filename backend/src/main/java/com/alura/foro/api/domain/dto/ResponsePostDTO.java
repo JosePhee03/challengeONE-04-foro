@@ -1,15 +1,13 @@
 package com.alura.foro.api.domain.dto;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
-import com.alura.foro.api.domain.model.Comment;
-import com.alura.foro.api.domain.model.Post;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import lombok.Getter;
-
-@Getter
+@Data
+@NoArgsConstructor
 public class ResponsePostDTO {
 
     Long id;
@@ -19,24 +17,7 @@ public class ResponsePostDTO {
     Boolean status;
     ResponseUserDTO user;
     List<ResponseCommentDTO> comments;
+    List<ResponseCategoryDTO> categories;
     Integer totalComments;
 
-    public ResponsePostDTO (Post post) {
-        this.id = post.getId();
-        this.title = post.getTitle();
-        this.content = post.getContent();
-        this.dateCreated = post.getDateCreated();
-        this.status = post.getStatus();
-        this.user = new ResponseUserDTO(post.getUser());
-
-        List<ResponseCommentDTO> responseCommentDTOs = new ArrayList<>();
-        List<Comment> comments = post.getComments();
-        for (Comment comment : comments) {
-            responseCommentDTOs.add(new ResponseCommentDTO(comment));
-        }
-
-        this.comments = responseCommentDTOs;
-        this.totalComments = responseCommentDTOs.size();
-
-    }
 }
