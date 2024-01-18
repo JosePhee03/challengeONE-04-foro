@@ -1,9 +1,11 @@
 package com.alura.foro.api.infrastructure.adapter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
+import com.alura.foro.api.domain.dto.ResponseUserDTO;
 import com.alura.foro.api.domain.model.User;
 import com.alura.foro.api.domain.port.UserRepository;
 import com.alura.foro.api.infrastructure.entity.UserEntity;
@@ -20,34 +22,55 @@ public class UserRepositoryMySQL implements UserRepository {
     }
 
     @Override
-    public List<User> getAllUsers() {
+    public List<ResponseUserDTO> getAllUsers() {
         List<UserEntity> userEntities = this.userJpaRepository.findAll();
-        return UserMapper.mapListToModel(userEntities);
+        List<ResponseUserDTO> userDTOs = new ArrayList<>();
+
+
+       for (UserEntity userEntity : userEntities) {
+            userDTOs.add(UserMapper.toResponseUserDTO(userEntity));
+       }
+
+        return userDTOs;
     }
 
     @Override
-    public User getUser(Long id) {
+    public ResponseUserDTO getUser(Long id) {
         UserEntity userEntity = this.userJpaRepository.findById(id)
             .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado"));
-        return UserMapper.mapToModel(userEntity);
+        return UserMapper.toResponseUserDTO(userEntity);
     }
 
     @Override
-    public User createUser(User user) {
-        UserEntity userEntity = UserMapper.mapToEntity(user);
-        return UserMapper.mapToModel(this.userJpaRepository.save(userEntity));
+    public ResponseUserDTO createUser(User user) {
+        
+        UserEntity userEntity = new UserEntity();
+
+        userEntity.setUsername(user.getUsername());
+        userEntity.setPassword(user.getPassword());
+        userEntity.setImage(user.getImage());
+        userEntity.setRole(user.getRole());
+
+        UserEntity saveUserEntity = this.userJpaRepository.save(userEntity);
+
+        return UserMapper.toResponseUserDTO(saveUserEntity);
     }
 
     @Override
-    public User updateUser(Long id, String username, String image) {
+    public ResponseUserDTO updateUser(Long id, String username, String image) {
+        
         UserEntity userEntity = this.userJpaRepository.findById(id)
-        .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado"));
+            .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado"));
 
         userEntity.setUsername(username);
         userEntity.setImage(image);
 
-        return UserMapper.mapToModel(this.userJpaRepository.save(userEntity));
+        UserEntity saveUserEntity = this.userJpaRepository.save(userEntity);
+
+        return UserMapper.toResponseUserDTO(saveUserEntity);
 
     }
+
+
     
 }
