@@ -1,28 +1,30 @@
 package com.alura.foro.api.application.service;
 
+import com.alura.foro.api.domain.dto.ResponseCommentDTO;
 import com.alura.foro.api.domain.model.Comment;
+import com.alura.foro.api.domain.port.CommentRepository;
 
 public class DomainCommentService implements CommentService {
 
-    private CommentService commentService;
+    private CommentRepository commentRepository;
 
-    public DomainCommentService (CommentService commentService) {
-        this.commentService = commentService;
+    public DomainCommentService (CommentRepository commentRepository) {
+        this.commentRepository = commentRepository;
     }
 
     @Override
-    public Comment createComment(Comment comment) {
-        return commentService.createComment(comment);
+    public ResponseCommentDTO createComment(Comment comment) {
+        return commentRepository.createComment(comment);
     }
 
     @Override
-    public Comment updateComment(Long id, String content) {
-        return commentService.updateComment(id, content);
+    public ResponseCommentDTO updateComment(Long id, String content) {
+        return commentRepository.updateComment(id, content);
     }
 
     @Override
     public void deleteComment(Long id) {
-        commentService.deleteComment(id);
+        commentRepository.deleteComment(id);
     }
     
 }
