@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.HttpMediaTypeNotSupportedException;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -75,6 +76,12 @@ public class ExceptionConfig {
     @ExceptionHandler(NoResourceFoundException.class)
     public ResponseEntity<ResponseMessage> handle(NoResourceFoundException e) {
         String errorMessage = "Recurso no encontrado";
+        return new ResponseEntity<>(new ResponseMessage(errorMessage), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
+    public ResponseEntity<ResponseMessage> handle (HttpRequestMethodNotSupportedException e) {
+        String errorMessage = "Metodo de petición no permitido";
         return new ResponseEntity<>(new ResponseMessage(errorMessage), HttpStatus.NOT_FOUND);
     }
 
