@@ -38,6 +38,8 @@ public class PostMapper {
             categoryDTOs.add(CategoryMapper.toResponseCategoryDTO(categoryEntities));
        }
 
+       postDTO.setCategories(categoryDTOs);
+       postDTO.setComments(commentDTOs);
        postDTO.setTotalComments(commentDTOs.size());
 
         return postDTO;

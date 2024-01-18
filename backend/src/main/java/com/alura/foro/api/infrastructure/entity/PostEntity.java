@@ -19,12 +19,10 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Table(name = "post")
 @Entity
 @Data
-@NoArgsConstructor
 public class PostEntity {
 
     @Id
@@ -46,9 +44,14 @@ public class PostEntity {
         joinColumns = @JoinColumn(name = "post_id"),
         inverseJoinColumns = @JoinColumn(name = "category_id")
     )
-    private Set<CategoryEntity> categoryEntities = new HashSet<>();
+    private Set<CategoryEntity> categoryEntities;
 
     @OneToMany(mappedBy = "postEntity", cascade = CascadeType.ALL)
-    private List<CommentEntity> commentEntities = new ArrayList<>();
+    private List<CommentEntity> commentEntities;
+
+    public PostEntity () {
+        this.categoryEntities = new HashSet<>();
+        this.commentEntities = new ArrayList<>();
+    }
 
 }

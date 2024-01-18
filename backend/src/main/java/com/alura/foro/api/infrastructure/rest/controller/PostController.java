@@ -22,6 +22,8 @@ import com.alura.foro.api.domain.dto.ResponsePostDTO;
 import com.alura.foro.api.domain.model.Post;
 import com.alura.foro.api.infrastructure.util.Pagination;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/api/post")
 @CrossOrigin("*")
@@ -48,12 +50,14 @@ public class PostController {
     }
     
     @PostMapping
-    public ResponseEntity<ResponsePostDTO> createPost(@RequestBody CreatePostDTO createPostDTO,
+    public ResponseEntity<ResponsePostDTO> createPost(@RequestBody @Valid CreatePostDTO createPostDTO,
             UriComponentsBuilder uriComponentsBuilder) {
 
         Post post = new Post();
         post.setContent(createPostDTO.content());
         post.setTitle(createPostDTO.title());
+        post.setUserId(2L);
+        post.setCategories(createPostDTO.categories());
 
         ResponsePostDTO responsePostDTO = this.postService.createPost(post);
 
