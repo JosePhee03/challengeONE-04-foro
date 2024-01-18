@@ -1,6 +1,8 @@
 package com.alura.foro.api.infrastructure.entity;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -44,9 +46,9 @@ public class PostEntity {
         joinColumns = @JoinColumn(name = "post_id"),
         inverseJoinColumns = @JoinColumn(name = "category_id")
     )
-    private Set<CategoryEntity> categoryEntities;
+    private Set<CategoryEntity> categoryEntities = new HashSet<>();
 
     @OneToMany(mappedBy = "postEntity", cascade = CascadeType.ALL)
-    private List<CommentEntity> commentEntities;
+    private List<CommentEntity> commentEntities = new ArrayList<>();
 
 }

@@ -1,5 +1,6 @@
 package com.alura.foro.api.infrastructure.entity;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import jakarta.persistence.Entity;
@@ -25,6 +26,6 @@ public class CategoryEntity {
     private String name;
 
     @ManyToMany(mappedBy = "categoryEntities")
-    private Set<PostEntity> postEntities;
+    private Set<PostEntity> postEntities = new HashSet<>();
 
 }
