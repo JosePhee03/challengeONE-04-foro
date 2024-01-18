@@ -4,10 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.alura.foro.api.domain.dto.ResponseCategoryDTO;
-import com.alura.foro.api.domain.dto.ResponseCommentDTO;
 import com.alura.foro.api.domain.dto.ResponsePostDTO;
 import com.alura.foro.api.infrastructure.entity.CategoryEntity;
-import com.alura.foro.api.infrastructure.entity.CommentEntity;
 import com.alura.foro.api.infrastructure.entity.PostEntity;
 
 public class PostMapper {
@@ -26,12 +24,6 @@ public class PostMapper {
 
         postDTO.setUser(UserMapper.toResponseUserDTO(postEntity.getUserEntity()));
 
-        List<ResponseCommentDTO> commentDTOs = new ArrayList<>();
-
-        for (CommentEntity commentEntities : postEntity.getCommentEntities()) {
-            commentDTOs.add(CommentMapper.toResponseCommentDTO(commentEntities));
-        }
-
         List<ResponseCategoryDTO> categoryDTOs = new ArrayList<>();
 
        for (CategoryEntity categoryEntities : postEntity.getCategoryEntities()) {
@@ -39,8 +31,7 @@ public class PostMapper {
        }
 
        postDTO.setCategories(categoryDTOs);
-       postDTO.setComments(commentDTOs);
-       postDTO.setTotalComments(commentDTOs.size());
+       postDTO.setTotalComments(postEntity.getCommentEntities().size());
 
         return postDTO;
     }
