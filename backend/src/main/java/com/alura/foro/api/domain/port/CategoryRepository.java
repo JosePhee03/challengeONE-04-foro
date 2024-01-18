@@ -9,4 +9,6 @@ public interface CategoryRepository {
     // GET
 	List<ResponseCategoryDTO> getAllCategories();
 
+    List<ResponseCategoryDTO> searchCategories (List<Long> categoriesId);
+
 }

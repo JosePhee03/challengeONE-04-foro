@@ -17,5 +17,10 @@ public class DomainCategoryService implements CategoryService {
     public List<ResponseCategoryDTO> getAllCategories() {
         return categoryRepository.getAllCategories();
     }
+
+    @Override
+    public List<ResponseCategoryDTO> searchCategories(List<Long> categoriesId) {
+        return categoryRepository.searchCategories(categoriesId);
+    }
     
 }
