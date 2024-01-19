@@ -15,7 +15,7 @@ public class ResponsePostDTO {
     String content;
     LocalDateTime dateCreated;
     Boolean status;
-    ResponseUserDTO user;
+    ResponseUserDTO author;
     List<ResponseCategoryDTO> categories;
     Integer totalComments;
 

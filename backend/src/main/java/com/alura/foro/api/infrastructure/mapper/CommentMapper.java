@@ -7,13 +7,13 @@ public class CommentMapper {
 
     public static ResponseCommentDTO toResponseCommentDTO(CommentEntity commentEntity) {
         ResponseCommentDTO commentDTO = new ResponseCommentDTO();
-
+        
         commentDTO.setId(commentEntity.getId());
         commentDTO.setPostId(commentEntity.getPostEntity().getId());
         commentDTO.setContent(commentEntity.getContent());
         commentDTO.setDateCreated(commentEntity.getDateCreated());
-        commentDTO.setUser(UserMapper.toResponseUserDTO(commentEntity.getUserEntity()));
-
+        commentDTO.setAuthor(UserMapper.toResponseUserDTO(commentEntity.getUserEntity()));
+        
         return commentDTO;
 
     }

@@ -13,6 +13,6 @@ public class ResponseCommentDTO {
 	Long postId;
 	String content;
 	LocalDateTime dateCreated;
-	ResponseUserDTO user;
+	ResponseUserDTO author;
 
 }

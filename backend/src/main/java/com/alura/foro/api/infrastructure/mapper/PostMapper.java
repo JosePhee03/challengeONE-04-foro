@@ -22,7 +22,7 @@ public class PostMapper {
         postDTO.setStatus(postEntity.getStatus());
 
 
-        postDTO.setUser(UserMapper.toResponseUserDTO(postEntity.getUserEntity()));
+        postDTO.setAuthor(UserMapper.toResponseUserDTO(postEntity.getUserEntity()));
 
         List<ResponseCategoryDTO> categoryDTOs = new ArrayList<>();
 
