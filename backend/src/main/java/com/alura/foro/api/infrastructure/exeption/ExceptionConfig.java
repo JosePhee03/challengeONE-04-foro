@@ -56,7 +56,7 @@ public class ExceptionConfig {
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<ResponseMessage> handle(ResourceNotFoundException e) {
         String errorMessage = e.getMessage();
-        return new ResponseEntity<>(new ResponseMessage(errorMessage), HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(new ResponseMessage(errorMessage), HttpStatus.NOT_FOUND);
     }
 
 
@@ -70,19 +70,19 @@ public class ExceptionConfig {
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     public ResponseEntity<ResponseMessage> handle(MethodArgumentTypeMismatchException e) {
         String errorMessage = "El recurso /" + e.getName() + " no permite el valor '" + e.getValue()+ "'.";
-        return new ResponseEntity<>(new ResponseMessage(errorMessage), HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(new ResponseMessage(errorMessage), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(NoResourceFoundException.class)
     public ResponseEntity<ResponseMessage> handle(NoResourceFoundException e) {
         String errorMessage = "Recurso no encontrado";
-        return new ResponseEntity<>(new ResponseMessage(errorMessage), HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(new ResponseMessage(errorMessage), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     public ResponseEntity<ResponseMessage> handle (HttpRequestMethodNotSupportedException e) {
         String errorMessage = "Metodo de petición no permitido";
-        return new ResponseEntity<>(new ResponseMessage(errorMessage), HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(new ResponseMessage(errorMessage), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(Exception.class)
