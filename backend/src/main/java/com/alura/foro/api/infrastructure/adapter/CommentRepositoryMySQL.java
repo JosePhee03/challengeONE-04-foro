@@ -1,6 +1,8 @@
 package com.alura.foro.api.infrastructure.adapter;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
@@ -64,6 +66,32 @@ public class CommentRepositoryMySQL implements CommentRepository {
     public void deleteComment(Long id) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'deleteComment'");
+    }
+
+    @Override
+    public List<ResponseCommentDTO> getAllComments() {
+        List<CommentEntity> commentEntities = this.commentJpaRepository.findAll();
+        List<ResponseCommentDTO> commentDTOs = new ArrayList<>();
+
+       for (CommentEntity commentEntity : commentEntities) {
+            commentDTOs.add(CommentMapper.toResponseCommentDTO(commentEntity));
+       }
+
+       return commentDTOs;
+    }
+
+    @Override
+    public ResponseCommentDTO getComment(Long id) {
+        CommentEntity commentEntity = this.commentJpaRepository.findById(id)
+        .orElseThrow(() -> new ResourceNotFoundException("Comentario no encontrado"));
+
+        return CommentMapper.toResponseCommentDTO(commentEntity);
+    }
+
+    @Override
+    public List<ResponseCommentDTO> searchComments(Long postId) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'searchComments'");
     }
     
 }

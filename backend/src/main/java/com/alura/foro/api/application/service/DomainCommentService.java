@@ -1,5 +1,7 @@
 package com.alura.foro.api.application.service;
 
+import java.util.List;
+
 import com.alura.foro.api.domain.dto.ResponseCommentDTO;
 import com.alura.foro.api.domain.model.Comment;
 import com.alura.foro.api.domain.port.CommentRepository;
@@ -25,6 +27,21 @@ public class DomainCommentService implements CommentService {
     @Override
     public void deleteComment(Long id) {
         commentRepository.deleteComment(id);
+    }
+
+    @Override
+    public List<ResponseCommentDTO> getAllComments() {
+        return commentRepository.getAllComments();
+    }
+
+    @Override
+    public ResponseCommentDTO getComment(Long id) {
+        return commentRepository.getComment(id);
+    }
+
+    @Override
+    public List<ResponseCommentDTO> searchComments(Long postId) {
+        throw new UnsupportedOperationException("Unimplemented method 'searchComments'");
     }
     
 }
