@@ -5,8 +5,8 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class ResponseMessage {
+public class ResponseErrorMessage {
 
-    private String message;
+    private String error;
 
 }

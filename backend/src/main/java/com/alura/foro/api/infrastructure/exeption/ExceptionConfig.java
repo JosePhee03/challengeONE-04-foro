@@ -21,73 +21,73 @@ import jakarta.validation.ConstraintViolationException;
 public class ExceptionConfig {
     
     @ExceptionHandler(ConstraintViolationException.class)
-    public ResponseEntity<List<ResponseMessage>> handle(ConstraintViolationException e) {
-        List<ResponseMessage> responseMessages = new ArrayList<>();
+    public ResponseEntity<List<ResponseErrorMessage>> handle(ConstraintViolationException e) {
+        List<ResponseErrorMessage> responseErrorMessages = new ArrayList<>();
         e.getConstraintViolations().forEach(
                 r -> {
-                    responseMessages.add(new ResponseMessage(r.getMessage()));
+                    responseErrorMessages.add(new ResponseErrorMessage(r.getMessage()));
                 });
-        return new ResponseEntity<>(responseMessages, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(responseErrorMessages, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
-    public ResponseEntity<ResponseMessage> handle(HttpMessageNotReadableException e) {
+    public ResponseEntity<ResponseErrorMessage> handle(HttpMessageNotReadableException e) {
         String errorMessage = "Error en la solicitud. Verifique el formato y los datos proporcionados.";
-        return new ResponseEntity<>(new ResponseMessage(errorMessage), HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(new ResponseErrorMessage(errorMessage), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(DataIntegrityViolationException.class)
-    public ResponseEntity<ResponseMessage> handle(DataIntegrityViolationException e) {
+    public ResponseEntity<ResponseErrorMessage> handle(DataIntegrityViolationException e) {
         System.out.println(e.getLocalizedMessage());
         String errorMessage = "Su solicitud no cumple con la integridad de los datos";
-        return new ResponseEntity<>(new ResponseMessage(errorMessage), HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(new ResponseErrorMessage(errorMessage), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<List<ResponseMessage>> handle(MethodArgumentNotValidException e) {
-        List<ResponseMessage> responseMessages = new ArrayList<>();
+    public ResponseEntity<List<ResponseErrorMessage>> handle(MethodArgumentNotValidException e) {
+        List<ResponseErrorMessage> responseErrorMessages = new ArrayList<>();
         e.getAllErrors().forEach(
                 r -> {
-                    responseMessages.add(new ResponseMessage(r.getDefaultMessage()));
+                    responseErrorMessages.add(new ResponseErrorMessage(r.getDefaultMessage()));
                 });
-        return new ResponseEntity<>(responseMessages, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(responseErrorMessages, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(ResourceNotFoundException.class)
-    public ResponseEntity<ResponseMessage> handle(ResourceNotFoundException e) {
+    public ResponseEntity<ResponseErrorMessage> handle(ResourceNotFoundException e) {
         String errorMessage = e.getMessage();
-        return new ResponseEntity<>(new ResponseMessage(errorMessage), HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(new ResponseErrorMessage(errorMessage), HttpStatus.NOT_FOUND);
     }
 
 
     @ExceptionHandler(HttpMediaTypeNotSupportedException.class)
-    public ResponseEntity<ResponseMessage> handle(HttpMediaTypeNotSupportedException e) {
+    public ResponseEntity<ResponseErrorMessage> handle(HttpMediaTypeNotSupportedException e) {
         String errorMessage = "El formato de datos enviado no es compatible. Por favor, verifique y utilice un formato válido.";
-        return new ResponseEntity<>(new ResponseMessage(errorMessage), HttpStatus.UNSUPPORTED_MEDIA_TYPE);
+        return new ResponseEntity<>(new ResponseErrorMessage(errorMessage), HttpStatus.UNSUPPORTED_MEDIA_TYPE);
     }
 
      
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
-    public ResponseEntity<ResponseMessage> handle(MethodArgumentTypeMismatchException e) {
+    public ResponseEntity<ResponseErrorMessage> handle(MethodArgumentTypeMismatchException e) {
         String errorMessage = "El recurso /" + e.getName() + " no permite el valor '" + e.getValue()+ "'.";
-        return new ResponseEntity<>(new ResponseMessage(errorMessage), HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(new ResponseErrorMessage(errorMessage), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(NoResourceFoundException.class)
-    public ResponseEntity<ResponseMessage> handle(NoResourceFoundException e) {
+    public ResponseEntity<ResponseErrorMessage> handle(NoResourceFoundException e) {
         String errorMessage = "Recurso no encontrado";
-        return new ResponseEntity<>(new ResponseMessage(errorMessage), HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(new ResponseErrorMessage(errorMessage), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
-    public ResponseEntity<ResponseMessage> handle (HttpRequestMethodNotSupportedException e) {
+    public ResponseEntity<ResponseErrorMessage> handle (HttpRequestMethodNotSupportedException e) {
         String errorMessage = "Metodo de petición no permitido";
-        return new ResponseEntity<>(new ResponseMessage(errorMessage), HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(new ResponseErrorMessage(errorMessage), HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<ResponseMessage> handle(Exception e) {
+    public ResponseEntity<ResponseErrorMessage> handle(Exception e) {
         String errorMessage = "Error interno del servidor";
-        return new ResponseEntity<>(new ResponseMessage(errorMessage), HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(new ResponseErrorMessage(errorMessage), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }
