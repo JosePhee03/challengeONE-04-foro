@@ -25,11 +25,6 @@ public class DomainPostService implements PostService {
     }
 
     @Override
-    public List<ResponsePostDTO> searchForPosts(String query, Long Category, Boolean status) {
-        return postRepository.searchForPosts(query, Category, status);
-    }
-
-    @Override
     public ResponsePostDTO createPost(Post post) {
         return postRepository.createPost(post);
     }
@@ -42,6 +37,11 @@ public class DomainPostService implements PostService {
     @Override
     public void deletePost(Long id) {
         postRepository.deletePost(id);
+    }
+
+    @Override
+    public List<ResponsePostDTO> searchPosts(String query, Long Category, Boolean status, Long userId) {
+        throw new UnsupportedOperationException("Unimplemented method 'searchPosts'");
     }
     
 }

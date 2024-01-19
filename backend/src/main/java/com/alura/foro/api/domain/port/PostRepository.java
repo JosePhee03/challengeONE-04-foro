@@ -11,12 +11,12 @@ public interface PostRepository {
 	List<ResponsePostDTO> getAllPosts();
 	ResponsePostDTO getPost(Long id);
 
-	List<ResponsePostDTO> searchForPosts(String query, Long Category, Boolean status);
+	List<ResponsePostDTO> searchPosts(String query, Long Category, Boolean status, Long userId);
 
 	// POST
 	ResponsePostDTO createPost(Post post);
 
-	// UPDATE
+	// PATCH
 	ResponsePostDTO updatePost(Long id, String title, String content, Boolean status);
 
 	// DELETE

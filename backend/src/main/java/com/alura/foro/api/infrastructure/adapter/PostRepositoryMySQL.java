@@ -49,12 +49,6 @@ public class PostRepositoryMySQL implements PostRepository {
     }
 
     @Override
-    public List<ResponsePostDTO> searchForPosts(String query, Long Category, Boolean status) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'searchForPosts'");
-    }
-
-    @Override
     public ResponsePostDTO createPost(Post post) {
         PostEntity postEntity = new PostEntity();
         UserEntity userEntity = this.userJpaRepository.findById(post.getUserId())
@@ -84,6 +78,12 @@ public class PostRepositoryMySQL implements PostRepository {
     public void deletePost(Long id) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'deletePost'");
+    }
+
+    @Override
+    public List<ResponsePostDTO> searchPosts(String query, Long Category, Boolean status, Long userId) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'searchPosts'");
     }
 
     
