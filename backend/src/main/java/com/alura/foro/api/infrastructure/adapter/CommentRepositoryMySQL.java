@@ -30,12 +30,21 @@ public class CommentRepositoryMySQL implements CommentRepository {
 
     @Override
     public ResponseCommentDTO createComment(Comment comment) {
+
+        Long postId = comment.getPostId();
+
+        Long userId = comment.getUserId();
+
+        if (postId == null) throw new ResourceNotFoundException("Error al encontrar la publicación");
+
+        if (userId == null) throw new ResourceNotFoundException("Error al encontrar el usuario");
+
         CommentEntity commentEntity = new CommentEntity();
 
-        PostEntity postEntity = this.postJpaRepository.findById(comment.getPostId())
+        PostEntity postEntity = this.postJpaRepository.findById(postId)
             .orElseThrow(() -> new ResourceNotFoundException("Error al encontrar la publicación"));
 
-        UserEntity userEntity = this.UserJpaRepository.findById(comment.getUserId())
+        UserEntity userEntity = this.UserJpaRepository.findById(userId)
             .orElseThrow(() -> new ResourceNotFoundException("Error al encontrar el usuario"));
 
         commentEntity.setContent(comment.getContent());
@@ -51,6 +60,9 @@ public class CommentRepositoryMySQL implements CommentRepository {
 
     @Override
     public ResponseCommentDTO updateComment(Long id, String content) {
+
+        if (id == null) throw new ResourceNotFoundException("El commentario no existe");
+
         CommentEntity commentEntity = this.commentJpaRepository.findById(id)
             .orElseThrow(() -> new ResourceNotFoundException("El commentario no existe"));
 
@@ -82,6 +94,9 @@ public class CommentRepositoryMySQL implements CommentRepository {
 
     @Override
     public ResponseCommentDTO getComment(Long id) {
+
+        if (id == null) throw new ResourceNotFoundException("El commentario no existe");
+
         CommentEntity commentEntity = this.commentJpaRepository.findById(id)
         .orElseThrow(() -> new ResourceNotFoundException("Comentario no encontrado"));
 
