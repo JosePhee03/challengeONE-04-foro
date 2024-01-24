@@ -8,7 +8,6 @@ import com.alura.foro.api.domain.model.User;
 public interface UserService {
     
     //GET
-	List<ResponseUserDTO> getAllUsers();
 	ResponseUserDTO getUser(Long id);
 
 	// POST
