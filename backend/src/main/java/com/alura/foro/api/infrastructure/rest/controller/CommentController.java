@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -20,7 +21,7 @@ import com.alura.foro.api.application.service.CommentService;
 import com.alura.foro.api.domain.dto.CreateCommentDTO;
 import com.alura.foro.api.domain.dto.ResponseCommentDTO;
 import com.alura.foro.api.domain.model.Comment;
-import com.alura.foro.api.infrastructure.util.Pagination;
+import com.alura.foro.api.infrastructure.util.Paginationa;
 
 import jakarta.validation.Valid;
 
@@ -36,15 +37,15 @@ public class CommentController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<ResponseCommentDTO>> getAllPosts(@PageableDefault(size = 30) Pageable pageable) {
+    public ResponseEntity<Page<ResponseCommentDTO>> getAllComments(@PageableDefault(size = 30, direction = Direction.ASC) Pageable pageable) {
         List<ResponseCommentDTO> responseCommentDTOs = this.commentService.getAllComments();
         
-        Page<ResponseCommentDTO> page = Pagination.convert(responseCommentDTOs, pageable);
+        Page<ResponseCommentDTO> page = Paginationa.convert(responseCommentDTOs, pageable);
         return ResponseEntity.ok(page);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ResponseCommentDTO> getPost(@PathVariable Long id) {
+    public ResponseEntity<ResponseCommentDTO> getComment(@PathVariable Long id) {
         ResponseCommentDTO commentDTO = this.commentService.getComment(id);
         return ResponseEntity.ok(commentDTO);
     }
