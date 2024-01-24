@@ -1,11 +1,7 @@
 package com.alura.foro.api.infrastructure.rest.controller;
 
 import java.net.URI;
-import java.util.List;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,7 +16,6 @@ import com.alura.foro.api.application.service.UserService;
 import com.alura.foro.api.domain.dto.CreateUserDTO;
 import com.alura.foro.api.domain.dto.ResponseUserDTO;
 import com.alura.foro.api.domain.model.User;
-import com.alura.foro.api.infrastructure.util.Pagination;
 
 import jakarta.validation.Valid;
 
@@ -34,14 +29,6 @@ public class UserController {
 
     public UserController(UserService userService) {
         this.userService = userService;
-    }
-
-    @GetMapping
-    public ResponseEntity<Page<ResponseUserDTO>> getAllUsers(@PageableDefault(size = 30) Pageable pageable) {
-        List<ResponseUserDTO> responseUserDTOs = this.userService.getAllUsers();
-        
-        Page<ResponseUserDTO> page = Pagination.convert(responseUserDTOs, pageable);
-        return ResponseEntity.ok(page);
     }
 
     @GetMapping("/{id}")
