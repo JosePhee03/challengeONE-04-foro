@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
+import com.alura.foro.api.domain.dto.PageDTO;
 import com.alura.foro.api.domain.dto.ResponseCommentDTO;
 import com.alura.foro.api.domain.model.Comment;
 import com.alura.foro.api.domain.port.CommentRepository;
@@ -14,6 +15,7 @@ import com.alura.foro.api.infrastructure.entity.PostEntity;
 import com.alura.foro.api.infrastructure.entity.UserEntity;
 import com.alura.foro.api.infrastructure.exeption.ResourceNotFoundException;
 import com.alura.foro.api.infrastructure.mapper.CommentMapper;
+import com.alura.foro.api.infrastructure.util.Pagination;
 
 @Repository
 public class CommentRepositoryMySQL implements CommentRepository {
@@ -104,7 +106,7 @@ public class CommentRepositoryMySQL implements CommentRepository {
     }
 
     @Override
-    public List<ResponseCommentDTO> searchComments(Long postId) {
+    public PageDTO<ResponseCommentDTO> searchComments(Long postId, Pagination pagination) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'searchComments'");
     }
