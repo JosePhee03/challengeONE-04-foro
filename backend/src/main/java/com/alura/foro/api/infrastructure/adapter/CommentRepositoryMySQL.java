@@ -4,17 +4,25 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Repository;
 
 import com.alura.foro.api.domain.dto.PageDTO;
 import com.alura.foro.api.domain.dto.ResponseCommentDTO;
+import com.alura.foro.api.domain.dto.ResponsePostDTO;
 import com.alura.foro.api.domain.model.Comment;
 import com.alura.foro.api.domain.port.CommentRepository;
 import com.alura.foro.api.infrastructure.entity.CommentEntity;
+import com.alura.foro.api.infrastructure.entity.PageMapper;
 import com.alura.foro.api.infrastructure.entity.PostEntity;
 import com.alura.foro.api.infrastructure.entity.UserEntity;
 import com.alura.foro.api.infrastructure.exeption.ResourceNotFoundException;
 import com.alura.foro.api.infrastructure.mapper.CommentMapper;
+import com.alura.foro.api.infrastructure.mapper.PostMapper;
 import com.alura.foro.api.infrastructure.util.Pagination;
 
 @Repository
@@ -107,8 +115,25 @@ public class CommentRepositoryMySQL implements CommentRepository {
 
     @Override
     public PageDTO<ResponseCommentDTO> searchComments(Long postId, Pagination pagination) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'searchComments'");
+        
+        Direction direction = Direction.ASC;
+
+        if (pagination.getDirection().name() != "ASC") direction = Direction.DESC;
+
+        Pageable pageable = PageRequest.of(pagination.getPage(), pagination.getSize(), Sort.by(direction, "dateCreated"));
+
+        Page<CommentEntity> commentEntities = this.commentJpaRepository.searchComments(postId, pageable);
+    
+        List<ResponseCommentDTO> commentDTOs = new ArrayList<>();
+
+        for (CommentEntity commentEntity : commentEntities) {
+            commentDTOs.add(CommentMapper.toResponseCommentDTO(commentEntity));
+        }
+
+        PageMapper<ResponseCommentDTO, CommentEntity> pageMapper = new PageMapper<>();
+
+        return pageMapper.toPageDTO(commentEntities, commentDTOs);
+
     }
     
 }
