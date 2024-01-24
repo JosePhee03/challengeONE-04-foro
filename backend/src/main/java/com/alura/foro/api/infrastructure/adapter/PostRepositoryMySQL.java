@@ -93,8 +93,9 @@ public class PostRepositoryMySQL implements PostRepository {
 
     @Override
     public void deletePost(Long id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'deletePost'");
+        if (id == null) throw new ResourceNotFoundException("Publicación no encontrada");
+
+        this.postJpaRepository.deleteById(id);
     }
 
     @Override

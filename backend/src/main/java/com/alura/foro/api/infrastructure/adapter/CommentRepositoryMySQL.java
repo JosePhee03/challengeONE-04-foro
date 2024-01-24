@@ -84,8 +84,9 @@ public class CommentRepositoryMySQL implements CommentRepository {
 
     @Override
     public void deleteComment(Long id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'deleteComment'");
+        if (id == null) throw new ResourceNotFoundException("El commentario no existe");
+
+        this.commentJpaRepository.deleteById(id);
     }
 
     @Override
