@@ -1,9 +1,7 @@
 package com.alura.foro.api.infrastructure.adapter;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.springframework.stereotype.Repository;
 
@@ -32,17 +30,4 @@ public class CategoryRepositoryMySQL implements CategoryRepository {
         
         return categoryDTOs;
     }
-
-    @Override
-    public Set<ResponseCategoryDTO> searchCategories(Set<Long> categoriesId) {
-        Set<CategoryEntity> categoryEntities = this.categoryJpaRepository.findByIdIn(categoriesId);
-        Set<ResponseCategoryDTO> categoryDTOs = new HashSet<>();
-
-        for (CategoryEntity categoryEntity : categoryEntities) {
-            categoryDTOs.add(CategoryMapper.toResponseCategoryDTO(categoryEntity));
-        }
-
-        return categoryDTOs;
-    }
-
 }
