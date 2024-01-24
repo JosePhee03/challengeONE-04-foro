@@ -5,6 +5,7 @@ import java.util.Set;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -77,6 +78,12 @@ public class PostController {
 
         URI url = uriComponentsBuilder.path("/api/post/{id}").buildAndExpand(responsePostDTO.getId()).toUri();
         return ResponseEntity.created(url).body(responsePostDTO);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deletePost(@PathVariable Long id) {
+        this.postService.deletePost(id);
+        return ResponseEntity.noContent().build();
     }
 
 }
