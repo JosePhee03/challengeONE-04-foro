@@ -2,8 +2,10 @@ package com.alura.foro.api.domain.port;
 
 import java.util.List;
 
+import com.alura.foro.api.domain.dto.PageDTO;
 import com.alura.foro.api.domain.dto.ResponseCommentDTO;
 import com.alura.foro.api.domain.model.Comment;
+import com.alura.foro.api.infrastructure.util.Pagination;
 
 public interface CommentRepository {
     
@@ -11,8 +13,7 @@ public interface CommentRepository {
 	// GET
 	List<ResponseCommentDTO> getAllComments();
 
-	List<ResponseCommentDTO> searchComments(Long postId);
-
+	PageDTO<ResponseCommentDTO> searchComments(Long postId, Pagination pagination);
 	
 	ResponseCommentDTO getComment(Long id);
 

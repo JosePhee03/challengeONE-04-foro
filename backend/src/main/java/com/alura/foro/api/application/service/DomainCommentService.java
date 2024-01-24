@@ -2,9 +2,11 @@ package com.alura.foro.api.application.service;
 
 import java.util.List;
 
+import com.alura.foro.api.domain.dto.PageDTO;
 import com.alura.foro.api.domain.dto.ResponseCommentDTO;
 import com.alura.foro.api.domain.model.Comment;
 import com.alura.foro.api.domain.port.CommentRepository;
+import com.alura.foro.api.infrastructure.util.Pagination;
 
 public class DomainCommentService implements CommentService {
 
@@ -40,8 +42,8 @@ public class DomainCommentService implements CommentService {
     }
 
     @Override
-    public List<ResponseCommentDTO> searchComments(Long postId) {
-        throw new UnsupportedOperationException("Unimplemented method 'searchComments'");
+    public PageDTO<ResponseCommentDTO> searchComments(Long postId, Pagination pagination) {
+        return commentRepository.searchComments(postId, pagination);
     }
     
 }
