@@ -1,10 +1,13 @@
 package com.alura.foro.api.application.service;
 
 import java.util.List;
+import java.util.Set;
 
+import com.alura.foro.api.domain.dto.PageDTO;
 import com.alura.foro.api.domain.dto.ResponsePostDTO;
 import com.alura.foro.api.domain.model.Post;
 import com.alura.foro.api.domain.port.PostRepository;
+import com.alura.foro.api.infrastructure.util.Pagination;
 
 public class DomainPostService implements PostService {
 
@@ -40,8 +43,8 @@ public class DomainPostService implements PostService {
     }
 
     @Override
-    public List<ResponsePostDTO> searchPosts(String query, Long Category, Boolean status, Long userId) {
-        throw new UnsupportedOperationException("Unimplemented method 'searchPosts'");
+    public PageDTO<ResponsePostDTO> searchPosts(String query, Set<Long> categories, Boolean status, Long userId, Pagination pagination) {
+        return postRepository.searchPosts(query, categories, status, userId, pagination);
     }
     
 }
