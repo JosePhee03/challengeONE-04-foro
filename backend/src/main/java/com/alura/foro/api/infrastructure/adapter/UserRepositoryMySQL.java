@@ -36,6 +36,9 @@ public class UserRepositoryMySQL implements UserRepository {
 
     @Override
     public ResponseUserDTO getUser(Long id) {
+
+        if (id == null) throw new ResourceNotFoundException("Usuario no encontrado");
+
         UserEntity userEntity = this.userJpaRepository.findById(id)
             .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado"));
         return UserMapper.toResponseUserDTO(userEntity);
@@ -59,6 +62,8 @@ public class UserRepositoryMySQL implements UserRepository {
     @Override
     public ResponseUserDTO updateUser(Long id, String username, String image) {
         
+        if (id == null) throw new ResourceNotFoundException("Usuario no encontrado");
+
         UserEntity userEntity = this.userJpaRepository.findById(id)
             .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado"));
 
