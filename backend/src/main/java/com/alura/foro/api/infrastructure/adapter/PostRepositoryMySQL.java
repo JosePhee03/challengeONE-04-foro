@@ -4,16 +4,24 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Repository;
 
+import com.alura.foro.api.domain.dto.PageDTO;
 import com.alura.foro.api.domain.dto.ResponsePostDTO;
 import com.alura.foro.api.domain.model.Post;
 import com.alura.foro.api.domain.port.PostRepository;
 import com.alura.foro.api.infrastructure.entity.CategoryEntity;
+import com.alura.foro.api.infrastructure.entity.PageMapper;
 import com.alura.foro.api.infrastructure.entity.PostEntity;
 import com.alura.foro.api.infrastructure.entity.UserEntity;
 import com.alura.foro.api.infrastructure.exeption.ResourceNotFoundException;
 import com.alura.foro.api.infrastructure.mapper.PostMapper;
+import com.alura.foro.api.infrastructure.util.Pagination;
 
 @Repository
 public class PostRepositoryMySQL implements PostRepository {
@@ -42,6 +50,9 @@ public class PostRepositoryMySQL implements PostRepository {
 
     @Override
     public ResponsePostDTO getPost(Long id) {
+
+        if (id == null) throw new ResourceNotFoundException("Publicación no encontrada");
+
         PostEntity postEntity = this.postJpaRepository.findById(id)
             .orElseThrow(() -> new ResourceNotFoundException("Publicación no encontrada"));
 
@@ -50,11 +61,17 @@ public class PostRepositoryMySQL implements PostRepository {
 
     @Override
     public ResponsePostDTO createPost(Post post) {
-        PostEntity postEntity = new PostEntity();
-        UserEntity userEntity = this.userJpaRepository.findById(post.getUserId())
+
+        Long userId = post.getUserId();
+
+        if (userId == null) throw new ResourceNotFoundException("Usuario no encontrado");
+
+        UserEntity userEntity = this.userJpaRepository.findById(userId)
             .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado"));
 
         Set<CategoryEntity> categoryEntity = this.categoryJpaRepository.findByIdIn(post.getCategories());
+
+        PostEntity postEntity = new PostEntity();
 
         postEntity.setTitle(post.getTitle());
         postEntity.setContent(post.getContent());
@@ -81,9 +98,28 @@ public class PostRepositoryMySQL implements PostRepository {
     }
 
     @Override
-    public List<ResponsePostDTO> searchPosts(String query, Long Category, Boolean status, Long userId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'searchPosts'");
+    public PageDTO<ResponsePostDTO> searchPosts(String query, Set<Long> categories, Boolean status, Long userId, Pagination pagination) {
+
+        Direction direction = Direction.ASC;
+
+        if (pagination.getDirection().name() != "ASC") direction = Direction.DESC;
+
+        Pageable pageable = PageRequest.of(pagination.getPage(), pagination.getSize(), Sort.by(direction, "dateCreated"));
+
+        Page<PostEntity> postEntities = this.postJpaRepository.searchPosts(query, status, categories, userId, pageable);
+    
+        List<ResponsePostDTO> postDTOs = new ArrayList<>();
+
+
+        for (PostEntity postEntities2 : postEntities) {
+            postDTOs.add(PostMapper.toResponsePostDTO(postEntities2));
+        }
+
+        PageMapper<ResponsePostDTO, PostEntity> pageMapper = new PageMapper<>();
+
+        return pageMapper.toPageDTO(postEntities, postDTOs);
+
+
     }
 
     
