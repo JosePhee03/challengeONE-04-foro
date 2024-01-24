@@ -1,23 +1,14 @@
-package com.alura.foro.api.infrastructure.util;
+package com.alura.foro.api.domain.dto;
 
-import java.util.ArrayList;
-import java.util.List;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
-
+@Data
+@AllArgsConstructor
 public class Pagination {
     
-    private Pagination () {}
-
-    public static <T> Page<T> convert(List<T> list, Pageable pageable) {
-        int offset = (int) pageable.getOffset();
-        int end = Math.min((offset + pageable.getPageSize()), list.size());
-        List<T> pageList;
-        if (offset > end) pageList = new ArrayList<>();
-        else pageList = list.subList(offset, end);
-        return new PageImpl<>(pageList, pageable, list.size());
-    }
+    private int page;
+    private int size;
+    private Direction direction;
 
 }
