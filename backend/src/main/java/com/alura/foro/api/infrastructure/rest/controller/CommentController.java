@@ -1,12 +1,7 @@
 package com.alura.foro.api.infrastructure.rest.controller;
 
 import java.net.URI;
-import java.util.List;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort.Direction;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,14 +9,17 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.alura.foro.api.application.service.CommentService;
 import com.alura.foro.api.domain.dto.CreateCommentDTO;
+import com.alura.foro.api.domain.dto.PageDTO;
 import com.alura.foro.api.domain.dto.ResponseCommentDTO;
 import com.alura.foro.api.domain.model.Comment;
-import com.alura.foro.api.infrastructure.util.Paginationa;
+import com.alura.foro.api.infrastructure.util.Direction;
+import com.alura.foro.api.infrastructure.util.Pagination;
 
 import jakarta.validation.Valid;
 
@@ -37,11 +35,18 @@ public class CommentController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<ResponseCommentDTO>> getAllComments(@PageableDefault(size = 30, direction = Direction.ASC) Pageable pageable) {
-        List<ResponseCommentDTO> responseCommentDTOs = this.commentService.getAllComments();
+    public ResponseEntity<PageDTO<ResponseCommentDTO>> searchComments(
+            @RequestParam(name = "post", required = false) Long postId,
+            @RequestParam(required = false, defaultValue = "30") int size,
+            @RequestParam(required = false, defaultValue = "0") int page,
+            @RequestParam(required = false, defaultValue = "ASC") Direction direction
+        ) {
+        PageDTO<ResponseCommentDTO> responseCommentDTOs = this.commentService.searchComments(
+            postId,
+            new Pagination(page, size, direction)
+        );
         
-        Page<ResponseCommentDTO> page = Paginationa.convert(responseCommentDTOs, pageable);
-        return ResponseEntity.ok(page);
+        return ResponseEntity.ok(responseCommentDTOs);
     }
 
     @GetMapping("/{id}")
