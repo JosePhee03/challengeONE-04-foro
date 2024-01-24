@@ -1,4 +1,4 @@
-package com.alura.foro.api.domain.dto;
+package com.alura.foro.api.infrastructure.util;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
