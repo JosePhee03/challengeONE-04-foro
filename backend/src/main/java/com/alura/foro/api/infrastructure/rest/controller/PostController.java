@@ -1,11 +1,8 @@
 package com.alura.foro.api.infrastructure.rest.controller;
 
 import java.net.URI;
-import java.util.List;
+import java.util.Set;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,13 +10,16 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.alura.foro.api.application.service.PostService;
 import com.alura.foro.api.domain.dto.CreatePostDTO;
+import com.alura.foro.api.domain.dto.PageDTO;
 import com.alura.foro.api.domain.dto.ResponsePostDTO;
 import com.alura.foro.api.domain.model.Post;
+import com.alura.foro.api.infrastructure.util.Direction;
 import com.alura.foro.api.infrastructure.util.Pagination;
 
 import jakarta.validation.Valid;
@@ -36,11 +36,25 @@ public class PostController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<ResponsePostDTO>> getAllPosts(@PageableDefault(size = 30) Pageable pageable) {
-        List<ResponsePostDTO> responseUserDTOs = this.postService.getAllPosts();
+    public ResponseEntity<PageDTO<ResponsePostDTO>> searchPosts(
+            @RequestParam(name = "q", defaultValue = "", required = false) String query,
+            @RequestParam(required = false) Boolean status,
+            @RequestParam(name = "user", required = false) Long userId,
+            @RequestParam(required = false) Set<Long> categories,
+            @RequestParam(required = false, defaultValue = "30") int size,
+            @RequestParam(required = false, defaultValue = "0") int page,
+            @RequestParam(required = false, defaultValue = "ASC") Direction direction
+        ) {
+
+        PageDTO<ResponsePostDTO> responseUserDTOs = this.postService.searchPosts(
+            query,
+            categories,
+            status,
+            userId,
+            new Pagination(page, size, direction)
+            );
         
-        Page<ResponsePostDTO> page = Pagination.convert(responseUserDTOs, pageable);
-        return ResponseEntity.ok(page);
+        return ResponseEntity.ok(responseUserDTOs);
     }
 
     @GetMapping("/{id}")
