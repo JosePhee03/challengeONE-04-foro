@@ -13,7 +13,6 @@ import org.springframework.stereotype.Repository;
 
 import com.alura.foro.api.domain.dto.PageDTO;
 import com.alura.foro.api.domain.dto.ResponseCommentDTO;
-import com.alura.foro.api.domain.dto.ResponsePostDTO;
 import com.alura.foro.api.domain.model.Comment;
 import com.alura.foro.api.domain.port.CommentRepository;
 import com.alura.foro.api.infrastructure.entity.CommentEntity;
@@ -22,7 +21,6 @@ import com.alura.foro.api.infrastructure.entity.PostEntity;
 import com.alura.foro.api.infrastructure.entity.UserEntity;
 import com.alura.foro.api.infrastructure.exeption.ResourceNotFoundException;
 import com.alura.foro.api.infrastructure.mapper.CommentMapper;
-import com.alura.foro.api.infrastructure.mapper.PostMapper;
 import com.alura.foro.api.infrastructure.util.Pagination;
 
 @Repository
