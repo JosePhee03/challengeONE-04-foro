@@ -1,6 +1,5 @@
 package com.alura.foro.api.application.service;
 
-import java.util.List;
 import java.util.Set;
 
 import com.alura.foro.api.domain.dto.PageDTO;
@@ -15,11 +14,6 @@ public class DomainPostService implements PostService {
 
     public DomainPostService(PostRepository postRepository) {
         this.postRepository = postRepository;
-    }
-
-    @Override
-    public List<ResponsePostDTO> getAllPosts() {
-        return postRepository.getAllPosts();
     }
 
     @Override

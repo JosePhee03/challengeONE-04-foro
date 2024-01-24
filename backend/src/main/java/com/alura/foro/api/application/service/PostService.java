@@ -11,7 +11,6 @@ import com.alura.foro.api.infrastructure.util.Pagination;
 public interface PostService {
 	
     //GET
-	List<ResponsePostDTO> getAllPosts();
 	ResponsePostDTO getPost(Long id);
 
 	PageDTO<ResponsePostDTO> searchPosts(String query, Set<Long> categories, Boolean status, Long userId, Pagination pagination);
