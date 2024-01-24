@@ -1,6 +1,5 @@
 package com.alura.foro.api.application.service;
 
-import java.util.List;
 import java.util.Set;
 
 import com.alura.foro.api.domain.dto.PageDTO;
