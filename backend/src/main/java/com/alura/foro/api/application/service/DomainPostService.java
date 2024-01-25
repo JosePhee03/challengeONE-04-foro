@@ -27,8 +27,8 @@ public class DomainPostService implements PostService {
     }
 
     @Override
-    public ResponsePostDTO updatePost(Long id, String title, String content, Boolean status) {
-        return postRepository.updatePost(id, title, content, status);
+    public ResponsePostDTO updatePost(Long id, String title, String content, Set<Long> categories, Boolean status) {
+        return postRepository.updatePost(id, title, content, categories, status);
     }
 
     @Override

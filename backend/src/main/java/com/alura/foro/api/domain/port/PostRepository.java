@@ -20,7 +20,7 @@ public interface PostRepository {
 	ResponsePostDTO createPost(Post post);
 
 	// PATCH
-	ResponsePostDTO updatePost(Long id, String title, String content, Boolean status);
+	ResponsePostDTO updatePost(Long id, String title, String content, Set<Long> categories, Boolean status);
 
 	// DELETE
 	void deletePost(Long id);
