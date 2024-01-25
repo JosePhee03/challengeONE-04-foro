@@ -5,6 +5,7 @@ import java.net.URI;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,6 +16,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import com.alura.foro.api.application.service.UserService;
 import com.alura.foro.api.domain.dto.CreateUserDTO;
 import com.alura.foro.api.domain.dto.ResponseUserDTO;
+import com.alura.foro.api.domain.dto.UpdateUserDTO;
 import com.alura.foro.api.domain.model.User;
 
 import jakarta.validation.Valid;
@@ -41,7 +43,6 @@ public class UserController {
     public ResponseEntity<ResponseUserDTO> createUser(@RequestBody @Valid CreateUserDTO createUserDTO,
             UriComponentsBuilder uriComponentsBuilder) {
        
-
         User user = new User();
         user.setUsername(createUserDTO.username());
         user.setPassword(createUserDTO.password());
@@ -51,5 +52,14 @@ public class UserController {
         URI url = uriComponentsBuilder.path("/api/user/{id}").buildAndExpand(responseUserDTO.getId()).toUri();
         return ResponseEntity.created(url).body(responseUserDTO);
     }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<ResponseUserDTO> updateUser (@PathVariable Long id, @RequestBody @Valid UpdateUserDTO updateUserDTO) {
+        ResponseUserDTO responseUserDTO = this.userService.updateUser(id, updateUserDTO.username(), updateUserDTO.image());
+
+        return ResponseEntity.ok(responseUserDTO);
+
+    }
+
 
 }

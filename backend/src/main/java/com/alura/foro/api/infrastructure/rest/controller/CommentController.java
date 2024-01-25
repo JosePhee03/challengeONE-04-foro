@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,6 +19,7 @@ import com.alura.foro.api.application.service.CommentService;
 import com.alura.foro.api.domain.dto.CreateCommentDTO;
 import com.alura.foro.api.domain.dto.PageDTO;
 import com.alura.foro.api.domain.dto.ResponseCommentDTO;
+import com.alura.foro.api.domain.dto.UpdateCommentDTO;
 import com.alura.foro.api.domain.model.Comment;
 import com.alura.foro.api.infrastructure.util.Direction;
 import com.alura.foro.api.infrastructure.util.Pagination;
@@ -76,4 +78,15 @@ public class CommentController {
         this.commentService.deleteComment(id);
         return ResponseEntity.noContent().build();
     }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<ResponseCommentDTO> updateComment (@PathVariable Long id, @RequestBody @Valid UpdateCommentDTO updateCommentDTO) {
+        ResponseCommentDTO responseCommentDTO = this.commentService.updateComment(
+            id,
+            updateCommentDTO.content()
+        );
+
+        return ResponseEntity.ok(responseCommentDTO);
+    }
+
 }

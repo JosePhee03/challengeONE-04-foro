@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,6 +20,7 @@ import com.alura.foro.api.application.service.PostService;
 import com.alura.foro.api.domain.dto.CreatePostDTO;
 import com.alura.foro.api.domain.dto.PageDTO;
 import com.alura.foro.api.domain.dto.ResponsePostDTO;
+import com.alura.foro.api.domain.dto.UpdatePostDTO;
 import com.alura.foro.api.domain.model.Post;
 import com.alura.foro.api.infrastructure.util.Direction;
 import com.alura.foro.api.infrastructure.util.Pagination;
@@ -84,6 +86,19 @@ public class PostController {
     public ResponseEntity<String> deletePost(@PathVariable Long id) {
         this.postService.deletePost(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<ResponsePostDTO> updatePost (@PathVariable Long id, @RequestBody @Valid UpdatePostDTO updatePostDTO) {
+        ResponsePostDTO responseUserDTO = this.postService.updatePost(
+            id,
+            updatePostDTO.title(),
+            updatePostDTO.content(),
+            updatePostDTO.categories(),
+            updatePostDTO.status()
+        );
+
+        return ResponseEntity.ok(responseUserDTO);
     }
 
 }
