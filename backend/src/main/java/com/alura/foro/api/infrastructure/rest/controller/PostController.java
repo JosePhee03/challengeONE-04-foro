@@ -16,9 +16,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import com.alura.foro.api.application.service.CommentService;
 import com.alura.foro.api.application.service.PostService;
 import com.alura.foro.api.domain.dto.CreatePostDTO;
 import com.alura.foro.api.domain.dto.PageDTO;
+import com.alura.foro.api.domain.dto.ResponseCommentDTO;
 import com.alura.foro.api.domain.dto.ResponsePostDTO;
 import com.alura.foro.api.domain.dto.UpdatePostDTO;
 import com.alura.foro.api.domain.model.Post;
@@ -33,16 +35,17 @@ import jakarta.validation.Valid;
 public class PostController {
     
     private final PostService postService;
+    private final CommentService commentService;
 
-    public PostController(PostService postService) {
+    public PostController(PostService postService, CommentService commentService) {
         this.postService = postService;
+        this.commentService = commentService;
     }
 
     @GetMapping
     public ResponseEntity<PageDTO<ResponsePostDTO>> searchPosts(
             @RequestParam(name = "q", defaultValue = "", required = false) String query,
             @RequestParam(required = false) Boolean status,
-            @RequestParam(name = "user", required = false) Long userId,
             @RequestParam(required = false) Set<Long> categories,
             @RequestParam(required = false, defaultValue = "30") int size,
             @RequestParam(required = false, defaultValue = "0") int page,
@@ -53,11 +56,48 @@ public class PostController {
             query,
             categories,
             status,
-            userId,
+            null,
             new Pagination(page, size, direction)
             );
         
         return ResponseEntity.ok(responseUserDTOs);
+    }
+
+    @GetMapping("/{id}/comment")
+    public ResponseEntity<PageDTO<ResponseCommentDTO>> searchCommentsOfPost(
+            @PathVariable Long id,
+            @RequestParam(required = false, defaultValue = "30") int size,
+            @RequestParam(required = false, defaultValue = "0") int page,
+            @RequestParam(required = false, defaultValue = "ASC") Direction direction
+        ) {
+        PageDTO<ResponseCommentDTO> responseCommentDTOs = this.commentService.searchComments(
+            id,
+            new Pagination(page, size, direction)
+        );
+        
+        return ResponseEntity.ok(responseCommentDTOs);
+    }
+
+    @GetMapping("/user/{id}")
+    public ResponseEntity<PageDTO<ResponsePostDTO>> searchPostsByUser(
+            @PathVariable Long id,
+            @RequestParam(name = "q", defaultValue = "", required = false) String query,
+            @RequestParam(required = false) Boolean status,
+            @RequestParam(required = false) Set<Long> categories,
+            @RequestParam(required = false, defaultValue = "30") int size,
+            @RequestParam(required = false, defaultValue = "0") int page,
+            @RequestParam(required = false, defaultValue = "ASC") Direction direction
+        ) {
+
+        PageDTO<ResponsePostDTO> responsePostDTO = this.postService.searchPosts(
+            query,
+            categories,
+            status,
+            id,
+            new Pagination(page, size, direction)
+            );
+        
+        return ResponseEntity.ok(responsePostDTO);
     }
 
     @GetMapping("/{id}")
