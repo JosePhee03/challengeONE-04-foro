@@ -1,5 +1,6 @@
 package com.alura.foro.api.infrastructure.adapter;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -86,9 +87,24 @@ public class PostRepositoryMySQL implements PostRepository {
     }
 
     @Override
-    public ResponsePostDTO updatePost(Long id, String title, String content, Boolean status) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'updatePost'");
+    public ResponsePostDTO updatePost(Long id, String title, String content, Set<Long> categories, Boolean status) {
+        if (id == null) throw new ResourceNotFoundException("Publicación no encontrada");
+
+        PostEntity postEntity = this.postJpaRepository.findById(id)
+            .orElseThrow(() -> new ResourceNotFoundException("Publicación no encontrada"));
+
+        Set<CategoryEntity> categoryEntity = this.categoryJpaRepository.findByIdIn(categories);
+        
+            postEntity.setTitle(title);
+            postEntity.setContent(content);
+            postEntity.setStatus(status);
+            postEntity.setCategoryEntities(categoryEntity);
+            postEntity.setDateCreated(LocalDateTime.now());
+
+            PostEntity savePostEntity = this.postJpaRepository.save(postEntity);
+
+        return PostMapper.toResponsePostDTO(savePostEntity);
+
     }
 
     @Override
