@@ -39,13 +39,12 @@ public class CommentController {
 
     @GetMapping
     public ResponseEntity<PageDTO<ResponseCommentDTO>> searchComments(
-            @RequestParam(name = "post", required = false) Long postId,
             @RequestParam(required = false, defaultValue = "30") int size,
             @RequestParam(required = false, defaultValue = "0") int page,
             @RequestParam(required = false, defaultValue = "ASC") Direction direction
         ) {
         PageDTO<ResponseCommentDTO> responseCommentDTOs = this.commentService.searchComments(
-            postId,
+            null,
             new Pagination(page, size, direction)
         );
         
