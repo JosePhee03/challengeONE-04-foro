@@ -15,11 +15,13 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
 
+import com.auth0.jwt.exceptions.TokenExpiredException;
+
 import jakarta.validation.ConstraintViolationException;
 
 @RestControllerAdvice
 public class ExceptionConfig {
-    
+
     @ExceptionHandler(ConstraintViolationException.class)
     public ResponseEntity<List<ResponseErrorMessage>> handle(ConstraintViolationException e) {
         List<ResponseErrorMessage> responseErrorMessages = new ArrayList<>();
@@ -83,6 +85,18 @@ public class ExceptionConfig {
     public ResponseEntity<ResponseErrorMessage> handle (HttpRequestMethodNotSupportedException e) {
         String errorMessage = "Metodo de petición no permitido";
         return new ResponseEntity<>(new ResponseErrorMessage(errorMessage), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(DuplicateEntryException.class)
+    public ResponseEntity<ResponseErrorMessage> handle (DuplicateEntryException e) {
+        String errorMessage = e.getMessage();
+        return new ResponseEntity<>(new ResponseErrorMessage(errorMessage), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(TokenExpiredException.class)
+    public ResponseEntity<ResponseErrorMessage> handle (TokenExpiredException e) {
+        String errorMessage = "El token a expirado";
+        return new ResponseEntity<>(new ResponseErrorMessage(errorMessage), HttpStatus.UNAUTHORIZED);
     }
 
     @ExceptionHandler(Exception.class)
