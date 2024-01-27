@@ -11,6 +11,7 @@ import com.alura.foro.api.infrastructure.entity.UserEntity;
 import com.alura.foro.api.infrastructure.exeption.ResourceNotFoundException;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
 
 @Service
@@ -61,6 +62,10 @@ public class JwtService {
         }
 
         return subjectString;
+    }
+
+    public Claim getClaim (String jwt, String claimName) {
+        return getVerify(jwt).getClaim(claimName);
     }
 
 }
