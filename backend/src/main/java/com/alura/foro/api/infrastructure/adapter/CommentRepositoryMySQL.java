@@ -20,6 +20,7 @@ import com.alura.foro.api.infrastructure.entity.PageMapper;
 import com.alura.foro.api.infrastructure.entity.PostEntity;
 import com.alura.foro.api.infrastructure.entity.UserEntity;
 import com.alura.foro.api.infrastructure.exeption.ResourceNotFoundException;
+import com.alura.foro.api.infrastructure.exeption.UnauthorizedOperationException;
 import com.alura.foro.api.infrastructure.mapper.CommentMapper;
 import com.alura.foro.api.infrastructure.util.Pagination;
 
@@ -55,6 +56,8 @@ public class CommentRepositoryMySQL implements CommentRepository {
         UserEntity userEntity = this.UserJpaRepository.findById(userId)
             .orElseThrow(() -> new ResourceNotFoundException("Error al encontrar el usuario"));
 
+        
+        
         commentEntity.setContent(comment.getContent());
         commentEntity.setDateCreated(comment.getDateCreated());
         commentEntity.setPostEntity(postEntity);
@@ -67,26 +70,38 @@ public class CommentRepositoryMySQL implements CommentRepository {
     }
 
     @Override
-    public ResponseCommentDTO updateComment(Long id, String content) {
+    public ResponseCommentDTO updateComment(Long id, Long userId, String content) {
 
-        if (id == null) throw new ResourceNotFoundException("El commentario no existe");
+        if (id == null || userId == null) throw new ResourceNotFoundException("El commentario no existe");
 
         CommentEntity commentEntity = this.commentJpaRepository.findById(id)
             .orElseThrow(() -> new ResourceNotFoundException("El commentario no existe"));
 
-        commentEntity.setContent(content);
-        commentEntity.setDateCreated(LocalDateTime.now());
+        if (commentEntity.getUserEntity().getId().equals(userId)) {
+            commentEntity.setContent(content);
+            commentEntity.setDateCreated(LocalDateTime.now());
 
-        return CommentMapper.toResponseCommentDTO(this.commentJpaRepository.save(commentEntity));
-
+            return CommentMapper.toResponseCommentDTO(this.commentJpaRepository.save(commentEntity));
+        } else {
+            throw new UnauthorizedOperationException("No tienes permiso para eliminar este comentario");
+        }
 
     }
 
     @Override
-    public void deleteComment(Long id) {
-        if (id == null) throw new ResourceNotFoundException("El commentario no existe");
+    public void deleteComment(Long id, Long userId) {
+        if (id == null || userId == null) throw new ResourceNotFoundException("El commentario no existe");
 
-        this.commentJpaRepository.deleteById(id);
+        CommentEntity commentEntity = this.commentJpaRepository.findById(id)
+            .orElseThrow(() -> new ResourceNotFoundException("El commentario no existe"));
+
+        if (commentEntity.getUserEntity().getId().equals(userId)) {
+            this.commentJpaRepository.deleteById(id);
+        } else {
+            throw new UnauthorizedOperationException("No tienes permiso para eliminar este comentario");
+        }
+
+        
     }
 
     @Override

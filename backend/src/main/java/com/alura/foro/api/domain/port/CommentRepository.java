@@ -21,9 +21,9 @@ public interface CommentRepository {
 	ResponseCommentDTO createComment(Comment comment);
 
 	// PATCH
-	ResponseCommentDTO updateComment(Long id, String content);
+	ResponseCommentDTO updateComment(Long id, Long userId, String content);
 
 	// DELETE
-	void deleteComment(Long id);
+	void deleteComment(Long id, Long userId);
 
 }

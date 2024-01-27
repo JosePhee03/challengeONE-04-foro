@@ -22,13 +22,13 @@ public class DomainCommentService implements CommentService {
     }
 
     @Override
-    public ResponseCommentDTO updateComment(Long id, String content) {
-        return commentRepository.updateComment(id, content);
+    public ResponseCommentDTO updateComment(Long id, Long userId, String content) {
+        return commentRepository.updateComment(id, userId, content);
     }
 
     @Override
-    public void deleteComment(Long id) {
-        commentRepository.deleteComment(id);
+    public void deleteComment(Long id, Long userId) {
+        commentRepository.deleteComment(id, userId);
     }
 
     @Override

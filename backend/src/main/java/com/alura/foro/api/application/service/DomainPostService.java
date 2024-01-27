@@ -27,13 +27,13 @@ public class DomainPostService implements PostService {
     }
 
     @Override
-    public ResponsePostDTO updatePost(Long id, String title, String content, Set<Long> categories, Boolean status) {
-        return postRepository.updatePost(id, title, content, categories, status);
+    public ResponsePostDTO updatePost(Long id, Long userId, String title, String content, Set<Long> categories, Boolean status) {
+        return postRepository.updatePost(id, userId, title, content, categories, status);
     }
 
     @Override
-    public void deletePost(Long id) {
-        postRepository.deletePost(id);
+    public void deletePost(Long id, Long userId) {
+        postRepository.deletePost(id, userId);
     }
 
     @Override

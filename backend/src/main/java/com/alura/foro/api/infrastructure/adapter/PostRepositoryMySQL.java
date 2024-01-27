@@ -21,6 +21,7 @@ import com.alura.foro.api.infrastructure.entity.PageMapper;
 import com.alura.foro.api.infrastructure.entity.PostEntity;
 import com.alura.foro.api.infrastructure.entity.UserEntity;
 import com.alura.foro.api.infrastructure.exeption.ResourceNotFoundException;
+import com.alura.foro.api.infrastructure.exeption.UnauthorizedOperationException;
 import com.alura.foro.api.infrastructure.mapper.PostMapper;
 import com.alura.foro.api.infrastructure.util.Pagination;
 
@@ -87,13 +88,14 @@ public class PostRepositoryMySQL implements PostRepository {
     }
 
     @Override
-    public ResponsePostDTO updatePost(Long id, String title, String content, Set<Long> categories, Boolean status) {
-        if (id == null) throw new ResourceNotFoundException("Publicación no encontrada");
+    public ResponsePostDTO updatePost(Long id, Long userId, String title, String content, Set<Long> categories, Boolean status) {
+        if (id == null || userId == null) throw new ResourceNotFoundException("Publicación no encontrada");
 
         PostEntity postEntity = this.postJpaRepository.findById(id)
             .orElseThrow(() -> new ResourceNotFoundException("Publicación no encontrada"));
 
-        Set<CategoryEntity> categoryEntity = this.categoryJpaRepository.findByIdIn(categories);
+        if (postEntity.getUserEntity().getId().equals(userId)) {
+            Set<CategoryEntity> categoryEntity = this.categoryJpaRepository.findByIdIn(categories);
         
             postEntity.setTitle(title);
             postEntity.setContent(content);
@@ -103,15 +105,27 @@ public class PostRepositoryMySQL implements PostRepository {
 
             PostEntity savePostEntity = this.postJpaRepository.save(postEntity);
 
-        return PostMapper.toResponsePostDTO(savePostEntity);
+            return PostMapper.toResponsePostDTO(savePostEntity);
+        } else {
+            throw new UnauthorizedOperationException("No tienes permiso para modificar esta publicación");
+        }
+
+        
 
     }
 
     @Override
-    public void deletePost(Long id) {
-        if (id == null) throw new ResourceNotFoundException("Publicación no encontrada");
+    public void deletePost(Long id, Long userId) {
+        if (id == null || userId == null) throw new ResourceNotFoundException("Publicación no encontrada");
 
-        this.postJpaRepository.deleteById(id);
+        PostEntity postEntity = this.postJpaRepository.findById(id)
+            .orElseThrow(() -> new ResourceNotFoundException("Publicación no encontrada"));
+
+        if (postEntity.getUserEntity().getId().equals(userId)) {
+            this.postJpaRepository.deleteById(id);
+        } else {
+            throw new UnauthorizedOperationException("No tienes permiso para eliminar esta publicación");
+        }
     }
 
     @Override
