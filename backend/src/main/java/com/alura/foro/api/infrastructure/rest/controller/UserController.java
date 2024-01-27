@@ -3,6 +3,7 @@ package com.alura.foro.api.infrastructure.rest.controller;
 import java.net.URI;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -28,9 +29,11 @@ public class UserController {
     
     private final UserService userService;
 
+    private final PasswordEncoder passwordEncoder;
 
-    public UserController(UserService userService) {
+    public UserController(UserService userService, PasswordEncoder passwordEncoder) {
         this.userService = userService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @GetMapping("/{id}")
@@ -42,10 +45,13 @@ public class UserController {
     @PostMapping
     public ResponseEntity<ResponseUserDTO> createUser(@RequestBody @Valid CreateUserDTO createUserDTO,
             UriComponentsBuilder uriComponentsBuilder) {
-       
+        
+        String password = createUserDTO.password();
+        String encodedPassword = passwordEncoder.encode(password);
+
         User user = new User();
         user.setUsername(createUserDTO.username());
-        user.setPassword(createUserDTO.password());
+        user.setPassword(encodedPassword);
 
         ResponseUserDTO responseUserDTO = this.userService.createUser(user);
 
