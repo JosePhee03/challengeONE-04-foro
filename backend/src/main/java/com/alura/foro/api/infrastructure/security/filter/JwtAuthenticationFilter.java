@@ -3,18 +3,14 @@ package com.alura.foro.api.infrastructure.security.filter;
 import java.io.IOException;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.alura.foro.api.infrastructure.adapter.UserJpaRepositoryMySQL;
 import com.alura.foro.api.infrastructure.entity.UserEntity;
 import com.alura.foro.api.infrastructure.exeption.ResourceNotFoundException;
-import com.alura.foro.api.infrastructure.exeption.ResponseErrorMessage;
 import com.alura.foro.api.infrastructure.security.service.JwtService;
 import com.auth0.jwt.exceptions.JWTDecodeException;
 
