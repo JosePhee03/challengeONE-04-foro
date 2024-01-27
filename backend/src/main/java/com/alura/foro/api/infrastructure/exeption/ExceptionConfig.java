@@ -107,7 +107,7 @@ public class ExceptionConfig {
 
     @ExceptionHandler(NoResourceFoundException.class)
     public ResponseEntity<ResponseErrorMessage> handle(HttpServletRequest request, NoResourceFoundException e) {
-        String message = "El recurso " + e.getResourcePath() + " no encontrado.";
+        String message = "El recurso /" + e.getResourcePath() + " no encontrado.";
         ResponseErrorMessage errorMessage = new ResponseErrorMessage(
             e.getStatusCode(), message, request.getRequestURI()
         );
@@ -132,7 +132,17 @@ public class ExceptionConfig {
         );
         return new ResponseEntity<>(errorMessage, HttpStatus.CONFLICT);
     }
+
     
+    @ExceptionHandler(UnauthorizedOperationException.class)
+    public ResponseEntity<ResponseErrorMessage> handle (HttpServletRequest request,  UnauthorizedOperationException e) throws IOException {
+        String message = e.getMessage();
+        ResponseErrorMessage errorMessage = new ResponseErrorMessage(
+            HttpStatus.FORBIDDEN, message, request.getRequestURI()
+        );
+        return new ResponseEntity<>(errorMessage, HttpStatus.FORBIDDEN);
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ResponseErrorMessage> handle(HttpServletRequest request,  Exception e) throws IOException {
         String message = "Error interno del servidor";
