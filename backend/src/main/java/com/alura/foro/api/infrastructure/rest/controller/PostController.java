@@ -3,6 +3,7 @@ package com.alura.foro.api.infrastructure.rest.controller;
 import java.net.URI;
 import java.util.Set;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,6 +26,7 @@ import com.alura.foro.api.domain.dto.ResponseCommentDTO;
 import com.alura.foro.api.domain.dto.ResponsePostDTO;
 import com.alura.foro.api.domain.dto.UpdatePostDTO;
 import com.alura.foro.api.domain.model.Post;
+import com.alura.foro.api.infrastructure.security.service.JwtService;
 import com.alura.foro.api.infrastructure.util.Direction;
 import com.alura.foro.api.infrastructure.util.Pagination;
 
@@ -34,6 +37,9 @@ import jakarta.validation.Valid;
 @CrossOrigin("*")
 public class PostController {
     
+    @Autowired
+    private JwtService jwtService;
+
     private final PostService postService;
     private final CommentService commentService;
 
@@ -107,13 +113,20 @@ public class PostController {
     }
     
     @PostMapping
-    public ResponseEntity<ResponsePostDTO> createPost(@RequestBody @Valid CreatePostDTO createPostDTO,
-            UriComponentsBuilder uriComponentsBuilder) {
+    public ResponseEntity<ResponsePostDTO> createPost(
+            @RequestBody @Valid CreatePostDTO createPostDTO,
+            UriComponentsBuilder uriComponentsBuilder,
+            @RequestHeader("Authorization") String authorizationHeader
+    ) {
+            
+        String jwt = authorizationHeader.split(" ")[1];
+
+        Long userIdClaim = jwtService.getClaim(jwt, "id").asLong();
 
         Post post = new Post();
         post.setContent(createPostDTO.content());
         post.setTitle(createPostDTO.title());
-        post.setUserId(2L);
+        post.setUserId(userIdClaim);
         post.setCategories(createPostDTO.categories());
 
         ResponsePostDTO responsePostDTO = this.postService.createPost(post);
@@ -123,15 +136,29 @@ public class PostController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deletePost(@PathVariable Long id) {
-        this.postService.deletePost(id);
+    public ResponseEntity<String> deletePost(@RequestHeader("Authorization") String authorizationHeader, @PathVariable Long id) {
+
+        String jwt = authorizationHeader.split(" ")[1];
+
+        Long userIdClaim = jwtService.getClaim(jwt, "id").asLong();
+
+        this.postService.deletePost(id, userIdClaim);
         return ResponseEntity.noContent().build();
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<ResponsePostDTO> updatePost (@PathVariable Long id, @RequestBody @Valid UpdatePostDTO updatePostDTO) {
+    public ResponseEntity<ResponsePostDTO> updatePost (
+        @PathVariable Long id,
+        @RequestBody @Valid UpdatePostDTO updatePostDTO,
+        @RequestHeader("Authorization") String authorizationHeader
+    ) {
+        String jwt = authorizationHeader.split(" ")[1];
+
+        Long userIdClaim = jwtService.getClaim(jwt, "id").asLong();
+
         ResponsePostDTO responseUserDTO = this.postService.updatePost(
             id,
+            userIdClaim,
             updatePostDTO.title(),
             updatePostDTO.content(),
             updatePostDTO.categories(),
