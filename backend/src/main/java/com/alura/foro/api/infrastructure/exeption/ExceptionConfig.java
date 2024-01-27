@@ -92,13 +92,7 @@ public class ExceptionConfig {
         String errorMessage = e.getMessage();
         return new ResponseEntity<>(new ResponseErrorMessage(errorMessage), HttpStatus.BAD_REQUEST);
     }
-
-    @ExceptionHandler(TokenExpiredException.class)
-    public ResponseEntity<ResponseErrorMessage> handle (TokenExpiredException e) {
-        String errorMessage = "El token a expirado";
-        return new ResponseEntity<>(new ResponseErrorMessage(errorMessage), HttpStatus.UNAUTHORIZED);
-    }
-
+    
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ResponseErrorMessage> handle(Exception e) {
         String errorMessage = "Error interno del servidor";

@@ -13,6 +13,7 @@ import com.alura.foro.api.infrastructure.entity.UserEntity;
 import com.alura.foro.api.infrastructure.exeption.ResourceNotFoundException;
 import com.alura.foro.api.infrastructure.security.service.JwtService;
 import com.auth0.jwt.exceptions.JWTDecodeException;
+import com.auth0.jwt.exceptions.TokenExpiredException;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -55,6 +56,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             filterChain.doFilter(request, response);
         } catch (JWTDecodeException ex) {
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "El token no el valido.");
+        } catch (TokenExpiredException ex) {
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "El token ha expirado");
         }
     }
 
