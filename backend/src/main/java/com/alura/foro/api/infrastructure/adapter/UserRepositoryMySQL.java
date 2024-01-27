@@ -5,10 +5,12 @@ import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
+import com.alura.foro.api.domain.dto.AuthUserDTO;
 import com.alura.foro.api.domain.dto.ResponseUserDTO;
 import com.alura.foro.api.domain.model.User;
 import com.alura.foro.api.domain.port.UserRepository;
 import com.alura.foro.api.infrastructure.entity.UserEntity;
+import com.alura.foro.api.infrastructure.exeption.DuplicateEntryException;
 import com.alura.foro.api.infrastructure.exeption.ResourceNotFoundException;
 import com.alura.foro.api.infrastructure.mapper.UserMapper;
 
@@ -46,17 +48,22 @@ public class UserRepositoryMySQL implements UserRepository {
 
     @Override
     public ResponseUserDTO createUser(User user) {
-        
-        UserEntity userEntity = new UserEntity();
 
-        userEntity.setUsername(user.getUsername());
-        userEntity.setPassword(user.getPassword());
-        userEntity.setImage(user.getImage());
-        userEntity.setRole(user.getRole());
+        if (this.userJpaRepository.existsByUsername(user.getUsername())) {
+            throw new DuplicateEntryException("El nombre de usuario ya está en uso. Por favor, elija otro nombre de usuario.");
+        } else {
+            UserEntity userEntity = new UserEntity();
 
-        UserEntity saveUserEntity = this.userJpaRepository.save(userEntity);
+            userEntity.setUsername(user.getUsername());
+            userEntity.setPassword(user.getPassword());
+            userEntity.setImage(user.getImage());
+            userEntity.setRole(user.getRole());
 
-        return UserMapper.toResponseUserDTO(saveUserEntity);
+            UserEntity saveUserEntity = this.userJpaRepository.save(userEntity);
+
+            return UserMapper.toResponseUserDTO(saveUserEntity);
+        }
+
     }
 
     @Override
@@ -76,6 +83,13 @@ public class UserRepositoryMySQL implements UserRepository {
 
     }
 
+    public AuthUserDTO getAuthUser (Long id) {
+        if (id == null) throw new ResourceNotFoundException("Usuario no encontrado");
 
+        UserEntity userEntity = this.userJpaRepository.findById(id)
+            .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado"));
+
+        return new AuthUserDTO(userEntity.getUsername(), userEntity.getAuthorities());
+    }
     
 }
