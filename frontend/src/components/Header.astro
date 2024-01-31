@@ -1,0 +1,25 @@
+---
+import Icon from "./Icon.astro";
+---
+
+<header class="flex w-full justify-between py-4 items-center">
+  <a
+    class="flex"
+    href="/"
+    class="text-primary-text-light dark:text-primary-text-dark"
+  >
+    <Icon name="logo" size="lg" currentColor />
+
+    <span class="text-2xl font-bold text-inherit"> Foro</span>
+  </a>
+
+  <div class="flex gap-4">
+    <button type="button">
+      <Icon name="moon" size="xl" />
+    </button>
+
+    <button type="button">
+      <Icon name="user" size="xl" />
+    </button>
+  </div>
+</header>
