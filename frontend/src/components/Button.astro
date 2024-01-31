@@ -1,0 +1,23 @@
+---
+interface Props {
+  variant: ButtonVariant;
+  type: "submit" | "reset" | "button";
+  title: string;
+}
+
+type ButtonVariant = "button-primary" | "button-icon" | "button-alt";
+
+const buttonVariant: Record<ButtonVariant, string> = {
+  "button-alt": "",
+  "button-icon": "",
+  "button-primary": "bg-primary-light dark:bg-primary-dark rounded",
+};
+
+const { variant, type, title } = Astro.props;
+---
+
+<button type={type} title={title} class="flex p-2 g-1">
+  <slot name="icon-left" />
+  <slot name="text" />
+  <slot name="icon-right" />
+</button>
