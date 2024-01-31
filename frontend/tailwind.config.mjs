@@ -4,9 +4,9 @@ export default {
 	theme: {
 		fontFamily: {
 			'inter': ['"Inter"', 'sans-serif'],
-		  },
+		},
 		colors: {
-			"primary":{
+			primary: {
 				light: "rgba(0, 106, 245, 1)",
 				dark: "rgba(12, 108, 233, 1)"
 			},
@@ -17,12 +17,19 @@ export default {
 			icon: {
 				light: "rgba(97, 109, 124, 1)",
 				dark: "rgba(228, 239, 252, 1)"
+			},
+			"primary-text": {
+				light: "rgba(0, 95, 219, 1)",
+				dark: "rgba(144, 189, 249, 1)"
 			}
 		},
 		extend: {
 			strokeWidth: {
 				'3': '3',
 			},
+			stroke: {
+				"current-color": "curretColor"
+			}
 		},
 	},
 	plugins: [],
