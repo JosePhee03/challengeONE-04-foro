@@ -5,6 +5,15 @@
   box-sizing: border-box;
 }
 
+button:focus,
+a:focus,
+input:focus {
+  outline: 1px solid var(--primary);
+  outline-width: 2px;
+  outline-offset: 1px;
+}
+
+
 body {
   background-color: var(--base);
 }
