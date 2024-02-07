@@ -1,0 +1,21 @@
+.button {
+  border-radius: var(--border-rounded);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-md);
+  border: none;
+  font-size: var(--button-text);
+  font-weight: bold;
+}
+
+.button_primary {
+  background-color: var(--primary);
+  color: var(--primary-contrast);
+}
+
+.button_secondary {
+  background-color: var(--contrast-5);
+  color: var(--primary-text);
+}
