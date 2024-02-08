@@ -1,0 +1,23 @@
+.body-text {
+  color: var(--body-text);
+  font-size: var(--text-xxs);
+  font-weight: var(--text-regular);
+}
+
+.text-primary {
+  color: var(--primary);
+}
+
+.bg-primary {
+  background-color: var(--primary);
+}
+
+.flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.flex-col {
+  flex-direction: column;
+}

@@ -4,11 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="/css/base/global.css">
-  <link rel="stylesheet" href="/css/base/variables.css">
-  <link rel="stylesheet" href="/css/base/fonts.css">
-  <link rel="stylesheet" href="/css/components/button.css">
-  <link rel="stylesheet" href="/css/components/icon.css">
+  <link rel="stylesheet" href="/css/index.css">
   <meta name="color-scheme" content="light">
   <title>UI - Alura Foro</title>
 </head>
@@ -19,6 +15,36 @@
     <header class="header"></header>
     <aside class="aside"></aside>
     <main class="main">
+
+      <button disabled class="button button_primary">
+        <svg class="icon icon_md">
+          <use xlink:href="/public/icons.svg#plus"></use>
+        </svg>
+        Button
+        <svg class="icon icon_md">
+          <use xlink:href="/public/icons.svg#plus"></use>
+        </svg>
+      </button>
+
+      <button disabled class="button button_secondary">
+        <svg class="icon icon_md">
+          <use xlink:href="/public/icons.svg#plus"></use>
+        </svg>
+        Button
+        <svg class="icon icon_md">
+          <use xlink:href="/public/icons.svg#plus"></use>
+        </svg>
+      </button>
+
+      <button disabled class="button button_tertiary">
+        <svg class="icon icon_md">
+          <use xlink:href="/public/icons.svg#plus"></use>
+        </svg>
+        Button
+        <svg class="icon icon_md">
+          <use xlink:href="/public/icons.svg#plus"></use>
+        </svg>
+      </button>
 
       <button class="button button_primary">
         <svg class="icon icon_md">
@@ -50,6 +76,39 @@
         </svg>
       </button>
 
+      <div class="input">
+        <label for="">Label</label>
+        <div class="input_field">
+          <input type="password">
+          <svg class="icon icon_lg sufix">
+            <use xlink:href="/public/icons.svg#eye"></use>
+          </svg>
+        </div>
+      </div>
+
+      <div class="input">
+        <label for="">Label</label>
+        <div class="input_field">
+          <input readonly type="text" value="Solo lectura">
+        </div>
+      </div>
+
+      <div class="input">
+        <label for="">Label</label>
+        <div class="input_field">
+          <input required type="text">
+          <p>helper text</p>
+        </div>
+      </div>
+
+
+      <div class="input">
+        <label for="">Label</label>
+        <div class="input_field">
+          <input type="text">
+          <p>helper text</p>
+        </div>
+      </div>
 
     </main>
     <div id="portal" class="portal"></div>

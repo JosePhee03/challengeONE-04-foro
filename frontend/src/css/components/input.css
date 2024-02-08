@@ -1,0 +1,55 @@
+.input {
+  display: flex;
+  flex-direction: column;
+}
+
+.input>label {
+  color: var(--secondary-text);
+  font-size: var(--field-label);
+  font-weight: var(--font-medium);
+}
+
+.input_field {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  position: relative;
+}
+
+.input_field>input {
+  border-radius: var(--border-rounded);
+  background-color: var(--contrast-20);
+  color: var(--body-text);
+  padding: var(--spacing-md);
+  border: 2px dashed transparent;
+  font-weight: var(--font-medium);
+  font-size: var(--input-field);
+  width: 100%;
+}
+
+.input_field>.sufix {
+  position: absolute;
+  right: var(--spacing-md);
+  color: var(--icon-color);
+
+}
+
+.input_field>p {
+  position: absolute;
+  bottom: calc(var(--spacing-lg) * -1);
+  font-size: var(--text-xs);
+  color: var(--secondary-text)
+}
+
+.input_field>input:required {
+  background-color: var(--error-10);
+}
+
+.input_field:has(input:required)>p {
+  color: var(--error);
+}
+
+.input_field>input:read-only {
+  background-color: transparent;
+  border-color: var(--contrast-30);
+}

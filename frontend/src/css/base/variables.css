@@ -123,6 +123,11 @@
   --shadow--x-l: 0px 4px 24px rgba(28, 55, 90, 0.12), 0px 18px 64px rgba(28, 50, 79, 0.19);
 
 
+  --font-regular: 300;
+  --font-medium: 400;
+  --font-senibold: 500;
+  --font-bold: 600;
+
 }
 
 @media (prefers-color-scheme: light) {
@@ -156,7 +161,7 @@
     --heading-text: var(--heading--text--light);
     --secondary-text: var(--secondary--text--light);
     --tertiary-text: var(--tertiary--text--light);
-    --disabled--text: var(--disabled--text--light);
+    --disabled-text: var(--disabled--text--light);
 
     --icon-color: var(--icon-color-light);
     --base: var(--base--light);
@@ -196,7 +201,7 @@
     --body-text: var(--body--text--dark);
     --secondary-text: var(--secondary--text--dark);
     --tertiary-text: var(--tertiary--text--dark);
-    --disabled--text: var(--disabled--text--dark);
+    --disabled-text: var(--disabled--text--dark);
 
     --icon-color: var(--icon-color-dark);
     --base: var(--base--dark);

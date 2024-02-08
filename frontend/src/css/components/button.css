@@ -7,7 +7,7 @@
   padding: var(--spacing-md);
   border: none;
   font-size: var(--button-text);
-  font-weight: bold;
+  font-weight: var(--font-medium);
   position: relative;
   cursor: pointer;
 }
@@ -61,4 +61,17 @@
   opacity: 0.1;
   transition-duration: 0s, 0s;
   transform: scale(0);
+}
+
+.button_primary:disabled {
+  opacity: 0.2;
+}
+
+.button_secondary:disabled {
+  background-color: var(--contrast-5);
+  color: var(--disabled-text);
+}
+
+.button_tertiary:disabled {
+  color: var(--disabled-text);
 }
