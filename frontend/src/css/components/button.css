@@ -10,19 +10,20 @@
   font-weight: var(--font-medium);
   position: relative;
   cursor: pointer;
+  text-decoration: none;
 }
 
-.button_primary {
+.button-primary {
   background-color: var(--primary);
   color: var(--primary-contrast);
 }
 
-.button_secondary {
+.button-secondary {
   background-color: var(--contrast-5);
   color: var(--primary-text);
 }
 
-.button_tertiary {
+.button-tertiary {
   background-color: transparent;
   color: var(--icon-color);
 }
@@ -63,15 +64,15 @@
   transform: scale(0);
 }
 
-.button_primary:disabled {
+.button-primary:disabled {
   opacity: 0.2;
 }
 
-.button_secondary:disabled {
+.button-secondary:disabled {
   background-color: var(--contrast-5);
   color: var(--disabled-text);
 }
 
-.button_tertiary:disabled {
+.button-tertiary:disabled {
   color: var(--disabled-text);
 }

@@ -9,14 +9,14 @@
   font-weight: var(--font-medium);
 }
 
-.input_field {
+.input-field {
   display: flex;
   align-items: center;
   gap: var(--spacing-xs);
   position: relative;
 }
 
-.input_field>input {
+.input-field>input {
   border-radius: var(--border-rounded);
   background-color: var(--contrast-20);
   color: var(--body-text);
@@ -27,29 +27,29 @@
   width: 100%;
 }
 
-.input_field>.sufix {
+.input-field>.sufix {
   position: absolute;
   right: var(--spacing-md);
   color: var(--icon-color);
 
 }
 
-.input_field>p {
+.input-field>p {
   position: absolute;
   bottom: calc(var(--spacing-lg) * -1);
   font-size: var(--text-xs);
   color: var(--secondary-text)
 }
 
-.input_field>input:required {
+.input-field>input:required {
   background-color: var(--error-10);
 }
 
-.input_field:has(input:required)>p {
+.input-field:has(input:required)>p {
   color: var(--error);
 }
 
-.input_field>input:read-only {
+.input-field>input:read-only {
   background-color: transparent;
   border-color: var(--contrast-30);
 }

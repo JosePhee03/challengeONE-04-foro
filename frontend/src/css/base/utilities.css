@@ -19,5 +19,42 @@
 }
 
 .flex-col {
+  display: flex;
   flex-direction: column;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.align-center {
+  align-items: center;
+}
+
+
+.card-sm {
+  width: 200px;
+}
+
+.heading-text {
+  color: var(--heading-text);
+}
+
+.heading-1 {
+  font-size: var(--heading-1);
+}
+.heading-2 {
+  font-size: var(--heading-2);
+}
+.heading-3 {
+  font-size: var(--heading-3);
+}
+.heading-4 {
+  font-size: var(--heading-4);
+}
+.heading-5 {
+  font-size: var(--heading-5);
+}
+.heading-6 {
+  font-size: var(--heading-6);
 }
