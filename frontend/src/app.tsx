@@ -1,10 +1,26 @@
-import Login from "./page/Login";
+import Router from "preact-router"
+import AsyncRoute from "preact-async-route"
+import ProgressBar from "./page/ProgressBar"
 
 export function App() {
 
   return (
-    <div className="app-layout">
-        <Login/>
-    </div>
+    <>
+      <ProgressBar />
+      <Router>
+        <AsyncRoute
+          path="/"
+          getComponent={() => import('./page/Home').then(module => module.default)}
+        />
+        <AsyncRoute
+          path="/login"
+          getComponent={() => import('./page/Login').then(module => module.default)}
+        />
+        <AsyncRoute
+          path="/register"
+          getComponent={() => import('./page/Register').then(module => module.default)}
+        />
+      </Router>
+    </>
   )
 }
