@@ -3,9 +3,9 @@
 
 <head>
   <meta charset="UTF-8" />
-  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <link rel="icon" type="image/svg+xml" href="/logo.svg" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Vite + Preact + TS</title>
+  <title>Alura Foro</title>
 
   <style>
     html {
@@ -16,12 +16,21 @@
       background: var(--base);
     }
   </style>
+  <script>
+    if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('tw-dark')
+      localStorage.setItem("theme", "dark")
+    } else {
+      document.documentElement.classList.remove('tw-dark')
+      localStorage.setItem("theme", "light")
+    }
+  </script>
 </head>
 
 <body>
-  <div class="px-4 md:px-8 lg:px-16 xl:max-w-screen-lg xl:px-0 xl:mx-auto" id="app">
+  <div class="w-full md:px-8 lg:px-16 xl:max-w-screen-lg xl:px-0 xl:mx-auto" id="app">
   </div>
-  <div class="relative" id="portal"></div>
+  <div class="relative w-full" id="portal"></div>
   <script type="module" src="/src/main.tsx"></script>
 </body>
 

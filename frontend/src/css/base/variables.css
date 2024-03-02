@@ -130,80 +130,76 @@
 
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    --primary: var(--primary--light);
-    --primary-text: var(--primary--text--light);
-    --primary-50: var(--primary-50--light);
-    --primary-10: var(--primary-10--light);
-    --primary-contrast: var(--primary--contrast);
-    --error: var(--error--light);
-    --error-text: var(--error--text--light);
-    --error-50: var(--error-50--light);
-    --error-10: var(--error-10--light);
-    --error-contrast: var(--error--contrast);
-    --success: var(--success--light);
-    --success-text: var(--success--text--light);
-    --success-50: var(--success-50--light);
-    --success-10: var(--success-10--light);
-    --success-contrast: var(--success--contrast);
-    --contrast-100: var(--contrast-100--light);
-    --contrast-90: var(--contrast-90--light);
-    --contrast-80: var(--contrast-80--light);
-    --contrast-70: var(--contrast-70--light);
-    --contrast-60: var(--contrast-60--light);
-    --contrast-50: var(--contrast-50--light);
-    --contrast-40: var(--contrast-40--light);
-    --contrast-30: var(--contrast-30--light);
-    --contrast-20: var(--contrast-20--light);
-    --contrast-10: var(--contrast-10--light);
-    --contrast-5: var(--contrast-5--light);
-    --heading-text: var(--heading--text--light);
-    --secondary-text: var(--secondary--text--light);
-    --tertiary-text: var(--tertiary--text--light);
-    --disabled-text: var(--disabled--text--light);
+html {
+  --primary: var(--primary--light);
+  --primary-text: var(--primary--text--light);
+  --primary-50: var(--primary-50--light);
+  --primary-10: var(--primary-10--light);
+  --primary-contrast: var(--primary--contrast);
+  --error: var(--error--light);
+  --error-text: var(--error--text--light);
+  --error-50: var(--error-50--light);
+  --error-10: var(--error-10--light);
+  --error-contrast: var(--error--contrast);
+  --success: var(--success--light);
+  --success-text: var(--success--text--light);
+  --success-50: var(--success-50--light);
+  --success-10: var(--success-10--light);
+  --success-contrast: var(--success--contrast);
+  --contrast-100: var(--contrast-100--light);
+  --contrast-90: var(--contrast-90--light);
+  --contrast-80: var(--contrast-80--light);
+  --contrast-70: var(--contrast-70--light);
+  --contrast-60: var(--contrast-60--light);
+  --contrast-50: var(--contrast-50--light);
+  --contrast-40: var(--contrast-40--light);
+  --contrast-30: var(--contrast-30--light);
+  --contrast-20: var(--contrast-20--light);
+  --contrast-10: var(--contrast-10--light);
+  --contrast-5: var(--contrast-5--light);
+  --heading-text: var(--heading--text--light);
+  --secondary-text: var(--secondary--text--light);
+  --tertiary-text: var(--tertiary--text--light);
+  --disabled-text: var(--disabled--text--light);
 
-    --icon-color: var(--icon-color-light);
-    --base: var(--base--light);
-    --body-text: var(--body--text--light);
-  }
+  --icon-color: var(--icon-color-light);
+  --base: var(--base--light);
+  --body-text: var(--body--text--light);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --primary: var(--primary--dark);
-    --primary-text: var(--primary--text--dark);
-    --primary-50: var(--primary-50--dark);
-    --primary-10: var(--primary-10--dark);
-    --primary-contrast: var(--primary--contrast);
-    --error: var(--error--dark);
-    --error-text: var(--error--text--dark);
-    --error-50: var(--error-50--dark);
-    --error-10: var(--error-10--dark);
-    --error-contrast: var(--error--contrast);
-    --success: var(--success--dark);
-    --success-text: var(--success--text--dark);
-    --success-50: var(--success-50--dark);
-    --success-10: var(--success-10--dark);
-    --success-contrast: var(--success--contrast);
-    --contrast-100: var(--contrast-100--dark);
-    --contrast-90: var(--contrast-90--dark);
-    --contrast-80: var(--contrast-80--dark);
-    --contrast-70: var(--contrast-70--dark);
-    --contrast-60: var(--contrast-60--dark);
-    --contrast-50: var(--contrast-50--dark);
-    --contrast-40: var(--contrast-40--dark);
-    --contrast-30: var(--contrast-30--dark);
-    --contrast-20: var(--contrast-20--dark);
-    --contrast-10: var(--contrast-10--dark);
-    --contrast-5: var(--contrast-5--dark);
-    --heading-text: var(--heading--text--dark);
-    --body-text: var(--body--text--dark);
-    --secondary-text: var(--secondary--text--dark);
-    --tertiary-text: var(--tertiary--text--dark);
-    --disabled-text: var(--disabled--text--dark);
+html.tw-dark {
+  --primary: var(--primary--dark);
+  --primary-text: var(--primary--text--dark);
+  --primary-50: var(--primary-50--dark);
+  --primary-10: var(--primary-10--dark);
+  --primary-contrast: var(--primary--contrast);
+  --error: var(--error--dark);
+  --error-text: var(--error--text--dark);
+  --error-50: var(--error-50--dark);
+  --error-10: var(--error-10--dark);
+  --error-contrast: var(--error--contrast);
+  --success: var(--success--dark);
+  --success-text: var(--success--text--dark);
+  --success-50: var(--success-50--dark);
+  --success-10: var(--success-10--dark);
+  --success-contrast: var(--success--contrast);
+  --contrast-100: var(--contrast-100--dark);
+  --contrast-90: var(--contrast-90--dark);
+  --contrast-80: var(--contrast-80--dark);
+  --contrast-70: var(--contrast-70--dark);
+  --contrast-60: var(--contrast-60--dark);
+  --contrast-50: var(--contrast-50--dark);
+  --contrast-40: var(--contrast-40--dark);
+  --contrast-30: var(--contrast-30--dark);
+  --contrast-20: var(--contrast-20--dark);
+  --contrast-10: var(--contrast-10--dark);
+  --contrast-5: var(--contrast-5--dark);
+  --heading-text: var(--heading--text--dark);
+  --body-text: var(--body--text--dark);
+  --secondary-text: var(--secondary--text--dark);
+  --tertiary-text: var(--tertiary--text--dark);
+  --disabled-text: var(--disabled--text--dark);
 
-    --icon-color: var(--icon-color-dark);
-    --base: var(--base--dark);
-  }
+  --icon-color: var(--icon-color-dark);
+  --base: var(--base--dark);
 }

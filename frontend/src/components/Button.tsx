@@ -18,7 +18,7 @@ export function Button({ children, variant, type, onClick, disabled, title, clas
       onClick={onClick}
       disabled={disabled}
       title={title}
-      class={`${after} ${before} hover:before:opacity-5 active:after:scale-0 active:after:opacity-5 relative flex justify-center items-center gap-1 p-2 rounded text-md font-medium ${buttonVariant[variant]} ${className}`}
+      class={`${after} ${before} hover:before:opacity-5 active:after:scale-105 active:after:opacity-5 relative flex justify-center items-center gap-1 p-2 rounded text-md font-medium ${buttonVariant[variant]} ${className}`}
     >
       {children}
     </button>

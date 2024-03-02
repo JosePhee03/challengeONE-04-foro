@@ -22,7 +22,7 @@ export default function Register() {
               Registrarse
             </Button >
           </fieldset>
-          <span class="mx-auto text-md text-body">¿Ya tienes una cuenta? <a href="/login" class="text-primary hover:underline cursor-pointer">Iniciar seción</a></span>
+          <span class="mx-auto text-md text-body">¿Ya tienes una cuenta? <a href="/login" class="text-primary-text hover:underline cursor-pointer">Iniciar sesión</a></span>
         </form>
       </main >
     </ >

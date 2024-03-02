@@ -12,7 +12,7 @@ export default function useProgressBar() {
     };
     setWidth(100)
 
-
+    console.log("USE PROGRESS")
     const timer = setTimeout(handleFinishComponentLoad, 2000);
 
 

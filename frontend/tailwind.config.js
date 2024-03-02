@@ -43,6 +43,9 @@ export default {
       },
       fontSize: {
         md: "1rem"
+      },
+      boxShadow: {
+        'M': '0 4px 18px -2px rgba(0, 0, 0, 0.3)',
       }
     },
     fontFamily: {

@@ -17,8 +17,8 @@ export function Icon({ size, name, fillColor, strokeColor }: IconProps) {
 }
 
 const iconsSize = {
-  sm: "size-3 stroke-1",
-  md: "size-4 stroke-[1.5px]",
+  sm: "size-3 stroke-2",
+  md: "size-4 stroke-2",
   lg: "size-6 stroke-2",
   xl: "size-8 stroke-[2.5px]"
 }

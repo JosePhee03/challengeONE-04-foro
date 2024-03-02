@@ -3,18 +3,29 @@ import { Icon } from "./Icon"
 
 interface HeaderProps {
     variant: 'primary' | 'secondary'
+    text?: string
 }
 
-export default function Header({ variant }: HeaderProps) {
+const toggleTheme = () => {
+    if (localStorage.theme === 'dark') {
+        document.documentElement.classList.remove("tw-dark")
+        localStorage.theme = 'light'
+    } else {
+        document.documentElement.classList.add("tw-dark")
+        localStorage.theme = 'dark'
+    }
+}
+
+export default function Header({ variant, text }: HeaderProps) {
 
     return (
-        <header class="flex justify-between py-4">
+        <header class="flex justify-between py-4 px-4 md:px-0">
             {variant == "primary"
                 ? <Primary />
-                : <Secondary />
+                : <Secondary text={text ?? ""} />
             }
             <div class="flex items-center gap-2">
-                <Button title="Cambiar tema" type="button" variant="tertiary">
+                <Button onClick={toggleTheme} title="Cambiar tema" type="button" variant="tertiary">
                     <span class="sr-only">Tema Oscuro/Claro</span>
                     <Icon name="moon" size="xl" strokeColor="stroke-icon-color" />
                 </Button>
@@ -37,13 +48,15 @@ function Primary() {
     )
 }
 
-function Secondary() {
+interface SecondaryProps {
+    text: string
+}
+
+function Secondary({ text }: SecondaryProps) {
     return (
-        <a className="flex gap-2 items-center text-heading">
-            <Icon name="arrow-left" size="xl" />
-            <svg className="icon icon-xl">
-                <use href="/icons.svg#arrow-left"></use>
-            </svg>
+        <a href="/" className="flex gap-2 items-center text-xl text-heading">
+            <Icon name="arrow-left" size="lg" />
+            {text}
         </a>
     )
 }

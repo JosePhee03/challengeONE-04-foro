@@ -20,6 +20,10 @@ export function App() {
           path="/register"
           getComponent={() => import('./page/Register').then(module => module.default)}
         />
+        <AsyncRoute
+          path="/post/:postId"
+          getComponent={() => import('./page/Post').then(module => module.default)}
+        />
       </Router>
     </>
   )

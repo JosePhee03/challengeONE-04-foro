@@ -22,7 +22,7 @@ export default function Login() {
 							Iniciar Sesión
 						</Button >
 					</fieldset>
-					<span class="mx-auto text-body text-md">¿Quieres crear una cuenta? <a href="/register" class="text-md text-primary hover:underline cursor-pointer">Registrarse</a></span>
+					<span class="mx-auto text-body text-md">¿Quieres crear una cuenta? <a href="/register" class="text-md text-primary-text hover:underline cursor-pointer">Registrarse</a></span>
 				</form>
 			</main >
 		</ >
