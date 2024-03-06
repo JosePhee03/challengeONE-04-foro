@@ -2,9 +2,12 @@ import { Button } from "../components/Button";
 import Header from "../components/Header";
 import { Icon } from "../components/Icon";
 import { Input } from "../components/Input";
+import { useToken } from "../hook/useToken";
 
 export default function Login() {
+	const { login } = useToken()
 
+	login({ username: "admin", password: "admin45458" })
 	return (
 		<>
 			<Header variant="primary" />
