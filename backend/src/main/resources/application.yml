@@ -13,5 +13,5 @@ spring:
 
 security:
   jwt:
-    expiration-minutes: ${EXPIRATION_MINUTES:30}
+    expiration-minutes: ${EXPIRATION_MINUTES:2880}
     secret-key: ${SECRET_KEY:bWkgY2xhdmUgZXMgbXV5IHNlZ3VyYSAxMjM0NTY3ODkgQUJDYWJj}

@@ -21,7 +21,7 @@ import com.alura.foro.api.infrastructure.security.filter.JwtAuthenticationFilter
 @Configuration
 @EnableWebSecurity
 public class HttpSecurityConfig {
-    
+
     @Autowired
     JwtAuthenticationFilter jwtAuthenticationFilter;
 
@@ -32,15 +32,17 @@ public class HttpSecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authRequest -> {
                     authRequest.requestMatchers(HttpMethod.POST, "/api/auth").permitAll();
+                    authRequest.requestMatchers(HttpMethod.GET, "/api/auth").permitAll();
                     authRequest.requestMatchers(HttpMethod.POST, "/api/user").permitAll();
                     authRequest.requestMatchers(HttpMethod.GET, "/api/**").hasAnyAuthority("ROLE_" + Role.USER.name(),
-                    "ROLE_" + Role.ADMIN.name());
+                            "ROLE_" + Role.ADMIN.name());
                     authRequest.requestMatchers(HttpMethod.POST, "/api/**").hasAnyAuthority("ROLE_" + Role.USER.name(),
-                    "ROLE_" + Role.ADMIN.name());
+                            "ROLE_" + Role.ADMIN.name());
                     authRequest.requestMatchers(HttpMethod.PATCH, "/api/**").hasAnyAuthority("ROLE_" + Role.USER.name(),
-                    "ROLE_" + Role.ADMIN.name());
-                    authRequest.requestMatchers(HttpMethod.DELETE, "/api/**").hasAnyAuthority("ROLE_" + Role.USER.name(),
-                    "ROLE_" + Role.ADMIN.name());
+                            "ROLE_" + Role.ADMIN.name());
+                    authRequest.requestMatchers(HttpMethod.DELETE, "/api/**").hasAnyAuthority(
+                            "ROLE_" + Role.USER.name(),
+                            "ROLE_" + Role.ADMIN.name());
                     authRequest.requestMatchers(HttpMethod.GET, "/**").permitAll();
                 })
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)

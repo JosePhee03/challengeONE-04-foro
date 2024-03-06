@@ -7,8 +7,9 @@ import com.alura.foro.api.domain.model.User;
 
 public interface UserRepository {
 
-    //GET
+	// GET
 	List<ResponseUserDTO> getAllUsers();
+
 	ResponseUserDTO getUser(Long id);
 
 	// POST
@@ -16,5 +17,5 @@ public interface UserRepository {
 
 	// UPDATE
 	ResponseUserDTO updateUser(Long id, String username, String image);
-    
+
 }

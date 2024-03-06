@@ -28,10 +28,9 @@ public class UserRepositoryMySQL implements UserRepository {
         List<UserEntity> userEntities = this.userJpaRepository.findAll();
         List<ResponseUserDTO> userDTOs = new ArrayList<>();
 
-
-       for (UserEntity userEntity : userEntities) {
+        for (UserEntity userEntity : userEntities) {
             userDTOs.add(UserMapper.toResponseUserDTO(userEntity));
-       }
+        }
 
         return userDTOs;
     }
@@ -39,10 +38,11 @@ public class UserRepositoryMySQL implements UserRepository {
     @Override
     public ResponseUserDTO getUser(Long id) {
 
-        if (id == null) throw new ResourceNotFoundException("Usuario no encontrado");
+        if (id == null)
+            throw new ResourceNotFoundException("Usuario no encontrado");
 
         UserEntity userEntity = this.userJpaRepository.findById(id)
-            .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado"));
+                .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado"));
         return UserMapper.toResponseUserDTO(userEntity);
     }
 
@@ -50,7 +50,8 @@ public class UserRepositoryMySQL implements UserRepository {
     public ResponseUserDTO createUser(User user) {
 
         if (this.userJpaRepository.existsByUsername(user.getUsername())) {
-            throw new DuplicateEntryException("El nombre de usuario ya está en uso. Por favor, elija otro nombre de usuario.");
+            throw new DuplicateEntryException(
+                    "El nombre de usuario ya está en uso. Por favor, elija otro nombre de usuario.");
         } else {
             UserEntity userEntity = new UserEntity();
 
@@ -68,11 +69,12 @@ public class UserRepositoryMySQL implements UserRepository {
 
     @Override
     public ResponseUserDTO updateUser(Long id, String username, String image) {
-        
-        if (id == null) throw new ResourceNotFoundException("Usuario no encontrado");
+
+        if (id == null)
+            throw new ResourceNotFoundException("Usuario no encontrado");
 
         UserEntity userEntity = this.userJpaRepository.findById(id)
-            .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado"));
+                .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado"));
 
         userEntity.setUsername(username);
         userEntity.setImage(image);
@@ -83,13 +85,14 @@ public class UserRepositoryMySQL implements UserRepository {
 
     }
 
-    public AuthUserDTO getAuthUser (Long id) {
-        if (id == null) throw new ResourceNotFoundException("Usuario no encontrado");
+    public AuthUserDTO getAuthUser(Long id) {
+        if (id == null)
+            throw new ResourceNotFoundException("Usuario no encontrado");
 
         UserEntity userEntity = this.userJpaRepository.findById(id)
-            .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado"));
+                .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado"));
 
         return new AuthUserDTO(userEntity.getUsername(), userEntity.getAuthorities());
     }
-    
+
 }

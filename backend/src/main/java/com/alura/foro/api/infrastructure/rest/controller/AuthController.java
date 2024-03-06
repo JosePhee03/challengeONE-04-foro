@@ -18,7 +18,7 @@ import jakarta.validation.Valid;
 @RequestMapping("/api/auth")
 @CrossOrigin("*")
 public class AuthController {
-    
+
     @Autowired
     private AuthenticationService authenticationService;
 

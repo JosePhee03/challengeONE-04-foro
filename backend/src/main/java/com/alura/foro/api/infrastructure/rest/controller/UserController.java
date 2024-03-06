@@ -26,7 +26,7 @@ import jakarta.validation.Valid;
 @RequestMapping("/api/user")
 @CrossOrigin("*")
 public class UserController {
-    
+
     private final UserService userService;
 
     private final PasswordEncoder passwordEncoder;
@@ -41,11 +41,11 @@ public class UserController {
         ResponseUserDTO responseUserDTO = this.userService.getUser(id);
         return ResponseEntity.ok(responseUserDTO);
     }
-    
+
     @PostMapping
     public ResponseEntity<ResponseUserDTO> createUser(@RequestBody @Valid CreateUserDTO createUserDTO,
             UriComponentsBuilder uriComponentsBuilder) {
-        
+
         String password = createUserDTO.password();
         String encodedPassword = passwordEncoder.encode(password);
 
@@ -60,12 +60,13 @@ public class UserController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<ResponseUserDTO> updateUser (@PathVariable Long id, @RequestBody @Valid UpdateUserDTO updateUserDTO) {
-        ResponseUserDTO responseUserDTO = this.userService.updateUser(id, updateUserDTO.username(), updateUserDTO.image());
+    public ResponseEntity<ResponseUserDTO> updateUser(@PathVariable Long id,
+            @RequestBody @Valid UpdateUserDTO updateUserDTO) {
+        ResponseUserDTO responseUserDTO = this.userService.updateUser(id, updateUserDTO.username(),
+                updateUserDTO.image());
 
         return ResponseEntity.ok(responseUserDTO);
 
     }
-
 
 }

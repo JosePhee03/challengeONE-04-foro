@@ -7,6 +7,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.HttpMediaTypeNotSupportedException;
@@ -24,20 +25,27 @@ import jakarta.validation.ConstraintViolationException;
 @RestControllerAdvice
 public class ExceptionConfig {
 
+    @ExceptionHandler(BadCredentialsException.class)
+    public ResponseEntity<ResponseErrorMessage> handle(HttpServletRequest request, BadCredentialsException e) {
+        String message = "Credenciales inválidas. Por favor, verifique su nombre de usuario y contraseña e intente nuevamente.";
+
+        ResponseErrorMessage errorMessage = new ResponseErrorMessage(
+                HttpStatus.UNAUTHORIZED, message, request.getRequestURI());
+        return new ResponseEntity<>(errorMessage, HttpStatus.UNAUTHORIZED);
+    }
+
     @ExceptionHandler(ConstraintViolationException.class)
     public ResponseEntity<ResponseErrorMessage> handle(HttpServletRequest request, ConstraintViolationException e) {
 
-        Set<ConstraintViolation<?>>  constraintViolations = e.getConstraintViolations();
+        Set<ConstraintViolation<?>> constraintViolations = e.getConstraintViolations();
         StringBuilder errors = new StringBuilder();
 
-        constraintViolations.forEach(r -> 
-            errors.append(r.getMessage())
- 
+        constraintViolations.forEach(r -> errors.append(r.getMessage())
+
         );
 
         ResponseErrorMessage errorMessage = new ResponseErrorMessage(
-            HttpStatus.BAD_REQUEST, errors.toString(), request.getRequestURI()
-        );
+                HttpStatus.BAD_REQUEST, errors.toString(), request.getRequestURI());
 
         return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
     }
@@ -46,8 +54,7 @@ public class ExceptionConfig {
     public ResponseEntity<ResponseErrorMessage> handle(HttpServletRequest request, HttpMessageNotReadableException e) {
         String message = "Error en la solicitud. Verifique el formato y los datos proporcionados.";
         ResponseErrorMessage errorMessage = new ResponseErrorMessage(
-            HttpStatus.BAD_REQUEST, message, request.getRequestURI()
-        );
+                HttpStatus.BAD_REQUEST, message, request.getRequestURI());
         return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
     }
 
@@ -55,8 +62,7 @@ public class ExceptionConfig {
     public ResponseEntity<ResponseErrorMessage> handle(HttpServletRequest request, DataIntegrityViolationException e) {
         String message = "Su solicitud no cumple con la integridad de los datos";
         ResponseErrorMessage errorMessage = new ResponseErrorMessage(
-            HttpStatus.CONFLICT, message, request.getRequestURI()
-        );
+                HttpStatus.CONFLICT, message, request.getRequestURI());
         return new ResponseEntity<>(errorMessage, HttpStatus.CONFLICT);
     }
 
@@ -70,8 +76,7 @@ public class ExceptionConfig {
         }
 
         ResponseErrorMessage errorMessage = new ResponseErrorMessage(
-            e.getStatusCode(), errors.toString(), request.getRequestURI()
-        );
+                e.getStatusCode(), errors.toString(), request.getRequestURI());
 
         return new ResponseEntity<>(errorMessage, e.getStatusCode());
     }
@@ -80,28 +85,25 @@ public class ExceptionConfig {
     public ResponseEntity<ResponseErrorMessage> handle(HttpServletRequest request, ResourceNotFoundException e) {
         String message = e.getMessage();
         ResponseErrorMessage errorMessage = new ResponseErrorMessage(
-            HttpStatus.NOT_FOUND, message, request.getRequestURI()
-        );
+                HttpStatus.NOT_FOUND, message, request.getRequestURI());
         return new ResponseEntity<>(errorMessage, HttpStatus.NOT_FOUND);
     }
 
-
     @ExceptionHandler(HttpMediaTypeNotSupportedException.class)
-    public ResponseEntity<ResponseErrorMessage> handle(HttpServletRequest request, HttpMediaTypeNotSupportedException e) {
+    public ResponseEntity<ResponseErrorMessage> handle(HttpServletRequest request,
+            HttpMediaTypeNotSupportedException e) {
         String message = "El Content-Type " + e.getContentType() + " no es valido.";
         ResponseErrorMessage errorMessage = new ResponseErrorMessage(
-            e.getStatusCode(), message, request.getRequestURI()
-        );
+                e.getStatusCode(), message, request.getRequestURI());
         return new ResponseEntity<>(errorMessage, e.getStatusCode());
     }
 
-     
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
-    public ResponseEntity<ResponseErrorMessage> handle(HttpServletRequest request, MethodArgumentTypeMismatchException e) {
-        String message = "El recurso /" + e.getName() + " no permite el valor '" + e.getValue()+ "'.";
+    public ResponseEntity<ResponseErrorMessage> handle(HttpServletRequest request,
+            MethodArgumentTypeMismatchException e) {
+        String message = "El recurso /" + e.getName() + " no permite el valor '" + e.getValue() + "'.";
         ResponseErrorMessage errorMessage = new ResponseErrorMessage(
-            HttpStatus.BAD_REQUEST, message, request.getRequestURI()
-        );
+                HttpStatus.BAD_REQUEST, message, request.getRequestURI());
         return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
     }
 
@@ -109,46 +111,42 @@ public class ExceptionConfig {
     public ResponseEntity<ResponseErrorMessage> handle(HttpServletRequest request, NoResourceFoundException e) {
         String message = "El recurso /" + e.getResourcePath() + " no encontrado.";
         ResponseErrorMessage errorMessage = new ResponseErrorMessage(
-            e.getStatusCode(), message, request.getRequestURI()
-        );
+                e.getStatusCode(), message, request.getRequestURI());
         return new ResponseEntity<>(errorMessage, e.getStatusCode());
     }
 
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
-    public ResponseEntity<ResponseErrorMessage> handle (HttpServletRequest request, HttpRequestMethodNotSupportedException e) {
+    public ResponseEntity<ResponseErrorMessage> handle(HttpServletRequest request,
+            HttpRequestMethodNotSupportedException e) {
         String message = "Metodo de petición no permitido";
         ResponseErrorMessage errorMessage = new ResponseErrorMessage(
-            e.getStatusCode(), message, request.getRequestURI()
-        );
+                e.getStatusCode(), message, request.getRequestURI());
         return new ResponseEntity<>(errorMessage, e.getStatusCode());
     }
-        
 
     @ExceptionHandler(DuplicateEntryException.class)
-    public ResponseEntity<ResponseErrorMessage> handle (HttpServletRequest request,  DuplicateEntryException e) throws IOException {
+    public ResponseEntity<ResponseErrorMessage> handle(HttpServletRequest request, DuplicateEntryException e)
+            throws IOException {
         String message = e.getMessage();
         ResponseErrorMessage errorMessage = new ResponseErrorMessage(
-            HttpStatus.CONFLICT, message, request.getRequestURI()
-        );
+                HttpStatus.CONFLICT, message, request.getRequestURI());
         return new ResponseEntity<>(errorMessage, HttpStatus.CONFLICT);
     }
 
-    
     @ExceptionHandler(UnauthorizedOperationException.class)
-    public ResponseEntity<ResponseErrorMessage> handle (HttpServletRequest request,  UnauthorizedOperationException e) throws IOException {
+    public ResponseEntity<ResponseErrorMessage> handle(HttpServletRequest request, UnauthorizedOperationException e)
+            throws IOException {
         String message = e.getMessage();
         ResponseErrorMessage errorMessage = new ResponseErrorMessage(
-            HttpStatus.FORBIDDEN, message, request.getRequestURI()
-        );
+                HttpStatus.FORBIDDEN, message, request.getRequestURI());
         return new ResponseEntity<>(errorMessage, HttpStatus.FORBIDDEN);
     }
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<ResponseErrorMessage> handle(HttpServletRequest request,  Exception e) throws IOException {
+    public ResponseEntity<ResponseErrorMessage> handle(HttpServletRequest request, Exception e) throws IOException {
         String message = "Error interno del servidor";
         ResponseErrorMessage errorMessage = new ResponseErrorMessage(
-            HttpStatus.INTERNAL_SERVER_ERROR, message, request.getRequestURI()
-        );
+                HttpStatus.INTERNAL_SERVER_ERROR, message, request.getRequestURI());
         return new ResponseEntity<>(errorMessage, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

@@ -13,7 +13,7 @@ import com.alura.foro.api.infrastructure.exeption.ResourceNotFoundException;
 
 @Service
 public class AuthenticationService {
-    
+
     @Autowired
     private AuthenticationManager authenticationManager;
 
@@ -24,14 +24,13 @@ public class AuthenticationService {
     private UserJpaRepositoryMySQL userRepository;
 
     public ResponseAuth login(AuthRequest authRequest) {
-
         var authToken = new UsernamePasswordAuthenticationToken(
                 authRequest.username(), authRequest.password());
 
         authenticationManager.authenticate(authToken);
 
         UserEntity user = userRepository.findByUsername(authRequest.username())
-            .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado"));
+                .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado"));
 
         String jwtToken = jwtService.generateToken(user);
 

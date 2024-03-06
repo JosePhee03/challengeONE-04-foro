@@ -26,5 +26,5 @@ public class DomainUserService implements UserService {
     public ResponseUserDTO updateUser(Long id, String username, String image) {
         return userRepository.updateUser(id, username, image);
     }
-    
+
 }

@@ -4,8 +4,8 @@ import com.alura.foro.api.domain.dto.ResponseUserDTO;
 import com.alura.foro.api.domain.model.User;
 
 public interface UserService {
-    
-    //GET
+
+	// GET
 	ResponseUserDTO getUser(Long id);
 
 	// POST

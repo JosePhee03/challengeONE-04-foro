@@ -3,6 +3,7 @@ package com.alura.foro.api.infrastructure.security.filter;
 import java.io.IOException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
@@ -22,7 +23,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
-    
+
     @Autowired
     private JwtService jwtService;
 
@@ -46,10 +47,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             String username = jwtService.getSubject(jwt);
 
             UserEntity authUser = userRepository.findByUsername(username)
-                .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado"));
+                    .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado"));
+            ;
 
             var authToken = new UsernamePasswordAuthenticationToken(
-                authUser.getUsername(), null, authUser.getAuthorities());
+                    authUser.getUsername(), null, authUser.getAuthorities());
 
             SecurityContextHolder.getContext().setAuthentication(authToken);
 
@@ -58,6 +60,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "El token no el valido.");
         } catch (TokenExpiredException ex) {
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "El token ha expirado");
+        } catch (BadCredentialsException ex) {
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED,
+                    "Credenciales inválidas. Por favor, verifique su nombre de usuario y contraseña e intente nuevamente.");
         }
     }
 
