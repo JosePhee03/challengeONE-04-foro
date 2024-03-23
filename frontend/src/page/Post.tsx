@@ -2,6 +2,7 @@ import { Button } from "../components/Button";
 import CardPost from "../components/CardPost";
 import Header from "../components/Header";
 import { Icon } from "../components/Icon";
+import { TextArea } from "../components/TextArea";
 import { UserImage } from "../components/UserImage";
 
 interface PostProps {
@@ -21,7 +22,7 @@ export default function Post({ postId }: PostProps) {
         <section class="border-t border-contrast-10 py-4 flex gap-2">
           <UserImage size="md" username="Jose Luis Gutierrez" />
           <form class="flex flex-col items-end gap-2 w-full">
-            <textarea class="w-full resize-y min-h-10 max-h-40 rounded bg-contrast-20 text-body p-2 font-medium text-md" name="textarea-comment" placeholder="Responder publicación" />
+            <TextArea className="w-full" id="textarea-comment" name="textarea-comment" placeholder="Responder publicación" />
             <Button className="w-32" variant="primary" title="Enviar respuesta" type="submit">
               Responder
             </Button>

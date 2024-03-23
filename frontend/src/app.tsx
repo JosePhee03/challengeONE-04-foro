@@ -4,14 +4,11 @@ import ProgressBar from "./page/ProgressBar"
 import { ErrorBoundary } from "./components/ErrorBundary"
 
 export function App() {
+
   return (
     <ErrorBoundary>
       <ProgressBar />
-      <Router>
-        <AsyncRoute
-          path="/"
-          getComponent={() => import('./page/Home').then(module => module.default)}
-        />
+      <Router >
         <AsyncRoute
           path="/login"
           getComponent={() => import('./page/Login').then(module => module.default)}
@@ -24,6 +21,14 @@ export function App() {
           path="/post/:postId"
           getComponent={() => import('./page/Post').then(module => module.default)}
         />
+        <AsyncRoute
+         path="/create"
+         getComponent={() => import('./page/CreatePost').then(module => module.default)}
+         />
+         <AsyncRoute
+           path="/"
+           getComponent={() => import('./page/Home').then(module => module.default)}
+         />
       </Router>
     </ErrorBoundary>
   )
