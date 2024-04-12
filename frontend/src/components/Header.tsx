@@ -41,10 +41,11 @@ export default function Header({ variant, text }: HeaderProps) {
 
 const UserDropdown = () => {
   return (
-    <DropDown button={buttonUser} buttonId="button-user">
+    <DropDown button={buttonUser} buttonId="button-user" inputId="button-user">
       <Menu buttonId="button-user" popoverId="popover-user">
-        <MenuItem text="Configuración" icon="settings" />
+        <MenuItem type="button" text="Configuración" icon="settings" />
         <MenuItem
+          type="button"
           textColor="text-error-text"
           text="Cerrar Sesión"
           icon="log-out"

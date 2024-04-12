@@ -4,11 +4,11 @@ import { Input } from "./Input";
 
 export function Search() {
   return (
-    <form class="flex sm:w-auto gap-2">
+    <form class="flex w-full sm:w-auto gap-2">
       <Input
         className="w-full"
-        id="input-search"
-        name="input-search"
+        id="q"
+        name="q"
         placeholder="Buscar publicación"
         type="search"
         pattern=".*"

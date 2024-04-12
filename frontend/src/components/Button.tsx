@@ -12,6 +12,7 @@ interface ButtonProps {
   ariaControls?: string;
   id?: string;
   onExpanded?: () => void;
+  tabIndex?: number;
 }
 
 export function Button({
@@ -26,6 +27,7 @@ export function Button({
   ariaControls,
   ariaHaspopup,
   id,
+  tabIndex,
 }: ButtonProps) {
   return (
     <button
@@ -39,6 +41,7 @@ export function Button({
       title={title}
       onReset={onReset}
       class={`button button-tertiary button-${variant} ${className}`}
+      tabindex={tabIndex}
     >
       {children}
     </button>

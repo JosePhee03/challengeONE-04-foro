@@ -12,7 +12,7 @@ export default function Home() {
       <main class="flex flex-col gap-2">
         <section class="flex justify-between gap-4 flex-wrap px-4 md:px-0">
           <div class="flex w-full flex-col gap-4">
-            <div class="flex justify-between">
+            <div class="flex flex-wrap gap-4 sm:justify-between ">
               <ButtonsPanel />
               <Search />
             </div>

@@ -1,4 +1,4 @@
-interface Item {
+export interface Item {
   key: number;
   name: string;
   isSelected: boolean;
@@ -15,15 +15,25 @@ export class List {
     return this.list;
   }
 
+  public reset(): Item[] {
+    this.list = this.list.map((item) => ({
+      ...item,
+      isSelected: false,
+    }));
+    return this.list;
+  }
+
   public getSelected() {
     return this.list.filter((item) => item.isSelected === true);
   }
 
   public setSelected(key: number) {
-    this.list = this.list.map((item) => {
-      item.isSelected = item.key === key;
+    const newList = this.list.map((item) => {
+      if (item.key === key) item.isSelected = !item.isSelected;
       return item;
     });
+    this.list = newList;
+    return newList;
   }
 
   public setMultiSelect(keys: number[]) {

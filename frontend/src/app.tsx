@@ -1,35 +1,50 @@
-import Router from "preact-router"
-import AsyncRoute from "preact-async-route"
-import ProgressBar from "./page/ProgressBar"
-import { ErrorBoundary } from "./components/ErrorBundary"
+import Router from "preact-router";
+import AsyncRoute from "preact-async-route";
+import ProgressBar from "./page/ProgressBar";
+import { ErrorBoundary } from "./components/ErrorBundary";
 
 export function App() {
-
   return (
     <ErrorBoundary>
       <ProgressBar />
-      <Router >
+      <Router>
         <AsyncRoute
           path="/login"
-          getComponent={() => import('./page/Login').then(module => module.default)}
+          getComponent={() =>
+            import("./page/Login").then((module) => module.default)
+          }
         />
         <AsyncRoute
           path="/register"
-          getComponent={() => import('./page/Register').then(module => module.default)}
+          getComponent={() =>
+            import("./page/Register").then((module) => module.default)
+          }
         />
         <AsyncRoute
           path="/post/:postId"
-          getComponent={() => import('./page/Post').then(module => module.default)}
+          getComponent={() =>
+            import("./page/Post").then((module) => module.default)
+          }
         />
         <AsyncRoute
-         path="/create"
-         getComponent={() => import('./page/CreatePost').then(module => module.default)}
-         />
-         <AsyncRoute
-           path="/"
-           getComponent={() => import('./page/Home').then(module => module.default)}
-         />
+          path="/create"
+          getComponent={() =>
+            import("./page/CreatePost").then((module) => module.default)
+          }
+        />
+        <AsyncRoute
+          path="/:status"
+          getComponent={() =>
+            import("./page/Home").then((module) => module.default)
+          }
+        />
+        <AsyncRoute
+          path="/"
+          getComponent={() =>
+            import("./page/Home").then((module) => module.default)
+          }
+        />
       </Router>
     </ErrorBoundary>
-  )
+  );
 }
