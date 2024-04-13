@@ -1,27 +1,26 @@
 import { useState } from "preact/hooks";
-import { authToken } from "../api/token";
 import { AuthUser } from "../api/api";
 
-const TOKEN_STORAGE = "token"
+const TOKEN_STORAGE = "token";
 
 export const getTokenStorage = () => {
-  return
-}
+  return;
+};
 
 export const setTokenStorage = (token: string) => {
-  return localStorage.setItem(TOKEN_STORAGE, token)
-}
+  return localStorage.setItem(TOKEN_STORAGE, token);
+};
 
 export function useToken() {
   const [token, setToken] = useState();
 
   const login = (user: AuthUser) => {
-    return setToken(authToken(user))
-  }
+    return user;
+  };
 
   return {
     token,
     login,
-    setToken
-  }
+    setToken,
+  };
 }
