@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url: ${DATABASE_URL:jdbc:mysql://localhost/alura_foro?createDatabaseIfNotExist=true&serverTimezone=UTC}
-    username: ${DATABASE_USERNAME:root}
-    password: ${DATABASE_PASSWORD:root123}
+    url: ${DATABASE_URL:jdbc:postgresql://ep-calm-mud-a5hycb91.us-east-2.aws.neon.tech/alura_foro?user=alura_foro_owner&password=kU9idTJ5OZps&sslmode=require}
+    #username: ${DATABASE_USERNAME:root}
+    #password: ${DATABASE_PASSWORD:}
   jpa:
     show-sql: true
     hibernate:

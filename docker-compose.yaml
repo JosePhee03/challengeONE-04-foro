@@ -3,6 +3,7 @@ version: "3.9"
 services:
   web_app:
     container_name: web_app
+    image: pee-web_app:1.0.0
     build: ./frontend/
     ports:
       - 4200:80
@@ -10,6 +11,7 @@ services:
       - java_app
   java_app:
     container_name: java_app
+    image: pee-java_app:1.0.0
     build: ./backend/
     ports:
       - 8080:8080
