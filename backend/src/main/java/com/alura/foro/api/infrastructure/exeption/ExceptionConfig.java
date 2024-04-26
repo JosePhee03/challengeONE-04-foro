@@ -144,7 +144,7 @@ public class ExceptionConfig {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ResponseErrorMessage> handle(HttpServletRequest request, Exception e) throws IOException {
-        String message = "Error interno del servidor";
+        String message = "Error interno del servidor " + e;
         ResponseErrorMessage errorMessage = new ResponseErrorMessage(
                 HttpStatus.INTERNAL_SERVER_ERROR, message, request.getRequestURI());
         return new ResponseEntity<>(errorMessage, HttpStatus.INTERNAL_SERVER_ERROR);
