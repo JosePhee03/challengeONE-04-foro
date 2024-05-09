@@ -18,7 +18,7 @@ public interface PostJpaRepositoryMySQL extends JpaRepository<PostEntity, Long> 
             LEFT JOIN p.categoryEntities pc
             LEFT JOIN p.commentEntities c
             WHERE (:status IS NULL OR p.status=:status)
-                AND (p.title LIKE %:query% OR p.content LIKE %:query%)
+                AND (p.title ILIKE %:query% OR p.content ILIKE %:query%)
                 AND (:categories IS NULL OR pc.id in :categories)
                 AND (:userId IS NULL OR p.userEntity.id = :userId)
         """)
