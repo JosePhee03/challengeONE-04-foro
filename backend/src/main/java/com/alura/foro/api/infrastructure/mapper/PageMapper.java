@@ -1,4 +1,4 @@
-package com.alura.foro.api.infrastructure.entity;
+package com.alura.foro.api.infrastructure.mapper;
 
 import java.util.List;
 

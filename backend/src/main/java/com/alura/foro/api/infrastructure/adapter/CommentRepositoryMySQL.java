@@ -1,6 +1,7 @@
 package com.alura.foro.api.infrastructure.adapter;
 
-import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,12 +17,12 @@ import com.alura.foro.api.domain.dto.ResponseCommentDTO;
 import com.alura.foro.api.domain.model.Comment;
 import com.alura.foro.api.domain.port.CommentRepository;
 import com.alura.foro.api.infrastructure.entity.CommentEntity;
-import com.alura.foro.api.infrastructure.entity.PageMapper;
 import com.alura.foro.api.infrastructure.entity.PostEntity;
 import com.alura.foro.api.infrastructure.entity.UserEntity;
 import com.alura.foro.api.infrastructure.exeption.ResourceNotFoundException;
 import com.alura.foro.api.infrastructure.exeption.UnauthorizedOperationException;
 import com.alura.foro.api.infrastructure.mapper.CommentMapper;
+import com.alura.foro.api.infrastructure.mapper.PageMapper;
 import com.alura.foro.api.infrastructure.util.Pagination;
 
 @Repository
@@ -79,7 +80,7 @@ public class CommentRepositoryMySQL implements CommentRepository {
 
         if (commentEntity.getUserEntity().getId().equals(userId)) {
             commentEntity.setContent(content);
-            commentEntity.setDateCreated(LocalDateTime.now());
+            commentEntity.setDateCreated(ZonedDateTime.now(ZoneOffset.UTC));
 
             return CommentMapper.toResponseCommentDTO(this.commentJpaRepository.save(commentEntity));
         } else {

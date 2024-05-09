@@ -27,7 +27,7 @@ const categories = [
 ];
 
 const createUser = (user) =>
-  fetch("http://localhost:8080/api/user", {
+  fetch("https://challengeone-04-foro.onrender.com/api/user", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -36,6 +36,7 @@ const createUser = (user) =>
   })
     .then((data) => {
       if (!data.ok) {
+        console.log(data);
         throw Error(data.status);
       }
       return data.json();
@@ -48,7 +49,7 @@ const createUser = (user) =>
     });
 
 const getToken = () =>
-  fetch("http://localhost:8080/api/auth", {
+  fetch("https://challengeone-04-foro.onrender.com/api/auth", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -56,9 +57,6 @@ const getToken = () =>
     body: JSON.stringify(admin),
   })
     .then((data) => {
-      if (!data.ok) {
-        throw Error(data.status);
-      }
       return data.json();
     })
     .then((response) => {
@@ -72,7 +70,7 @@ const token =
   "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsInBlcm1pc3Npb25zIjpbIlJPTEVfVVNFUiJdLCJpc3MiOiJhbHVyYSBmb3JvIiwiaWQiOjEsImV4cCI6MTcxMDcyNTEwMywiaWF0IjoxNzEwNTUyMzAzfQ.DB5H6Qx9xgwN_iWmKLnVOQq5Yamvq_2LvpbuIiL6qwM";
 
 const getUser = () =>
-  fetch("http://localhost:8080/api/user/3", {
+  fetch("https://challengeone-04-foro.onrender.com/api/user/3", {
     method: "GET",
 
     headers: {
@@ -189,7 +187,7 @@ const fixPost = (post) => {
 };
 
 const createPost = (post, token) =>
-  fetch("http://localhost:8080/api/post", {
+  fetch("https://challengeone-04-foro.onrender.com/api/post", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -211,7 +209,7 @@ const createPost = (post, token) =>
     });
 
 const getCategories = (token) =>
-  fetch("http://localhost:8080/api/category", {
+  fetch("https://challengeone-04-foro.onrender.com/api/category", {
     method: "GET",
     headers: {
       Authorization: "Bearer " + token,
@@ -231,7 +229,7 @@ const getCategories = (token) =>
     });
 
 const getAllPost = () => {
-  fetch(`http://localhost:8080/api/post`, {
+  fetch(`https://challengeone-04-foro.onrender.com/api/post`, {
     headers: {
       Authorization: "Bearer " + token,
     },
@@ -250,4 +248,6 @@ const getAllPost = () => {
     });
 };
 
-post1.map((post) => createPost(post, token));
+getCategories(
+  "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsInBlcm1pc3Npb25zIjpbIlJPTEVfVVNFUiJdLCJpc3MiOiJhbHVyYSBmb3JvIiwiaWQiOjgsImV4cCI6MTcxNDA3NzY5MSwiaWF0IjoxNzEzOTA0ODkxfQ.K8Yh3Qwtmxiiq6pk43vTjCPLHBB9MeMABMysQybvaRs"
+);

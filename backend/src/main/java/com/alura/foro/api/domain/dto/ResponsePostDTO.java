@@ -1,6 +1,6 @@
 package com.alura.foro.api.domain.dto;
 
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.List;
 
 import lombok.Data;
@@ -13,7 +13,7 @@ public class ResponsePostDTO {
     Long id;
     String title;
     String content;
-    LocalDateTime dateCreated;
+    ZonedDateTime dateCreated;
     Boolean status;
     ResponseUserDTO author;
     List<ResponseCategoryDTO> categories;
