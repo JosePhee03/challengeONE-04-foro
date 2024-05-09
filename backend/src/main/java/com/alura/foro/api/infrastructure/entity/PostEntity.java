@@ -1,6 +1,6 @@
 package com.alura.foro.api.infrastructure.entity;
 
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -31,7 +31,7 @@ public class PostEntity {
     private String title;
     private String content;
     @Column(name = "date_created")
-    private LocalDateTime dateCreated;
+    private ZonedDateTime dateCreated;
     private Boolean status;
 
     @ManyToOne

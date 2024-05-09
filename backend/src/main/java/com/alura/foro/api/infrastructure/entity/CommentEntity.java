@@ -1,6 +1,6 @@
 package com.alura.foro.api.infrastructure.entity;
 
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -26,7 +26,7 @@ public class CommentEntity {
     private Long id;
     private String content;
     @Column(name = "date_created")
-    private LocalDateTime dateCreated;
+    private ZonedDateTime dateCreated;
 
     @ManyToOne
     @JoinColumn(name = "user_id")

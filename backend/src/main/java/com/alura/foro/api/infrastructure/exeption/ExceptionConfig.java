@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.HttpMediaTypeNotSupportedException;
@@ -142,9 +143,17 @@ public class ExceptionConfig {
         return new ResponseEntity<>(errorMessage, HttpStatus.FORBIDDEN);
     }
 
+    @ExceptionHandler(InternalAuthenticationServiceException.class)
+    public ResponseEntity<ResponseErrorMessage> handle(HttpServletRequest request, InternalAuthenticationServiceException e) throws IOException {
+        String message = e.getMessage();
+        ResponseErrorMessage errorMessage = new ResponseErrorMessage(
+                HttpStatus.BAD_REQUEST, message, request.getRequestURI());
+        return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ResponseErrorMessage> handle(HttpServletRequest request, Exception e) throws IOException {
-        String message = "Error interno del servidor";
+        String message = "Error interno del servidor " + e;
         ResponseErrorMessage errorMessage = new ResponseErrorMessage(
                 HttpStatus.INTERNAL_SERVER_ERROR, message, request.getRequestURI());
         return new ResponseEntity<>(errorMessage, HttpStatus.INTERNAL_SERVER_ERROR);

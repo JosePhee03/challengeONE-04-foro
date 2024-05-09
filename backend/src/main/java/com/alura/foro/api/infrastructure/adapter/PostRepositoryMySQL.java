@@ -1,6 +1,7 @@
 package com.alura.foro.api.infrastructure.adapter;
 
-import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -17,11 +18,11 @@ import com.alura.foro.api.domain.dto.ResponsePostDTO;
 import com.alura.foro.api.domain.model.Post;
 import com.alura.foro.api.domain.port.PostRepository;
 import com.alura.foro.api.infrastructure.entity.CategoryEntity;
-import com.alura.foro.api.infrastructure.entity.PageMapper;
 import com.alura.foro.api.infrastructure.entity.PostEntity;
 import com.alura.foro.api.infrastructure.entity.UserEntity;
 import com.alura.foro.api.infrastructure.exeption.ResourceNotFoundException;
 import com.alura.foro.api.infrastructure.exeption.UnauthorizedOperationException;
+import com.alura.foro.api.infrastructure.mapper.PageMapper;
 import com.alura.foro.api.infrastructure.mapper.PostMapper;
 import com.alura.foro.api.infrastructure.util.Pagination;
 
@@ -101,7 +102,7 @@ public class PostRepositoryMySQL implements PostRepository {
             postEntity.setContent(content);
             postEntity.setStatus(status);
             postEntity.setCategoryEntities(categoryEntity);
-            postEntity.setDateCreated(LocalDateTime.now());
+            postEntity.setDateCreated(ZonedDateTime.now(ZoneOffset.UTC));
 
             PostEntity savePostEntity = this.postJpaRepository.save(postEntity);
 
