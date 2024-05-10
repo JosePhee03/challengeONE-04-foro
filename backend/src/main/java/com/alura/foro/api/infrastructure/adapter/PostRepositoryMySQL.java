@@ -98,10 +98,10 @@ public class PostRepositoryMySQL implements PostRepository {
         if (postEntity.getUserEntity().getId().equals(userId)) {
             Set<CategoryEntity> categoryEntity = this.categoryJpaRepository.findByIdIn(categories);
         
-            postEntity.setTitle(title);
-            postEntity.setContent(content);
-            postEntity.setStatus(status);
-            postEntity.setCategoryEntities(categoryEntity);
+            postEntity.setTitle((title == null) ? postEntity.getTitle() : title);
+            postEntity.setContent((content == null) ? postEntity.getContent() : content);
+            postEntity.setStatus((status == null) ? postEntity.getStatus() : status);
+            postEntity.setCategoryEntities((categories == null) ? postEntity.getCategoryEntities() : categoryEntity);
             postEntity.setDateCreated(ZonedDateTime.now(ZoneOffset.UTC));
 
             PostEntity savePostEntity = this.postJpaRepository.save(postEntity);
