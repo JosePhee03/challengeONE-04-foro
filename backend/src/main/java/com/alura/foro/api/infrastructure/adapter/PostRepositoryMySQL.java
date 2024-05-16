@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -25,6 +26,10 @@ import com.alura.foro.api.infrastructure.exeption.UnauthorizedOperationException
 import com.alura.foro.api.infrastructure.mapper.PageMapper;
 import com.alura.foro.api.infrastructure.mapper.PostMapper;
 import com.alura.foro.api.infrastructure.util.Pagination;
+
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.Query;
 
 @Repository
 public class PostRepositoryMySQL implements PostRepository {
@@ -129,6 +134,9 @@ public class PostRepositoryMySQL implements PostRepository {
         }
     }
 
+    @PersistenceContext
+    private EntityManager entityManager;
+
     @Override
     public PageDTO<ResponsePostDTO> searchPosts(String query, Set<Long> categories, Boolean status, Long userId, Pagination pagination) {
 
@@ -138,7 +146,37 @@ public class PostRepositoryMySQL implements PostRepository {
 
         Pageable pageable = PageRequest.of(pagination.getPage(), pagination.getSize(), Sort.by(direction, "dateCreated"));
 
-        Page<PostEntity> postEntities = this.postJpaRepository.searchPosts(query, status, categories, userId, pageable);
+        StringBuilder sql = new StringBuilder();
+        sql.append("SELECT p.* FROM post p ");
+        sql.append("LEFT JOIN post_categories pc ON p.id = pc.post_id ");
+        sql.append("LEFT JOIN comment c ON p.id = c.post_id ");
+        sql.append("WHERE (:status IS NULL OR p.status = :status) ");
+        sql.append("AND (p.title ILIKE '%' || :query || '%' OR p.content ILIKE '%' || :query || '%') ");
+        sql.append("AND (:categories IS NULL OR pc.category_id IN (:categories)) ");
+        sql.append("AND (:userId IS NULL OR p.user_id = :userId)");
+
+        Query nativeQuery = entityManager.createNativeQuery(sql.toString(), PostEntity.class);
+        nativeQuery.setParameter("query", query);
+        nativeQuery.setParameter("status", status);
+        nativeQuery.setParameter("categories", categories);
+        nativeQuery.setParameter("userId", userId);
+        nativeQuery.setFirstResult((int) pageable.getOffset());
+        nativeQuery.setMaxResults(pageable.getPageSize());
+
+        @SuppressWarnings("unchecked")
+        List<PostEntity> resultList = (List<PostEntity>) nativeQuery.getResultList();
+
+        // Count Query
+        String countQueryString = "SELECT COUNT(*) FROM (" + sql.toString() + ") AS countQuery";
+        Query countQuery = entityManager.createNativeQuery(countQueryString);
+        countQuery.setParameter("query", query);
+        countQuery.setParameter("status", status);
+        countQuery.setParameter("categories", categories);
+        countQuery.setParameter("userId", userId);
+
+        Long total = ((Number) countQuery.getSingleResult()).longValue();
+
+        Page<PostEntity> postEntities = new PageImpl<>(resultList, pageable, total);
     
         List<ResponsePostDTO> postDTOs = new ArrayList<>();
 
