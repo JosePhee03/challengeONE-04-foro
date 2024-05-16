@@ -12,8 +12,8 @@ import com.alura.foro.api.infrastructure.entity.PostEntity;
 @Repository
 public interface PostJpaRepositoryMySQL extends JpaRepository<PostEntity, Long> {
 
-    @Query(value = """
-        SELECT p FROM PostEntity p 
+    @Query("""
+        PostEntity p 
         LEFT JOIN p.categoryEntities pc 
         LEFT JOIN p.commentEntities c 
         WHERE (:status IS NULL OR p.status = :status) 
