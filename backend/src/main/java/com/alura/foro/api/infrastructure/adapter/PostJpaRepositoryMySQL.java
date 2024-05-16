@@ -22,18 +22,9 @@ public interface PostJpaRepositoryMySQL extends JpaRepository<PostEntity, Long> 
         AND (p.title ILIKE %:query% OR p.content ILIKE %:query%) 
         AND (:categories IS NULL OR pc.category_id IN (:categories)) 
         AND (:userId IS NULL OR p.user_id = :userId)
-        """,
-        countQuery = """
-        SELECT COUNT(p) FROM post p 
-        LEFT JOIN post_categories pc ON p.id = pc.post_id 
-        LEFT JOIN comment c ON p.id = c.post_id 
-        WHERE (:status IS NULL OR p.status = :status) 
-        AND (p.title ILIKE %:query% OR p.content ILIKE %:query%) 
-        AND (:categories IS NULL OR pc.category_id IN (:categories)) 
-        AND (:userId IS NULL OR p.user_id = :userId)
         """, nativeQuery = true)
     Page<PostEntity> searchPosts (
-         @Param("query") String query,
+        @Param("query") String query,
         @Param("status") Boolean status,
         @Param("categories") Set<Long> categories,
         @Param("userId") Long userId,

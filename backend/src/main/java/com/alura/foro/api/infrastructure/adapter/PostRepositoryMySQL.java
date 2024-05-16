@@ -137,7 +137,7 @@ public class PostRepositoryMySQL implements PostRepository {
 
         if (pagination.getDirection().name() != "ASC") direction = Direction.DESC;
 
-        Pageable pageable = PageRequest.of(pagination.getPage(), pagination.getSize(), Sort.by(direction, "dateCreated"));
+        Pageable pageable = PageRequest.of(pagination.getPage(), pagination.getSize(), Sort.by(direction, "date_created"));
 
         Page<PostEntity> postEntities = this.postJpaRepository.searchPosts(query, status, categories, userId, pageable);
     
