@@ -14,23 +14,15 @@ import com.alura.foro.api.infrastructure.entity.PostEntity;
 public interface PostJpaRepositoryMySQL extends JpaRepository<PostEntity, Long> {
 
     @Query(value = """
-            FROM PostEntity p
-            LEFT JOIN p.categoryEntities pc
-            LEFT JOIN p.commentEntities c
-            WHERE (:status IS NULL OR p.status=:status)
-                AND (p.title ILIKE %:query% OR p.content ILIKE %:query%)
-                AND (:categories IS NULL OR pc.id in :categories)
-                AND (:userId IS NULL OR p.userEntity.id = :userId)
-        """,
-        countQuery = """
-            SELECT COUNT(p) FROM PostEntity p
-            LEFT JOIN p.categoryEntities pc
-            LEFT JOIN p.commentEntities c
-            WHERE (:status IS NULL OR p.status=:status)
-                AND (p.title ILIKE %:query% OR p.content ILIKE %:query%)
-                AND (:categories IS NULL OR pc.id in :categories)
-                AND (:userId IS NULL OR p.userEntity.id = :userId)
-        """)
+        SELECT p.*
+        FROM post p
+        LEFT JOIN post_categories pc ON p.id = pc.post_id
+        LEFT JOIN comment c ON p.id = c.post_id
+        WHERE (:status IS NULL OR p.status = :status)
+            AND (p.title ILIKE %:query% OR p.content ILIKE %:query%)
+            AND (:categories IS NULL OR pc.category_id IN (:categories))
+            AND (:userId IS NULL OR p.user_id = :userId);
+        """, nativeQuery = true)
     Page<PostEntity> searchPosts (String query, Boolean status, Set<Long> categories, Long userId, Pageable pageable);
 
 }
