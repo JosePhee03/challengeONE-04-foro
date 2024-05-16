@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Repository;
 
 import com.alura.foro.api.domain.dto.PageDTO;
@@ -129,11 +130,11 @@ public class PostRepositoryMySQL implements PostRepository {
     @Override
     public PageDTO<ResponsePostDTO> searchPosts(String query, Set<Long> categories, Boolean status, Long userId, Pagination pagination) {
 
-//Direction direction = Direction.ASC;
+        //Direction direction = Direction.ASC;
 
         //if (pagination.getDirection().name() != "ASC") direction = Direction.DESC;
-
-        //Pageable pageable = PageRequest.of(pagination.getPage(), pagination.getSize(), Sort.by(direction, "date_created"));
+        
+        PageRequest pageable = PageRequest.of(pagination.getPage(), pagination.getSize());
 
         List<PostEntity> postEntities = this.postJpaRepository.searchPosts(query, status, categories, userId);
     
@@ -146,7 +147,7 @@ public class PostRepositoryMySQL implements PostRepository {
 
         PageMapper<ResponsePostDTO, PostEntity> pageMapper = new PageMapper<>();
 
-        return pageMapper.toPageDTO(new PageImpl<>(postEntities), postDTOs);
+        return pageMapper.toPageDTO(new PageImpl<>(postEntities, pageable, 100), postDTOs);
 
 
     }
