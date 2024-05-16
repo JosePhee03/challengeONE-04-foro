@@ -5,6 +5,7 @@ import java.util.Set;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.alura.foro.api.infrastructure.entity.PostEntity;
@@ -22,9 +23,9 @@ public interface PostJpaRepositoryMySQL extends JpaRepository<PostEntity, Long> 
         AND (:userId IS NULL OR p.user_id = :userId)
         """, nativeQuery = true)
     List<PostEntity> searchPosts (
-        String query,
-        Boolean status,
-        Set<Long> categories,
-        Long userId);
+        @Param("query") String query,
+        @Param("status") Boolean status,
+        @Param("categories")Set<Long> categories,
+        @Param("userId")Long userId);
 
 }
