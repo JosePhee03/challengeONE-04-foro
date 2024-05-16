@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.alura.foro.api.infrastructure.entity.PostEntity;
@@ -23,6 +24,11 @@ public interface PostJpaRepositoryMySQL extends JpaRepository<PostEntity, Long> 
             AND (:categories IS NULL OR pc.category_id IN (:categories))
             AND (:userId IS NULL OR p.user_id = :userId);
         """, nativeQuery = true)
-    Page<PostEntity> searchPosts (String query, Boolean status, Set<Long> categories, Long userId, Pageable pageable);
+    Page<PostEntity> searchPosts (
+        @Param("query") String query, 
+        @Param("status") Boolean status,
+        @Param("categories") Set<Long> categories,
+        @Param("userId") Long userId,
+        Pageable pageable);
 
 }
