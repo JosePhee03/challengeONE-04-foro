@@ -13,8 +13,17 @@ import com.alura.foro.api.infrastructure.entity.PostEntity;
 @Repository
 public interface PostJpaRepositoryMySQL extends JpaRepository<PostEntity, Long> {
 
-    @Query("""
+    @Query(value = """
             FROM PostEntity p
+            LEFT JOIN p.categoryEntities pc
+            LEFT JOIN p.commentEntities c
+            WHERE (:status IS NULL OR p.status=:status)
+                AND (p.title ILIKE %:query% OR p.content ILIKE %:query%)
+                AND (:categories IS NULL OR pc.id in :categories)
+                AND (:userId IS NULL OR p.userEntity.id = :userId)
+        """,
+        countQuery = """
+            SELECT COUNT(p) FROM PostEntity p
             LEFT JOIN p.categoryEntities pc
             LEFT JOIN p.commentEntities c
             WHERE (:status IS NULL OR p.status=:status)
