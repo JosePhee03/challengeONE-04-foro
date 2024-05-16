@@ -143,8 +143,10 @@ public class PostRepositoryMySQL implements PostRepository {
         List<ResponsePostDTO> postDTOs = new ArrayList<>();
 
 
+        
         for (PostEntity postEntities2 : postEntities) {
             postDTOs.add(PostMapper.toResponsePostDTO(postEntities2));
+            System.out.println(postEntities2);
         }
 
         PageMapper<ResponsePostDTO, PostEntity> pageMapper = new PageMapper<>();
