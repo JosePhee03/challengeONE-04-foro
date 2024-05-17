@@ -6,6 +6,7 @@ interface MenuItemProps {
   textColor?: string;
   type: "anchor" | "button";
   href?: string;
+  title?: string;
   onClick?: () => void;
 }
 
@@ -16,6 +17,7 @@ export function MenuItem({
   icon,
   onClick,
   textColor,
+  title,
 }: MenuItemProps) {
   switch (type) {
     case "anchor":
@@ -32,6 +34,7 @@ export function MenuItem({
     case "button":
       return (
         <ButtonMenuItem
+          title={title}
           text={text}
           type={type}
           href={href}

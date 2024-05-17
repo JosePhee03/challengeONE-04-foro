@@ -2,7 +2,7 @@ interface ButtonProps {
   children: any;
   variant: "primary" | "secondary" | "tertiary";
   type: "button" | "submit" | "reset";
-  onClick?: () => void;
+  onClick?: (ev: MouseEvent) => void;
   onReset?: () => void;
   disabled?: boolean;
   title: string;
@@ -40,7 +40,7 @@ export function Button({
       disabled={disabled}
       title={title}
       onReset={onReset}
-      class={`button button-tertiary button-${variant} ${className}`}
+      class={`  button button-${variant} ${className}`}
       tabindex={tabIndex}
     >
       {children}

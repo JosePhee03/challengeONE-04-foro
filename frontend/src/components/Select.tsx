@@ -8,9 +8,14 @@ const label = "Categorias";
 interface SelectProps {
   handleToggleSelected: (key: number) => void;
   items: Item[];
+  isLoading: boolean;
 }
 
-export function Select({ handleToggleSelected, items }: SelectProps) {
+export function Select({
+  handleToggleSelected,
+  items,
+  isLoading,
+}: SelectProps) {
   return (
     <div>
       <label
@@ -36,7 +41,11 @@ export function Select({ handleToggleSelected, items }: SelectProps) {
           buttonId={"multi-select"}
           inputId={id}
         >
-          <ListBox items={items} handleToggleSelected={handleToggleSelected} />
+          <ListBox
+            isLoading={isLoading}
+            items={items}
+            handleToggleSelected={handleToggleSelected}
+          />
         </DropDown>
       </div>
     </div>
@@ -80,8 +89,11 @@ const ButtonSelect = ({ items, handleToggleSelected }: ButtonSelectProps) => {
             )
           )}
         </div>
+        {itemsSelected.length === 0 && (
+          <span class="text-contrast-50">Seleccionar alguna categoria</span>
+        )}
         <input
-          class="bg-transparent placeholder:text-transparent sr-only"
+          class="bg-red-100 placeholder:text-transparent sr-only"
           type="text"
           id={id}
           name="categories"
@@ -105,9 +117,10 @@ const ButtonSelect = ({ items, handleToggleSelected }: ButtonSelectProps) => {
 interface ListBoxProps {
   items: Item[];
   handleToggleSelected: (key: number) => void;
+  isLoading: boolean;
 }
 
-const ListBox = ({ items, handleToggleSelected }: ListBoxProps) => {
+const ListBox = ({ items, handleToggleSelected, isLoading }: ListBoxProps) => {
   const refListbox = useRef<HTMLUListElement>(null);
 
   useEffect(() => {
@@ -116,7 +129,6 @@ const ListBox = ({ items, handleToggleSelected }: ListBoxProps) => {
       if (refListbox.current != null) {
         const key = event.key;
         let options = refListbox.current.children;
-        console.log(options);
         if (key === "ArrowUp") {
           event.preventDefault();
 
@@ -153,6 +165,16 @@ const ListBox = ({ items, handleToggleSelected }: ListBoxProps) => {
     <div class="w-full h-60 sm:min-w-48 px-4 py-6 sm:p-1 bg-base rounded shadow-[0_0_8px_4px_rgb(0,0,0,0.2)]">
       <div class=" h-full w-full relative">
         <div class=" h-full w-full overflow-auto relative">
+          {isLoading && (
+            <div class="flex justify-center min-h-10 h-full items-center">
+              <div
+                class="inline-block mx-auto size-8 animate-spin rounded-full border-2 border-solid border-body border-e-transparent align-[-0.125em] text-surface motion-reduce:animate-[spin_1.5s_linear_infinite]"
+                role="status"
+              >
+                <span class="sr-only">Cargando</span>
+              </div>
+            </div>
+          )}
           <ul
             ref={refListbox}
             role="listbox"

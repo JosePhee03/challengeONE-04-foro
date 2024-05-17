@@ -1,12 +1,12 @@
 import { useEffect, useState } from "preact/hooks";
 import { Button } from "./Button";
 import { Icon } from "./Icon";
-import { Select } from "./Select";
 import { ContentModal, FooterModal, HeaderModal, Modal } from "./Modal";
-import { Item, List } from "../util/List";
 import { DropDown } from "./DropDown";
 import { Menu } from "./Menu";
 import { MenuItem } from "./MenuItem";
+import { SelectCategories } from "./SelectCategories";
+import { searchParamsStore } from "../store/searchParamsStore";
 
 export function FilterMenu() {
   const [openFilter, SetOpenFilter] = useState(false);
@@ -31,56 +31,82 @@ interface TabsProps {
   onClick: () => void;
 }
 
-const newSearchParams = (q?: boolean) => {
-  const currentUrl = new URL(window.location.href);
-  switch (q) {
-    case true:
-      currentUrl.searchParams.set("status", "1");
-      break;
-    case false:
-      currentUrl.searchParams.set("status", "0");
-      break;
-    default:
-      currentUrl.searchParams.delete("status");
-      break;
-  }
-
-  return currentUrl.href;
+const newSearchParams = (status?: boolean) => {
+  const { setStatus } = searchParamsStore.getState();
+  setStatus(status);
 };
 function Tabs({ onClick }: TabsProps) {
+  const [status, setStatus] = useState<boolean | undefined>(
+    searchParamsStore.getState().getStatus()
+  );
+
+  useEffect(() => {
+    searchParamsStore.subscribe(({ searchParams }) => {
+      setStatus(searchParams.status);
+    });
+  }, []);
+
   return (
     <div class="flex justify-between items-center gap-2 w-full border-b-2 border-contrast-10">
       <div class="sm:hidden">
-        <NavDropDown />
+        <NavDropDown status={status} />
       </div>
       <nav class="hidden sm:block">
         <ul class="flex w-full gap-2">
           <li>
-            <a
-              href={newSearchParams()}
-              class="group flex flex-col justify-end items-center h-10 gap-1 px-2 text-primary"
+            <button
+              onClick={() => newSearchParams()}
+              title="Ver todas las publicaciones"
+              type="button"
+              class={`${
+                status == undefined ? "text-primary" : "text-contrast-60"
+              } group flex flex-col justify-end items-center h-10 gap-1 px-2 `}
             >
               Todo
-              <span class="h-1 rounded-t w-8 bg-primary" />
-            </a>
+              <span
+                class={`${
+                  status == undefined
+                    ? "bg-primary"
+                    : "bg-trasparent group-hover:bg-current"
+                } h-1 rounded-t w-8  transition-colors ease-in duration-100`}
+              />
+            </button>
           </li>
           <li>
-            <a
-              href={newSearchParams(true)}
-              class="group flex flex-col justify-end items-center h-10 gap-1 px-2 text-contrast-60"
+            <button
+              onClick={() => newSearchParams(true)}
+              title="Ver publicaciones resultas"
+              type="button"
+              class={`${
+                status ? "text-primary" : "text-contrast-60"
+              } group flex flex-col justify-end items-center h-10 gap-1 px-2 `}
             >
               Resueltos
-              <span class="h-1 rounded-t w-8 group-hover:bg-current transition-colors ease-in duration-100" />
-            </a>
+              <span
+                class={`${
+                  status ? "bg-primary" : "bg-trasparent group-hover:bg-current"
+                } h-1 rounded-t w-8  transition-colors ease-in duration-100`}
+              />
+            </button>
           </li>
           <li>
-            <a
-              href={newSearchParams(false)}
-              class="group flex flex-col justify-end items-center h-10 gap-1 px-2 text-contrast-60"
+            <button
+              onClick={() => newSearchParams(false)}
+              title="Ver publicaciones sin resolver"
+              type="button"
+              class={`${
+                status === false ? "text-primary" : "text-contrast-60"
+              } group flex flex-col justify-end items-center h-10 gap-1 px-2 `}
             >
               Sin resolver
-              <span class="h-1 rounded-t w-8 bg-trasparent group-hover:bg-current transition-colors ease-in duration-100" />
-            </a>
+              <span
+                class={`${
+                  status === false
+                    ? "bg-primary"
+                    : "bg-trasparent group-hover:bg-current"
+                } h-1 rounded-t w-8  transition-colors ease-in duration-100`}
+              />
+            </button>
           </li>
         </ul>
       </nav>
@@ -89,49 +115,47 @@ function Tabs({ onClick }: TabsProps) {
   );
 }
 
-const getStatus = () => {
-  const currentUrl = new URL(window.location.href);
-  let status = currentUrl.searchParams.get("status");
+interface NavDropDownProps {
+  status?: boolean;
+}
 
-  switch (status) {
-    case "1":
-      return true;
-    case "0":
-      return false;
-    default:
-      return null;
-  }
-};
-const NavDropDown = () => {
+const NavDropDown = ({ status }: NavDropDownProps) => {
   return (
-    <DropDown button={buttonNav} buttonId="button-nav" inputId="button-nav">
+    <DropDown
+      button={<ButtonNav status={status} />}
+      buttonId="button-nav"
+      inputId="button-nav"
+    >
       <Menu buttonId="button-nav" popoverId="popover-nav">
         <MenuItem
-          href={newSearchParams()}
-          type="anchor"
+          onClick={() => newSearchParams()}
+          type="button"
           text="Todo"
-          icon={getStatus() === null ? "check" : undefined}
-          textColor={getStatus() === null ? "text-primary" : undefined}
+          title="Ver todas las publicaciones"
+          icon={status == undefined ? "check" : undefined}
+          textColor={status == undefined ? "text-primary" : undefined}
         />
         <MenuItem
-          href={newSearchParams(true)}
-          type="anchor"
+          onClick={() => newSearchParams(true)}
+          type="button"
           text="Resueltos"
-          icon={getStatus() ? "check" : undefined}
-          textColor={getStatus() ? "text-primary" : undefined}
+          title="Ver publicaciones resultas"
+          icon={status ? "check" : undefined}
+          textColor={status ? "text-primary" : undefined}
         />
         <MenuItem
-          href={newSearchParams(false)}
-          type="anchor"
+          onClick={() => newSearchParams(false)}
+          type="button"
+          title="Ver publicaciones sin resolver"
           text="Sin resolver"
-          icon={getStatus() === false ? "check" : undefined}
-          textColor={getStatus() === false ? "text-primary" : undefined}
+          icon={status === false ? "check" : undefined}
+          textColor={status === false ? "text-primary" : undefined}
         />
       </Menu>
     </DropDown>
   );
 };
-const buttonNav = (
+const ButtonNav = ({ status }: NavDropDownProps) => (
   <Button
     ariaControls="popover-nav"
     ariaExpanded={false}
@@ -141,7 +165,7 @@ const buttonNav = (
     type="button"
     variant="tertiary"
   >
-    {getStatus() === null ? "Todo" : getStatus() ? "Resueltos" : "Sin Resolver"}
+    {status == undefined ? "Todo" : status ? "Resueltos" : "Sin Resolver"}
     <Icon name="chevron-down" size="md" />
   </Button>
 );
@@ -171,59 +195,33 @@ interface FilterModal {
 }
 
 function FilterModal({ isOpen, onClose }: FilterModal) {
-  const [list, setList] = useState<List>();
-  const [items, setItems] = useState<Item[]>([]);
-
-  useEffect(() => {
-    const itemsList: Item[] = [
-      { isSelected: false, key: 0, name: "CSS" },
-      { isSelected: false, key: 2, name: "HTML" },
-      { isSelected: false, key: 3, name: "Java" },
-      { isSelected: false, key: 4, name: "Node" },
-      { isSelected: false, key: 5, name: "Docker" },
-      { isSelected: false, key: 6, name: "Tailwind" },
-    ];
-
-    const list = new List(itemsList);
-    setList(list);
-    setItems(list.getList());
-  }, []);
-
-  const handleToggleSelected = (key: number) => {
-    if (list == undefined) return;
-    const newList = list.setSelected(key);
-    setItems(newList);
-  };
+  const [reset, setReset] = useState(false);
+  const [isChecked, setIsChecked] = useState(
+    searchParamsStore.getState().getDirection() === "ASC"
+  );
 
   const handleReset = () => {
-    if (list == undefined) return;
-    list.reset();
-    setList(list);
-    setItems(list.getList());
+    setReset(true);
   };
+
+  useEffect(() => {
+    searchParamsStore.subscribe(({ getDirection }) => {
+      setIsChecked(getDirection() === "ASC");
+    });
+  }, []);
 
   const onSubmit = (event: SubmitEvent) => {
     const formEl = event.currentTarget as HTMLFormElement;
     const data = new FormData(formEl);
-    const queries = {
-      categories: data.getAll("categories") as string[],
-      direction: data.get("direction") as string,
-    };
-    const currentUrl = new URL(window.location.href);
-    console.log(queries);
-    if (queries.categories[0] === "") {
-      currentUrl.searchParams.delete("categories");
-    } else {
-      currentUrl.searchParams.set("categories", queries.categories.join(","));
-    }
 
-    if (queries.direction === "desc") {
-      currentUrl.searchParams.delete("direction");
-    } else {
-      currentUrl.searchParams.set("direction", queries.direction);
-    }
+    const categories = (data.getAll("categories") as string[])[0]
+      .split(",")
+      .map((e) => parseInt(e));
 
-    window.history.pushState({}, "", currentUrl);
+    const direction = data.get("direction") as string;
+    const { setCategories, setDirection } = searchParamsStore.getState();
+    setDirection(direction);
+    setCategories(Number.isNaN(categories[0]) ? [] : categories);
     onClose();
   };
 
@@ -241,47 +239,40 @@ function FilterModal({ isOpen, onClose }: FilterModal) {
               <legend class="text-secondary-text">Fecha de creación</legend>
               <div class="space-y-2">
                 <label
-                  for="desc"
+                  for="DESC"
                   class="flex rounded focus-within:ring-2 focus-within:ring-primary text-primary-contrast items-center cursor-pointer gap-2"
                 >
                   <input
-                    id="desc"
+                    id="DESC"
                     name="direction"
-                    value="desc"
+                    value="DESC"
                     type="radio"
                     class="peer sr-only"
-                    checked
+                    checked={!isChecked}
                     required
                   />
                   <div class="size-5 rounded-full bg-contrast-20 peer-checked:bg-white border-[6px] border-transparent peer-checked:border-primary"></div>
                   <strong class="font-normal text-body"> Más reciente </strong>
                 </label>
                 <label
-                  for="asc"
+                  for="ASC"
                   class="rounded focus-within:ring-2 focus-within:ring-primary flex text-primary-contrast items-center cursor-pointer gap-2"
                 >
                   <input
-                    id="asc"
+                    id="ASC"
                     name="direction"
-                    value="asc"
+                    value="ASC"
                     type="radio"
                     class="peer sr-only"
+                    checked={isChecked}
                     required
                   />
-                  <div
-                    role="checkbox"
-                    id="asc"
-                    name="direction"
-                    value="asc"
-                    type="radio"
-                    required
-                    class="size-5 rounded-full bg-contrast-20 peer-checked:bg-white border-[6px] border-transparent peer-checked:border-primary"
-                  ></div>
+                  <div class="size-5 rounded-full bg-contrast-20 peer-checked:bg-white border-[6px] border-transparent peer-checked:border-primary"></div>
                   <strong class="font-normal text-body"> Más antiguo </strong>
                 </label>
               </div>
             </fieldset>
-            <Select handleToggleSelected={handleToggleSelected} items={items} />
+            <SelectCategories setReset={setReset} reset={reset} />
           </div>
         </ContentModal>
         <FooterModal>

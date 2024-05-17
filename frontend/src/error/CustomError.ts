@@ -1,15 +1,15 @@
+export type CustomErrorCode = 400 | 401 | 404 | 500;
+
 export class CustomError extends Error {
+  private code;
 
-  private code
-
-  constructor(code: number, message: string) {
+  constructor(code: CustomErrorCode, message: string) {
     super(message);
-    this.name = 'CustomError';
+    this.name = "CustomError";
     this.code = code;
   }
 
-  public getCode(): number {
+  public getCode(): CustomErrorCode {
     return this.code;
   }
-
 }

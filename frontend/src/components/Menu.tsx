@@ -3,7 +3,7 @@ import { JSX } from "preact/jsx-runtime";
 export interface MenuProps {
   popoverId: string;
   buttonId: string;
-  children: JSX.Element[];
+  children: JSX.Element | JSX.Element[];
 }
 
 export function Menu({ children, popoverId, buttonId }: MenuProps) {
@@ -15,9 +15,11 @@ export function Menu({ children, popoverId, buttonId }: MenuProps) {
         role="menu"
         class="flex flex-col"
       >
-        {children.map((item) => (
-          <li>{item}</li>
-        ))}
+        {Array.isArray(children) ? (
+          children.map((item) => <li>{item}</li>)
+        ) : (
+          <li>{children}</li>
+        )}
       </ul>
     </div>
   );

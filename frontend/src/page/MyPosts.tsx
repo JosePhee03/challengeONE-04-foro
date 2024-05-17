@@ -9,13 +9,17 @@ import {
   initialStateSearchParams,
   searchParamsStore,
 } from "../store/searchParamsStore";
-import { getAllPost } from "../api/post";
+import { searchPostByUser } from "../api/post";
 import { getTokenStorage } from "../hook/useAuthenticate";
 import { ErrorMessage } from "../components/ErrorMessage";
 import { EmptyMessage } from "../components/EmptyMessage";
 import { BadgesCategories } from "../components/BadgesCategories";
 
-export default function Home() {
+interface MyPostsProps {
+  userId: number;
+}
+
+export default function MyPosts({ userId }: MyPostsProps) {
   return (
     <>
       <Header variant="primary" />
@@ -31,13 +35,17 @@ export default function Home() {
 
           <BadgesCategories />
         </section>
-        <SectionPosts />
+        <SectionPosts userId={userId} />
       </main>
     </>
   );
 }
 
-const SectionPosts = () => {
+interface SectionPostsPops {
+  userId: number;
+}
+
+const SectionPosts = ({ userId }: SectionPostsPops) => {
   const [posts, setPosts] = useState<Page<Post>>();
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
@@ -50,28 +58,27 @@ const SectionPosts = () => {
   }, []);
 
   useEffect(() => {
-    fetchAllPost();
+    fetchPostByUser();
   }, [searchParams]);
 
-  const fetchAllPost = () => {
+  const fetchPostByUser = () => {
     const { categories, direction, status, search } =
       searchParamsStore.getState().searchParams;
     setIsLoading(true);
     setIsError(false);
-    getAllPost(
+    searchPostByUser(
       getTokenStorage(),
+      userId,
       search,
       direction,
       categories.length === 0 ? undefined : categories,
       status
     )
-      .then((response: any) => {
-        console.log({ response });
+      .then((response) => {
         const posts = response as Page<Post>;
         setPosts(posts);
       })
-      .catch((response) => {
-        console.log(response);
+      .catch(() => {
         setIsError(true);
       })
       .finally(() => setIsLoading(false));
@@ -87,7 +94,7 @@ const SectionPosts = () => {
               href={`/post/${post.id}`}
               class="flex flex-col md:border border-contrast-10 p-4 hover:bg-contrast-5 md:rounded"
             >
-              <CardPost post={post} reset={fetchAllPost} />
+              <CardPost post={post} reset={fetchPostByUser} />
             </a>
           );
         })}

@@ -1,12 +1,11 @@
 import Router from "preact-router";
 import AsyncRoute from "preact-async-route";
-import ProgressBar from "./page/ProgressBar";
 import { ErrorBoundary } from "./components/ErrorBundary";
+import { PrivateRoute } from "./components/PrivateRoute";
 
 export function App() {
   return (
     <ErrorBoundary>
-      <ProgressBar />
       <Router>
         <AsyncRoute
           path="/login"
@@ -20,28 +19,35 @@ export function App() {
             import("./page/Register").then((module) => module.default)
           }
         />
-        <AsyncRoute
+        <PrivateRoute
           path="/post/:postId"
           getComponent={() =>
             import("./page/Post").then((module) => module.default)
           }
         />
-        <AsyncRoute
+        <PrivateRoute
           path="/create"
           getComponent={() =>
             import("./page/CreatePost").then((module) => module.default)
           }
         />
-        <AsyncRoute
-          path="/:status"
+        <PrivateRoute
+          path="/myposts/:userId"
+          getComponent={() =>
+            import("./page/MyPosts").then((module) => module.default)
+          }
+        />
+        <PrivateRoute
+          path="/"
           getComponent={() =>
             import("./page/Home").then((module) => module.default)
           }
         />
         <AsyncRoute
-          path="/"
+          path="*"
+          default
           getComponent={() =>
-            import("./page/Home").then((module) => module.default)
+            import("./page/404").then((module) => module.default)
           }
         />
       </Router>

@@ -7,13 +7,15 @@ interface InputProps {
   label?: string;
   helperText?: string;
   readOnly?: boolean;
-  onChange?: (event: ChangeEvent) => void;
+  onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
   pattern?: string;
   value?: string;
   type: "text" | "number" | "password" | "search";
   placeholder: string;
   required?: boolean;
   className?: string;
+  minLength?: number;
+  maxLength?: number | undefined;
 }
 
 export function Input({
@@ -30,15 +32,17 @@ export function Input({
   value = "",
   onChange,
   readOnly,
+  maxLength,
+  minLength,
 }: InputProps) {
   return (
-    <div class={`flex flex-col gap-1 ${className}`}>
+    <div class={`flex flex-col ${className}`}>
       {label && (
         <label class="font-medium text-md text-secondary-text" htmlFor={id}>
           {label}
         </label>
       )}
-      <div class="flex items-center relative text-sm">
+      <div class="flex flex-col gap-1 items-center relative text-sm">
         <input
           placeholder={placeholder}
           readOnly={readOnly}
@@ -49,9 +53,17 @@ export function Input({
           required={required}
           value={value}
           type={type}
+          minLength={minLength}
+          maxLength={maxLength}
           class="peer placeholder:text-tertiary-text hover:bg-contrast-30 transition-colors duration-100  w-full read-only:bg-transparent read-only:border-contrast-30 invalid:bg-error-10 invalid:text-error-text rounded bg-contrast-20 text-body p-2 border-dashed border-[3px] border-transparent font-medium text-md"
         />
-        <p class="peer-invalid:text-error-text text-tertiary-text absolute -bottom-6">
+        <p
+          class={
+            helperText == undefined
+              ? "hidden"
+              : "peer-invalid:text-error-text text-tertiary-text  "
+          }
+        >
           {helperText}
         </p>
         <div class="absolute right-0">{children}</div>

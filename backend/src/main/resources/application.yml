@@ -1,12 +1,15 @@
 spring:
   datasource:
-    url: ${DATABASE_URL}
-    #username: ${DATABASE_USERNAME:root}
-    #password: ${DATABASE_PASSWORD:}
+    url: ${DATABASE_URL:jdbc:postgresql://localhost:5432/alura_foro}
+    username: ${DATABASE_USERNAME:postgresql}
+    password: ${DATABASE_PASSWORD:postgresql}
   jpa:
     show-sql: true
     hibernate:
       ddl-auto: validate
+      type: trace
+      connection:
+        driver_class: org.postgresql.Driver
     properties:
       hibernate:
         format_sql: true
@@ -14,4 +17,4 @@ spring:
 security:
   jwt:
     expiration-minutes: ${EXPIRATION_MINUTES:2880}
-    secret-key: ${SECRET_KEY}
+    secret-key: ${SECRET_KEY:bWkgY2xhdmUgZXMgbXV5IHNlZ3VyYQ==}

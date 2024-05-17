@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Repository;
@@ -130,26 +131,29 @@ public class PostRepositoryMySQL implements PostRepository {
     @Override
     public PageDTO<ResponsePostDTO> searchPosts(String query, Set<Long> categories, Boolean status, Long userId, Pagination pagination) {
 
-        //Direction direction = Direction.ASC;
-
-        //if (pagination.getDirection().name() != "ASC") direction = Direction.DESC;
-        
         PageRequest pageable = PageRequest.of(pagination.getPage(), pagination.getSize());
 
-        List<PostEntity> postEntities = this.postJpaRepository.searchPosts(query, status, categories, userId);
-    
+        var listCategories = categories != null ? new ArrayList<>(categories) : new ArrayList<>();
+        Page<Long> postIds = this.postJpaRepository.searchPostIds(query, status, listCategories, userId, pageable);
+        
+        List<PostEntity> postEntities = this.postJpaRepository.findAllById(postIds.getContent());
+
         List<ResponsePostDTO> postDTOs = new ArrayList<>();
+
+        postEntities.sort((p1, p2) -> pagination.getDirection().name().equals("ASC") ? 
+            p1.getDateCreated().compareTo(p2.getDateCreated()) : 
+            p2.getDateCreated().compareTo(p1.getDateCreated())
+        );
 
         for (PostEntity postEntities2 : postEntities) {
             postDTOs.add(PostMapper.toResponsePostDTO(postEntities2));
-            System.out.println(postEntities2);
         }
 
         PageMapper<ResponsePostDTO, PostEntity> pageMapper = new PageMapper<>();
-
-        return pageMapper.toPageDTO(new PageImpl<>(postEntities, pageable, 100), postDTOs);
-
-
+        
+        Page<PostEntity> pagePostEntities = new PageImpl<>(postEntities, postIds.getPageable(), postIds.getTotalElements());
+        
+        return pageMapper.toPageDTO(pagePostEntities, postDTOs);
     }
 
     

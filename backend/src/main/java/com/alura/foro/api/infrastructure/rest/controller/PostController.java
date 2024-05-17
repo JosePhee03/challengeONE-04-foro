@@ -53,8 +53,8 @@ public class PostController {
             @RequestParam(name = "q", defaultValue = "", required = false) String query,
             @RequestParam(required = false) Boolean status,
             @RequestParam(required = false) Set<Long> categories,
-            @RequestParam(required = false, defaultValue = "30") int size,
-            @RequestParam(required = false, defaultValue = "0") int page,
+            @RequestParam(required = false, defaultValue = "30") String size,
+            @RequestParam(required = false, defaultValue = "0") String page,
             @RequestParam(required = false, defaultValue = "ASC") Direction direction
         ) {
 
@@ -63,7 +63,7 @@ public class PostController {
             categories,
             status,
             null,
-            new Pagination(page, size, direction)
+            new Pagination(Integer.parseInt(page), Integer.parseInt(size), direction)
             );
         
         return ResponseEntity.ok(responseUserDTOs);

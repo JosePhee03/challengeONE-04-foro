@@ -3,6 +3,10 @@ import { Icon } from "./Icon";
 import { DropDown } from "./DropDown";
 import { Menu } from "./Menu";
 import { MenuItem } from "./MenuItem";
+import { useAuthenticate } from "../hook/useAuthenticate";
+import { UserImage } from "./UserImage";
+import { userStore } from "../store/userStore";
+import { useEffect, useState } from "preact/hooks";
 
 interface HeaderProps {
   variant: "primary" | "secondary";
@@ -40,8 +44,14 @@ export default function Header({ variant, text }: HeaderProps) {
 }
 
 const UserDropdown = () => {
+  const { logout } = useAuthenticate();
+
   return (
-    <DropDown button={buttonUser} buttonId="button-user" inputId="button-user">
+    <DropDown
+      button={<ButtonUser />}
+      buttonId="button-user"
+      inputId="button-user"
+    >
       <Menu buttonId="button-user" popoverId="popover-user">
         <MenuItem type="button" text="Configuración" icon="settings" />
         <MenuItem
@@ -49,24 +59,39 @@ const UserDropdown = () => {
           textColor="text-error-text"
           text="Cerrar Sesión"
           icon="log-out"
+          onClick={logout}
         />
       </Menu>
     </DropDown>
   );
 };
-const buttonUser = (
-  <Button
-    ariaControls="popover-user"
-    ariaExpanded={false}
-    ariaHaspopup={true}
-    id="button-user"
-    title="Configuración del usuario"
-    type="button"
-    variant="tertiary"
-  >
-    <Icon name="user" size="xl" />
-  </Button>
-);
+const ButtonUser = () => {
+  const [username, setUsername] = useState<string | undefined>(
+    userStore.getState().user?.username
+  );
+
+  useEffect(() => {
+    userStore.subscribe(({ user }) => setUsername(user?.username));
+  }, []);
+
+  return (
+    <Button
+      ariaControls="popover-user"
+      ariaExpanded={false}
+      ariaHaspopup={true}
+      id="button-user"
+      title="Configuración del usuario"
+      type="button"
+      variant="tertiary"
+    >
+      {username == undefined ? (
+        <Icon name="user" size="xl" />
+      ) : (
+        <UserImage size="md" username={username} />
+      )}
+    </Button>
+  );
+};
 
 function Primary() {
   return (
@@ -83,9 +108,15 @@ interface SecondaryProps {
 
 function Secondary({ text }: SecondaryProps) {
   return (
-    <a href="/" className="flex gap-2 items-center text-xl text-heading">
+    <button
+      onClick={() => {
+        history.back();
+      }}
+      title="volver atrás"
+      className="flex gap-2 items-center text-xl text-heading"
+    >
       <Icon name="arrow-left" size="lg" />
       {text}
-    </a>
+    </button>
   );
 }
