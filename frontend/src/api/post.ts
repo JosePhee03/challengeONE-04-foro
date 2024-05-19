@@ -2,15 +2,22 @@ import { CreatePost, ErrorResponse, UpdatePost } from "./api";
 
 export const getAllPost = async (
   token: string | null,
+  page: number,
   q?: string,
   direction?: string,
   categories?: number[],
-  status?: boolean
+  status?: boolean,
+  signal?: AbortSignal,
+  userId?: number
 ) => {
-  const buildRequest = new URL(`${import.meta.env.VITE_DATABASE_URL}/api/post`);
+  const userURL = userId == undefined ? "" : `/user/${userId}`;
 
-  buildRequest.searchParams.set("size", "10");
-  buildRequest.searchParams.set("page", "0");
+  const buildRequest = new URL(
+    `${import.meta.env.VITE_DATABASE_URL}/api/post${userURL}`
+  );
+
+  buildRequest.searchParams.set("page", `${page}`);
+  buildRequest.searchParams.set("size", "5");
 
   if (q != undefined) buildRequest.searchParams.set("q", q);
   if (direction != undefined)
@@ -26,6 +33,7 @@ export const getAllPost = async (
     headers: {
       Authorization: "Bearer " + token,
     },
+    signal,
   }).then((data) => {
     if (!data.ok) return Promise.reject(data);
     return data.json() as unknown;
@@ -115,34 +123,5 @@ export const updateStatusFromPost = async (
     }
   ).then((data) => {
     return data.json() as Promise<ErrorResponse>;
-  });
-};
-
-export const searchPostByUser = async (
-  token: string | null,
-  userId: number,
-  q?: string,
-  direction?: string,
-  categories?: number[],
-  status?: boolean
-) => {
-  const buildRequest = new URL(
-    `${import.meta.env.VITE_DATABASE_URL}/api/post/user/${userId}`
-  );
-  if (q != undefined) buildRequest.searchParams.set("q", q);
-  if (direction != undefined)
-    buildRequest.searchParams.set("direction", direction);
-  if (categories != undefined)
-    buildRequest.searchParams.set("categories", categories.join(","));
-  if (status != undefined)
-    buildRequest.searchParams.set("status", status ? "1" : "0");
-
-  return await fetch(buildRequest, {
-    headers: {
-      Authorization: "Bearer " + token,
-    },
-  }).then((data) => {
-    if (!data.ok) return Promise.reject(data);
-    return data.json() as unknown;
   });
 };

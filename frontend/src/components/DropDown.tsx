@@ -106,7 +106,7 @@ export function DropDown({
         ></div>
         <div
           ref={refPopoverController}
-          class={`z-[80] min-w-48 w-full sm:max-w-80 mt-2 fixed ${
+          class={`z-[80] min-w-60 w-full sm:max-w-80 mt-2 fixed ${
             fixed ? "" : "sm:absolute"
           } bottom-0 left-0 right-0 sm:bottom-auto sm:left-auto ${
             right ? "sm:right-auto" : ""

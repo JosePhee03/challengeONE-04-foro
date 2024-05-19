@@ -17,10 +17,16 @@ import { getTokenStorage } from "../hook/useAuthenticate";
 
 interface CardPostProps {
   post: Post;
-  reset: () => void;
+  deletePostFromList?: (postId: number) => void;
+  changeStatus?: (postId: number) => void;
+  reset?: () => void;
 }
 
-export default function CardPost({ post, reset }: CardPostProps) {
+export default function CardPost({
+  post,
+  changeStatus,
+  deletePostFromList,
+}: CardPostProps) {
   const [deleteError, setDeleteError] = useState(false);
   const [deleteSuccess, setDeleteSuccess] = useState(false);
   const [deleteLoading, setDeleteLoading] = useState(false);
@@ -101,19 +107,19 @@ export default function CardPost({ post, reset }: CardPostProps) {
                         setDeleteError(false);
                         setDeleteLoading(true);
                         deletePost(getTokenStorage(), post.id)
-                          .then((e) => {
-                            console.log(e);
+                          .then(() => {
                             setDeleteSuccess(true);
                             setTimeout(() => {
-                              reset();
-                            }, 1500);
+                              if (deletePostFromList)
+                                deletePostFromList(post.id);
+                              setDeleteSuccess(false);
+                            }, 500);
                           })
-                          .catch((e) => {
-                            console.log(e);
+                          .catch(() => {
                             setDeleteError(true);
                             setTimeout(() => {
                               setDeleteError(false);
-                            }, 1500);
+                            }, 500);
                           })
                           .finally(() => setDeleteLoading(false));
                       }}
@@ -154,6 +160,7 @@ export default function CardPost({ post, reset }: CardPostProps) {
             postId={post.id}
             status={post.status}
             userId={post.author.id}
+            changeStatus={changeStatus}
           />
         </footer>
       </article>
@@ -165,12 +172,14 @@ interface StatusPostContentProps {
   userId: number;
   status: boolean;
   postId: number;
+  changeStatus?: (postId: number) => void;
 }
 
 const StatusPostContent = ({
   userId,
   status,
   postId,
+  changeStatus,
 }: StatusPostContentProps) => {
   const [updateError, setUpdateError] = useState(false);
   const [updateSuccess, setUpdateSuccess] = useState(false);
@@ -202,19 +211,17 @@ const StatusPostContent = ({
             setUpdateError(false);
             setUpdateLoading(true);
             updateStatusFromPost(getTokenStorage(), postId, !status)
-              .then((e) => {
-                console.log(e);
+              .then(() => {
                 setUpdateSuccess(true);
                 setTimeout(() => {
-                  location.reload();
-                }, 1500);
+                  if (changeStatus) changeStatus(postId);
+                }, 500);
               })
-              .catch((e) => {
-                console.log(e);
+              .catch(() => {
                 setUpdateError(true);
                 setTimeout(() => {
                   setUpdateError(false);
-                }, 1500);
+                }, 500);
               })
               .finally(() => setUpdateLoading(false));
           }}

@@ -31,20 +31,22 @@ public interface PostJpaRepositoryMySQL extends JpaRepository<PostEntity, Long> 
     //     @Param("size") int pagination,
     //     @Param("page") int page);
 
-        @Query(value = "SELECT DISTINCT p.id " +
+        @Query(value = "SELECT p.id " +
                     "FROM post p " +
                     "LEFT JOIN post_categories pc ON pc.post_id = p.id " +
                     "WHERE (:status IS NULL OR p.status = :status) " +
                     "AND (p.title ILIKE %:query% OR p.content ILIKE %:query%) " +
                     "AND (:categories IS NULL OR pc.category_id IN (:categories)) " +
-                    "AND (:userId IS NULL OR p.user_id = :userId)",
-           countQuery = "SELECT DISTINCT COUNT(p.id) " +
+                    "AND (:userId IS NULL OR p.user_id = :userId) " +
+                    "GROUP BY p.id",
+           countQuery = "SELECT COUNT(p.id) " +
                         "FROM post p " +
                         "LEFT JOIN post_categories pc ON pc.post_id = p.id " +
                         "WHERE (:status IS NULL OR p.status = :status) " +
                         "AND (p.title ILIKE %:query% OR p.content ILIKE %:query%) " +
                         "AND (:categories IS NULL OR pc.category_id IN (:categories)) " +
-                        "AND (:userId IS NULL OR p.user_id = :userId)",
+                        "AND (:userId IS NULL OR p.user_id = :userId) " +
+                        "GROUP BY p.id",
            nativeQuery = true)
     Page<Long> searchPostIds(
         @Param("query") String query,

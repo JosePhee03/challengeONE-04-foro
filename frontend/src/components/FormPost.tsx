@@ -36,7 +36,7 @@ export function FormPost() {
           setErrorMessage("");
           setTimeout(() => {
             history.back();
-          }, 1500);
+          }, 500);
         } else {
           setErrorMessage(e.message);
         }

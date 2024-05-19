@@ -11,5 +11,5 @@ public record CreatePostDTO(
 
 		@Size(min = 8, max = 225, message = "El contenido debe tener 8 a 225 caracteres") @NotBlank(message = "Campo contenido no puede estar vacío") String content,
 
-		@Size(min = 1, message = "El conjunto debe contener al menos una categoria") Set<Long> categories) {
+		@Size(min = 1, message = "El campo categoria debe contener al menos una categoria") Set<Long> categories) {
 }

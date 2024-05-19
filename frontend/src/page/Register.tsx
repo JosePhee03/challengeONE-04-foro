@@ -29,7 +29,7 @@ export default function Register() {
         setSuccess(true);
         setTimeout(() => {
           route("/login", true);
-        }, 1500);
+        }, 500);
       })
       .catch(() => {
         setIsError(true);
@@ -46,7 +46,7 @@ export default function Register() {
       />
       <Alert isOpen={isLoading} type="loading" text="Registrando usuario" />
       <Header variant="primary" />
-      <main class="flex justify-center max-w-sm m-auto">
+      <main class="flex justify-center max-w-sm m-auto px-4 md:px-0">
         <form
           onSubmit={handleSubmit}
           class="flex flex-col justify-center w-full pt-24 gap-2 pb-8"

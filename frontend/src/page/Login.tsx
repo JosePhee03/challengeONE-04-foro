@@ -33,7 +33,7 @@ export default function Login() {
     <>
       <Alert isOpen={isLoading} type="loading" text="Validando usuario"></Alert>
       <Header variant="primary" />
-      <main class="flex justify-center max-w-sm m-auto">
+      <main class="flex justify-center max-w-sm m-auto px-4 md:px-0">
         <form
           onSubmit={handleSubmit}
           class="flex flex-col justify-center gap-2 w-full pt-24 pb-8"

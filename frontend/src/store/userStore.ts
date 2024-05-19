@@ -13,28 +13,24 @@ interface UserStore {
 
 export const userStore = createStore<UserStore, [["zustand/persist", unknown]]>(
   persist(
-    (set) => ({
+    (set, get) => ({
       user: undefined,
       resetUser: () =>
         set(() => ({
           user: undefined,
         })),
-
       fetchUser: () => {
         const token = getTokenStorage();
         let userId = getTokenPayload()?.id;
-        if (token == undefined) {
+        if (token == undefined || userId == undefined) {
           set({ user: undefined });
-          userId = undefined;
-        }
-        if (userId != undefined) {
+        } else if (get().user == undefined)
           findUser(token, userId)
             .then((response) => {
               const user = response as User;
               set(() => ({ user }));
             })
             .catch(() => ({ user: undefined }));
-        }
         return userId;
       },
     }),

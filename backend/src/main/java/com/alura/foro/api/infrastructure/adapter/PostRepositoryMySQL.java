@@ -9,6 +9,8 @@ import java.util.Set;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Repository;
 
 import com.alura.foro.api.domain.dto.PageDTO;
@@ -131,19 +133,23 @@ public class PostRepositoryMySQL implements PostRepository {
     @Override
     public PageDTO<ResponsePostDTO> searchPosts(String query, Set<Long> categories, Boolean status, Long userId, Pagination pagination) {
 
-        PageRequest pageable = PageRequest.of(pagination.getPage(), pagination.getSize());
+        Direction direction = Direction.ASC;
+
+        if (!pagination.getDirection().name().equals("ASC")) direction = Direction.DESC;
+
+        PageRequest pageable = PageRequest.of(pagination.getPage(), pagination.getSize(), Sort.by(direction, "date_created"));
 
         var listCategories = categories != null ? new ArrayList<>(categories) : new ArrayList<>();
         Page<Long> postIds = this.postJpaRepository.searchPostIds(query, status, listCategories, userId, pageable);
         
         List<PostEntity> postEntities = this.postJpaRepository.findAllById(postIds.getContent());
 
-        List<ResponsePostDTO> postDTOs = new ArrayList<>();
-
         postEntities.sort((p1, p2) -> pagination.getDirection().name().equals("ASC") ? 
             p1.getDateCreated().compareTo(p2.getDateCreated()) : 
             p2.getDateCreated().compareTo(p1.getDateCreated())
         );
+
+        List<ResponsePostDTO> postDTOs = new ArrayList<>();
 
         for (PostEntity postEntities2 : postEntities) {
             postDTOs.add(PostMapper.toResponsePostDTO(postEntities2));
