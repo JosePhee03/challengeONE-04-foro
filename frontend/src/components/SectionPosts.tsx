@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "preact/hooks";
+import { useCallback, useEffect, useRef, useState } from "preact/hooks";
 import {
   initialStateSearchParams,
   searchParamsStore,
@@ -24,6 +24,7 @@ export function SectionPosts({ userId }: SectionPostsProps) {
   const [page, setPage] = useState(0);
   const [hasMore, setHasMore] = useState(true);
   const [abortController, setAbortController] = useState<AbortController>();
+  const observerRef = useRef<HTMLButtonElement | undefined>();
 
   useEffect(() => {
     const controller = new AbortController();
@@ -31,6 +32,10 @@ export function SectionPosts({ userId }: SectionPostsProps) {
 
     searchParamsStore.subscribe(({ searchParams }) => {
       setSearchParams(searchParams);
+      setPosts([]);
+      setPage(0);
+      setHasMore(true);
+      setIsEmply(false);
     });
 
     return () => {
@@ -39,16 +44,8 @@ export function SectionPosts({ userId }: SectionPostsProps) {
   }, []);
 
   useEffect(() => {
-    if (page !== 0) {
-      fetchAllPost();
-    }
-  }, [page]);
-
-  useEffect(() => {
-    setPosts([]);
-    setPage(0);
     fetchAllPost();
-  }, [searchParams]);
+  }, [page, searchParams]);
 
   const handleChangeStatus = (postId: number) => {
     setPosts((posts) => {
@@ -105,6 +102,7 @@ export function SectionPosts({ userId }: SectionPostsProps) {
         setPosts((prev) => {
           return [...prev, ...postsResponse.content];
         });
+        console.log(postsResponse);
       })
       .catch((error) => {
         if (error.name !== "AbortError") setIsError(true);
@@ -124,13 +122,8 @@ export function SectionPosts({ userId }: SectionPostsProps) {
         return;
       setPage((prevPage) => prevPage + 1);
     }, 500),
-    [isLoading]
+    [isLoading, abortController]
   );
-
-  useEffect(() => {
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [handleScroll]);
 
   return (
     <section class="flex flex-col md:gap-4">
@@ -167,8 +160,15 @@ export function SectionPosts({ userId }: SectionPostsProps) {
       {isEmply && !isLoading && !isError && posts.length === 0 && (
         <EmptyMessage />
       )}
-      {hasMore && !isEmply && !isLoading && (
-        <span class="text-primary-text text-lg text-center py-10">Ver Más</span>
+      {hasMore && !isLoading && (
+        <button
+          ref={observerRef}
+          onClick={handleScroll}
+          title="Ver más Publicaciones"
+          class="text-primary-text text-lg text-center py-10"
+        >
+          Ver Más
+        </button>
       )}
     </section>
   );
