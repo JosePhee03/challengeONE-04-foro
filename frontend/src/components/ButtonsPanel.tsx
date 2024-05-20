@@ -15,13 +15,13 @@ export function ButtonsPanel() {
             ? "/"
             : `/myposts/${userStore.getState().user?.id}`
         }
-        class="button button-primary"
+        class="button primary"
       >
         {location.pathname.startsWith("/myposts")
           ? "Todas las publicaciones"
           : "Mis publicaciones"}
       </a>
-      <a href="/create" class="button button-primary">
+      <a href="/create" class="button primary">
         <Icon name="plus" size="lg" />
         Crear
       </a>

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "preact/hooks";
+import { useCallback, useEffect, useState } from "preact/hooks";
 import {
   initialStateSearchParams,
   searchParamsStore,
@@ -24,7 +24,6 @@ export function SectionPosts({ userId }: SectionPostsProps) {
   const [page, setPage] = useState(0);
   const [hasMore, setHasMore] = useState(true);
   const [abortController, setAbortController] = useState<AbortController>();
-  const observerRef = useRef<HTMLButtonElement | undefined>();
 
   useEffect(() => {
     const controller = new AbortController();
@@ -125,6 +124,12 @@ export function SectionPosts({ userId }: SectionPostsProps) {
     [isLoading, abortController]
   );
 
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [handleScroll]);
   return (
     <section class="flex flex-col md:gap-4">
       {posts.map((post) => {
@@ -162,7 +167,6 @@ export function SectionPosts({ userId }: SectionPostsProps) {
       )}
       {hasMore && !isLoading && (
         <button
-          ref={observerRef}
           onClick={handleScroll}
           title="Ver más Publicaciones"
           class="text-primary-text text-lg text-center py-10"

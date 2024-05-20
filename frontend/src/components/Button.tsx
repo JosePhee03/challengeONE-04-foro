@@ -29,7 +29,7 @@ export function Button({
   id,
   tabIndex,
 }: ButtonProps) {
-  const buildButtonVariant = "button-" + variant;
+  const buildClassName = `button ${variant} ${className}`;
 
   return (
     <button
@@ -42,7 +42,7 @@ export function Button({
       disabled={disabled}
       title={title}
       onReset={onReset}
-      class={`button ${buildButtonVariant} ${className}`}
+      class={buildClassName}
       tabindex={tabIndex}
     >
       {children}

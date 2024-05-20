@@ -3,6 +3,17 @@
 @tailwind utilities;
 
 @layer base {
+  * {
+    font-family: "Inter", sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    background-color: var(--base);
+  }
+
   input,
   button,
   select,
@@ -47,7 +58,7 @@
     animation-range: 0 100%;
   }
 
-  .button-tertiary {
+  .button.tertiary {
     @apply text-icon-color disabled:text-disabled-text;
   }
 
@@ -63,11 +74,11 @@
     @apply content-[''] rounded absolute top-0 left-0 bg-primary w-full h-full z-10 opacity-0;
   }
 
-  .button-primary {
+  .button.primary {
     @apply bg-primary text-primary-contrast disabled:bg-primary-50;
   }
 
-  .button-secondary {
+  .button.secondary {
     @apply bg-contrast-5 text-primary-text disabled:bg-contrast-5 disabled:text-disabled-text;
   }
 }

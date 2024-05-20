@@ -183,7 +183,7 @@ function ButtonFilter({ onClick }: ButtonFilterProps) {
       className="text-primary-text"
       onClick={onClick}
     >
-      Filter
+      Filtros
       <Icon name="filter" size="md" />
     </Button>
   );
