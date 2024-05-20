@@ -58,7 +58,7 @@ export default function PostUser({ postId }: PostProps) {
   return (
     <>
       <Header variant="secondary" text="Publicación" />
-      <main class="flex flex-col px-4 md:px-0">
+      <main class="flex flex-col px-4 md:px-0 pb-4">
         {isError && (
           <div class="grid h-screen place-content-center bg-base px-4">
             <div class="text-center">

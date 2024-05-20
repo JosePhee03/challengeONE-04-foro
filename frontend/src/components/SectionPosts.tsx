@@ -105,12 +105,9 @@ export function SectionPosts({ userId }: SectionPostsProps) {
         setPosts((prev) => {
           return [...prev, ...postsResponse.content];
         });
-        console.log({ postsResponse, isEmply, hasMore, posts });
       })
       .catch((error) => {
-        if (error.name === "AbortError") {
-          console.log("La solicitud fue cancelada");
-        } else setIsError(true);
+        if (error.name !== "AbortError") setIsError(true);
       })
       .finally(() => {
         setIsLoading(false);
@@ -140,6 +137,7 @@ export function SectionPosts({ userId }: SectionPostsProps) {
       {posts.map((post) => {
         return (
           <a
+            title={`Ir la publicación titulada ${post.title} de ${post.author.username}`}
             key={post.id}
             href={`/post/${post.id}`}
             class="flex flex-col md:border border-contrast-10 p-4 hover:bg-contrast-5 md:rounded"

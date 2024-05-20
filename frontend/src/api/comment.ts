@@ -30,7 +30,6 @@ export const deleteComment = async (
       },
     }
   ).then((data) => {
-    console.log(data);
     if (!data.ok) return Promise.reject(data);
   });
 };

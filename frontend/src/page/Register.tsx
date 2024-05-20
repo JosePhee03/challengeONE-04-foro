@@ -145,7 +145,7 @@ const PasswordInput = ({ isError }: PasswordInputProps) => {
         type="button"
         variant="tertiary"
       >
-        <Icon name="eye" size="lg" />
+        <Icon name="eye" size="lg" strokeColor="stroke-icon-color" />
       </Button>
     </Input>
   );

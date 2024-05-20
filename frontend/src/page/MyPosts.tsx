@@ -13,7 +13,7 @@ export default function MyPosts({ userId }: MyPostsProps) {
   return (
     <>
       <Header variant="primary" />
-      <main class="flex flex-col gap-2">
+      <main class="flex flex-col gap-2 pb-4">
         <section class="flex justify-between space-y-4  flex-wrap px-4 md:px-0">
           <div class="flex w-full flex-col gap-4">
             <div class="flex flex-wrap gap-4 sm:justify-between ">

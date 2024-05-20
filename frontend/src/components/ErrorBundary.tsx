@@ -20,8 +20,7 @@ export class ErrorBoundary extends Component<
     this.state = { hasError: false, status: undefined };
   }
 
-  componentDidCatch(error: CustomError, info: any) {
-    console.error("Error capturado:", error, info);
+  componentDidCatch(error: CustomError) {
     this.setState({ hasError: true, status: error.getCode() });
   }
 

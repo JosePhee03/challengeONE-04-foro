@@ -86,15 +86,13 @@ export function CardComment({ comment }: CommentCardProps) {
                         setDeleteError(false);
                         setDeleteLoading(true);
                         deleteComment(getTokenStorage(), comment.id)
-                          .then((e) => {
-                            console.log(e);
+                          .then(() => {
                             setDeleteSuccess(true);
                             setTimeout(() => {
                               location.reload();
                             }, 1500);
                           })
-                          .catch((e) => {
-                            console.log(e);
+                          .catch(() => {
                             setDeleteError(true);
                             setTimeout(() => {
                               setDeleteError(false);

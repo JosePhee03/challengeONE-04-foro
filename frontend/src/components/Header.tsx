@@ -103,7 +103,7 @@ const ButtonUser = ({ username }: ButtonUserProps) => {
       variant="tertiary"
     >
       {username == undefined ? (
-        <Icon name="user" size="xl" />
+        <Icon name="user" size="xl" strokeColor="stroke-icon-color" />
       ) : (
         <UserImage size="md" username={username} />
       )}

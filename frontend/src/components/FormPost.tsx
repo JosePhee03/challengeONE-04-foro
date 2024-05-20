@@ -48,7 +48,7 @@ export function FormPost() {
   };
 
   return (
-    <>
+    <main class="px-4 md:px-0 pb-4">
       <Alert
         isOpen={isSuccess}
         type="success"
@@ -59,7 +59,7 @@ export function FormPost() {
         type="loading"
         text="Creando la publicación"
       ></Alert>
-      <form onSubmit={onSubmit} class="flex flex-col gap-4 px-4 md:px-0">
+      <form onSubmit={onSubmit} class="flex flex-col gap-4 ">
         {errorMessage !== "" && (
           <div
             role="alert"
@@ -107,6 +107,6 @@ export function FormPost() {
           Publicar
         </Button>
       </form>
-    </>
+    </main>
   );
 }

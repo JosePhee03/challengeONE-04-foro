@@ -27,8 +27,6 @@ export const getAllPost = async (
   if (status != undefined)
     buildRequest.searchParams.set("status", status ? "1" : "0");
 
-  console.log(buildRequest);
-
   return await fetch(buildRequest, {
     headers: {
       Authorization: "Bearer " + token,
@@ -101,7 +99,6 @@ export const deletePost = async (token: string | null, postId: number) => {
       },
     }
   ).then((data) => {
-    console.log(data);
     if (!data.ok) return Promise.reject(data);
   });
 };
