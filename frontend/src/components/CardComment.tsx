@@ -14,9 +14,10 @@ import { getTokenStorage } from "../hook/useAuthenticate";
 
 interface CommentCardProps {
   comment: Comment;
+  reset: () => void;
 }
 
-export function CardComment({ comment }: CommentCardProps) {
+export function CardComment({ comment, reset }: CommentCardProps) {
   const [deleteError, setDeleteError] = useState(false);
   const [deleteSuccess, setDeleteSuccess] = useState(false);
   const [deleteLoading, setDeleteLoading] = useState(false);
@@ -61,6 +62,7 @@ export function CardComment({ comment }: CommentCardProps) {
                       title="Opciones del comentario"
                       type="button"
                       variant="tertiary"
+                      className="text-icon-color"
                     >
                       <Icon
                         name="more-vertical"
@@ -89,14 +91,14 @@ export function CardComment({ comment }: CommentCardProps) {
                           .then(() => {
                             setDeleteSuccess(true);
                             setTimeout(() => {
-                              location.reload();
-                            }, 1500);
+                              reset();
+                            }, 500);
                           })
                           .catch(() => {
                             setDeleteError(true);
                             setTimeout(() => {
                               setDeleteError(false);
-                            }, 1500);
+                            }, 500);
                           })
                           .finally(() => setDeleteLoading(false));
                       }}

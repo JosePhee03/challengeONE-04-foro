@@ -82,6 +82,7 @@ export default function CardPost({
                       title="Opciones de la publicación"
                       type="button"
                       variant="tertiary"
+                      className="text-icon-color"
                     >
                       <Icon
                         name="more-vertical"

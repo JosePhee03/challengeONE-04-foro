@@ -114,7 +114,7 @@ export default function PostUser({ postId }: PostProps) {
               {comments != undefined &&
                 !isLoading &&
                 comments.content.map((comment) => (
-                  <CardComment comment={comment} />
+                  <CardComment comment={comment} reset={fetchComments} />
                 ))}
               {comments?.empty && !isLoading && !isError && <EmptyMessage />}
             </section>

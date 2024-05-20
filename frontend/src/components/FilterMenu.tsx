@@ -133,7 +133,7 @@ const NavDropDown = ({ status }: NavDropDownProps) => {
           text="Todo"
           title="Ver todas las publicaciones"
           icon={status == undefined ? "check" : undefined}
-          textColor={status == undefined ? "text-primary" : undefined}
+          textColor={status == undefined ? "text-primary" : "text-contrast-60"}
         />
         <MenuItem
           onClick={() => newSearchParams(true)}
@@ -141,7 +141,7 @@ const NavDropDown = ({ status }: NavDropDownProps) => {
           text="Resueltos"
           title="Ver publicaciones resultas"
           icon={status ? "check" : undefined}
-          textColor={status ? "text-primary" : undefined}
+          textColor={status ? "text-primary" : "text-contrast-60"}
         />
         <MenuItem
           onClick={() => newSearchParams(false)}
@@ -149,7 +149,7 @@ const NavDropDown = ({ status }: NavDropDownProps) => {
           title="Ver publicaciones sin resolver"
           text="Sin resolver"
           icon={status === false ? "check" : undefined}
-          textColor={status === false ? "text-primary" : undefined}
+          textColor={status === false ? "text-primary" : "text-contrast-60"}
         />
       </Menu>
     </DropDown>
@@ -163,7 +163,7 @@ const ButtonNav = ({ status }: NavDropDownProps) => (
     id="button-nav"
     title="Abrir menú de navegación"
     type="button"
-    variant="tertiary"
+    variant="secondary"
   >
     {status == undefined ? "Todo" : status ? "Resueltos" : "Sin Resolver"}
     <Icon name="chevron-down" size="md" />
